@@ -7,6 +7,7 @@ import ItemCreator from './ItemCreator';
 import ItemEditor from './ItemEditor';
 import UserLogin from './UserLogin';
 import Home from './Home';
+import Colors from './Util/Style';
 
 /**
  * The ControlPanel component is the main component that manages the state and logic
@@ -82,6 +83,13 @@ const ControlPanel: React.FC = () => {
         setTabIndex(newValue);
     };
 
+    /**
+     * Navigates to the login/logout tab.
+     */
+    const navigateToLogin = () => {
+        setTabIndex(5); // Assuming the login/logout tab is at index 5
+    };
+
     return (
         <Box p={2} position="absolute" top={0} left={0} mt={2} width="100%">
             {/* Header for every page */}
@@ -89,7 +97,7 @@ const ControlPanel: React.FC = () => {
                 variant="h4" 
                 gutterBottom 
                 align="left" 
-                sx={{ color: '#905aa7', fontWeight: 'bold' }}
+                sx={{ color: "#905aa7", padding: '8px' }}
             >
                 Event List Generator & Task Management System
             </Typography>
@@ -99,22 +107,21 @@ const ControlPanel: React.FC = () => {
                 value={tabIndex} 
                 onChange={handleTabChange} 
                 aria-label="Event Panel Tabs"
-                TabIndicatorProps={{ style: { backgroundColor: '#36a0c8' } }}
             >
-                <Tab label="Home" style={StyleSheet.tab}/>
-                {/* <Tab label="Donors" /> */}
-                <Tab label="Events" style={StyleSheet.tab}/>
-                <Tab label="List Generator" style={StyleSheet.tab}/>
-                {/* <Tab label="Event Review" /> */}
-                <Tab label="Tasks" style={StyleSheet.tab}/>
-                {/* <Tab label="Item Editor" /> */}
-                <Tab label="User Login/Logout" style={StyleSheet.tab}/>
+                <Tab label="Home" style={StyleSheet.tab} />
+                {/* <Tab label="Donors" sx={{ backgroundColor: '#36a0c8', color: 'white' }} /> */}
+                <Tab label="Events" style={StyleSheet.tab} />
+                <Tab label="List Generator" style={StyleSheet.tab} />
+                {/* <Tab label="Event Review" sx={{ backgroundColor: '#36a0c8', color: 'white' }} /> */}
+                <Tab label="Tasks" style={StyleSheet.tab} />
+                {/* <Tab label="Item Editor" sx={{ backgroundColor: '#36a0c8', color: 'white' }} /> */}
+                <Tab label="User Login/Logout" style={StyleSheet.tab} />
             </Tabs>
 
             {/* Render the content based on the selected tab */}
             {tabIndex === 0 && (
                 <Box mt={4}>
-                    <Home />
+                    <Home navigateToLogin={navigateToLogin} />
                 </Box>
             )}
 

@@ -1,20 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, Button } from '@mui/material';
 
+interface HomeProps {
+    navigateToLogin: () => void;
+}
 
-function Home() {
+const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     return (
         <Box p={2}>
-            <Typography variant="h4" gutterBottom>
-                Welcome to the Event List Generator and Task Management System
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-                Exclusive For BC Cancer
-            </Typography>
+            {isLoggedIn ? (
+                <>
+                    <Typography variant="h4" gutterBottom>
+                        Welcome to the Event List Generator and Task Management System
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        Exclusive For BC Cancer
+                    </Typography>
+                </>
+            ) : (
+                <>
+                    <Typography variant="h5" gutterBottom>
+                        Please log in to access the Event List Generator and Task Management System
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={navigateToLogin}>
+                        Login
+                    </Button>
+                </>
+            )}
         </Box>
     );
 }
 
-// Export the DonorTable component as the default export of this module
+// Export the Home component as the default export of this module
 export default Home;
