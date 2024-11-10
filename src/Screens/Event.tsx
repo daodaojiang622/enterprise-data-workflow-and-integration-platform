@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, List, ListItem, ListItemText, Paper, Box, Typography, Grid2, Divider } from '@mui/material';
+import { Button, List, ListItem, ListItemText, Paper, Box, Typography, Grid2, Divider, TextField } from '@mui/material';
 
 export interface Event {
     id: string;
@@ -20,9 +20,12 @@ const EventTable: React.FC<EventTableProps> = ({ headers, data }) => {
       ]);
 
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editableEvent, setEditableEvent] = useState<Event | null>(null);
 
     const handleEventSelect = (event: Event) => {
-    setSelectedEvent(event);
+        setSelectedEvent(event);
+        setIsEditing(false);
     };
 
     const handleDelete = () => {
@@ -35,10 +38,8 @@ const EventTable: React.FC<EventTableProps> = ({ headers, data }) => {
     const handleEdit = () => {
     // Implement edit functionality
     if (selectedEvent) {
-        const updatedEvents = events.map(event =>
-            event.id === selectedEvent.id ? selectedEvent : event
-        );
-        setEvents(updatedEvents);
+        setEditableEvent(selectedEvent);
+        setIsEditing(true);
         console.log('Edit event:', selectedEvent);
     } else {
         console.log('No event selected for editing');
@@ -47,17 +48,33 @@ const EventTable: React.FC<EventTableProps> = ({ headers, data }) => {
 
     const handleCreate = () => {
         // Implement create functionality
-        const newEvent: Event = {
-            id: Date.now().toString(),
-            name: 'New Event',
-            date: '2024-03-23',
-            typeOfCancer: 'Unknown',
-            description: 'New event description',
-            region: 'Unknown',
-            particularTopic: 'General'
-        };
-        setEvents([...events, newEvent]);
-        console.log('Create new event:', newEvent);
+        setEditableEvent({id: '', name: '', date: '', typeOfCancer: '', description: '', region: '', particularTopic: ''});
+        setIsEditing(true);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditableEvent(prevEvent => prevEvent ? { ...prevEvent, [name]: value } : null);
+    };
+
+    const handleSave = () => {
+        if (editableEvent) {
+            if (editableEvent.id) {
+                // Edit event
+                const updatedEvents = events.map(event => event.id === editableEvent.id ? editableEvent : event);
+                setEvents(updatedEvents);
+            } else {
+                // Create new event
+                setEvents([...events, { ...editableEvent, id: Date.now().toString() }]);
+            }
+            setSelectedEvent(editableEvent);
+            setIsEditing(false);
+        }
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+        setEditableEvent(null);
     };
 
     const handleGenerateList = () => {
@@ -115,7 +132,7 @@ const EventTable: React.FC<EventTableProps> = ({ headers, data }) => {
                 <Typography variant="h6">Event Details</Typography>
                 <Paper sx={{ p: 2, width: "300%", height:"200%"}}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    {selectedEvent && (
+                    {selectedEvent && !isEditing && (
                         <Button
                         variant="contained"
                         color="error"
@@ -125,8 +142,75 @@ const EventTable: React.FC<EventTableProps> = ({ headers, data }) => {
                         </Button>
                     )}
                     </Box>
-            
-                {selectedEvent ? (
+                
+                {isEditing ? (
+                    <Box>
+                        <Grid2 container spacing={2}>
+                        <Grid2 item xs={6}>
+                            <TextField
+                                label="Name"
+                                name="name"
+                                value={editableEvent?.name || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Date"
+                                name="date"
+                                value={editableEvent?.date || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Type of Cancer"
+                                name="typeOfCancer"
+                                value={editableEvent?.typeOfCancer || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Description"
+                                name="description"
+                                value={editableEvent?.description || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                        </Grid2>
+
+                        <Grid2 item xs={6}>
+                            <TextField
+                                label="Region"
+                                name="Region"
+                                value={editableEvent?.region || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Particular Topic"
+                                name="particularTopic"
+                                value={editableEvent?.particularTopic || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                        </Grid2>
+                        </Grid2>
+
+                        <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'flex-start' }}>
+                        <Button variant="contained" onClick={handleSave}>
+                            Save
+                        </Button>
+                        <Button variant="contained" onClick={handleCancel}>
+                            Cancel
+                        </Button>
+                        </Box>
+                    </Box>
+                ) : ( selectedEvent ? (
                 <Box>
                     <Grid2 container spacing={2}>
                     <Grid2 item xs={6}>
@@ -173,7 +257,8 @@ const EventTable: React.FC<EventTableProps> = ({ headers, data }) => {
                     <Typography color="textSecondary" sx={{ textAlign: 'center', mt: 4 }}>
                         Select an event to view details
                     </Typography>
-                    )}
+                    )
+                )}
                 </Paper>
             </Grid2>    
         
