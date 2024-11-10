@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       {/* Fragment shorthand syntax to group multiple elements without adding extra nodes to the DOM */}
-      <div>
+      <div >
         {/* Render the ControlPanel component */}
         <ControlPanel />
       </div>

@@ -83,7 +83,17 @@ const ControlPanel: React.FC = () => {
     };
 
     return (
-        <Box p={2} position="absolute" top={0} left={0} mt={8} width="100%">
+        <Box p={2} position="absolute" top={0} left={0} mt={2} width="100%">
+            {/* Header for every page */}
+            <Typography 
+                variant="h4" 
+                gutterBottom 
+                align="left" 
+                sx={{ color: '#905aa7', fontWeight: 'bold' }}
+            >
+                Event List Generator & Task Management System
+            </Typography>
+
             {/* Tabs component to switch between different views */}
             <Tabs value={tabIndex} onChange={handleTabChange} aria-label="Event Panel Tabs">
                 <Tab label="Home" />
@@ -155,7 +165,7 @@ const ControlPanel: React.FC = () => {
                 <Box mt={4}>
                     <ItemEditor />
                 </Box>
-            )};
+            )}
 
             {tabIndex === 5 && (
                 <Box mt={4}>
