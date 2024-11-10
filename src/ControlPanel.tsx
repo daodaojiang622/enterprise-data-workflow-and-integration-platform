@@ -85,12 +85,14 @@ const ControlPanel: React.FC = () => {
         <Box p={2} position="absolute" top={0} left={0} mt={8} width="100%">
             {/* Tabs component to switch between different views */}
             <Tabs value={tabIndex} onChange={handleTabChange} aria-label="Event Panel Tabs">
-                <Tab label="Donors" />
-                <Tab label="Event Set Up" />
-                <Tab label="Event Review" />
-                <Tab label="Item Creator" />
-                <Tab label="Item Editor" />
-                <Tab label="User Login" />
+                <Tab label="Home" />
+                {/* <Tab label="Donors" /> */}
+                <Tab label="Events" />
+                <Tab label="List Generator" />
+                {/* <Tab label="Event Review" /> */}
+                <Tab label="Tasks" />
+                {/* <Tab label="Item Editor" /> */}
+                <Tab label="User Login/Logout" />
             </Tabs>
 
             {/* Render the content based on the selected tab */}
