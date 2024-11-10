@@ -7,6 +7,7 @@ import ItemCreator from './ItemCreator';
 import ItemEditor from './ItemEditor';
 import UserLogin from './UserLogin';
 import Home from './Home';
+import Event from './Event';
 
 /**
  * The ControlPanel component is the main component that manages the state and logic
@@ -126,37 +127,7 @@ const ControlPanel: React.FC = () => {
 
             {tabIndex === 1 && (
                 <Box mt={4}>
-                    <Box display="flex" alignItems="center">
-                        <Box>
-                            <Typography variant="h4" gutterBottom>
-                                Cities
-                            </Typography>
-                            <Box width="400px">
-                                <Cities selectedCities={selectedCities} onSelectCity={handleSelectCity} />
-                            </Box>
-                        </Box>
-
-                        <Box display="flex" flexDirection="column" alignItems="flex-start" ml={2}>
-
-                            <Box display="flex" alignItems="center" mb={2} mt={2}>
-                                <Typography variant="h4" gutterBottom>
-                                    Maximum guests
-                                </Typography>
-                                <TextField
-                                    label="Limit"
-                                    type="number"
-                                    value={limit}
-                                    onChange={handleLimitChange}
-                                    variant="outlined"
-                                    size="small"
-                                    style={{ marginLeft: '16px' }}
-                                />
-                            </Box>
-                            <Button variant="contained" color="primary" onClick={handleGetEvents}>
-                                Get Event
-                            </Button>
-                        </Box>
-                    </Box>
+                    <Event headers={headers} data={data}/>
                 </Box>
             )}
 

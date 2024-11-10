@@ -6,14 +6,14 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true); // Change this to false when submitting the assignment
 
     return (
         <Box p={2}>
             {isLoggedIn ? (
                 <>
                     <Typography variant="h4" gutterBottom>
-                        Welcome to the Event List Generator and Task Management System
+                        Welcome to the System
                     </Typography>
                     <Typography variant="body1" gutterBottom>
                         Exclusive For BC Cancer
