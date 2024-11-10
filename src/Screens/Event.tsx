@@ -34,17 +34,41 @@ const EventTable: React.FC<EventTableProps> = ({ headers, data }) => {
 
     const handleEdit = () => {
     // Implement edit functionality
-    console.log('Edit event:', selectedEvent);
+    if (selectedEvent) {
+        const updatedEvents = events.map(event =>
+            event.id === selectedEvent.id ? selectedEvent : event
+        );
+        setEvents(updatedEvents);
+        console.log('Edit event:', selectedEvent);
+    } else {
+        console.log('No event selected for editing');
+    }
     };
 
     const handleCreate = () => {
-    // Implement create functionality
-    console.log('Create new event');
+        // Implement create functionality
+        const newEvent: Event = {
+            id: Date.now().toString(),
+            name: 'New Event',
+            date: '2024-03-23',
+            typeOfCancer: 'Unknown',
+            description: 'New event description',
+            region: 'Unknown',
+            particularTopic: 'General'
+        };
+        setEvents([...events, newEvent]);
+        console.log('Create new event:', newEvent);
     };
 
     const handleGenerateList = () => {
     // Implement list generation functionality
     console.log('Generate list for event:', selectedEvent);
+    if (selectedEvent) {
+        const eventList = events.filter(event => event.id === selectedEvent.id);
+        console.log('Generated list:', eventList);
+    } else {
+        console.log('No event selected for list generation');
+    }
     };
     
     return (
@@ -77,7 +101,7 @@ const EventTable: React.FC<EventTableProps> = ({ headers, data }) => {
                     </List>
                     <Button
                     variant="contained"
-                    // onClick={handleCreate}
+                    onClick={handleCreate}
                     fullWidth
                     sx={{ mt: 2 }}
                     >
