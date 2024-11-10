@@ -95,15 +95,20 @@ const ControlPanel: React.FC = () => {
             </Typography>
 
             {/* Tabs component to switch between different views */}
-            <Tabs value={tabIndex} onChange={handleTabChange} aria-label="Event Panel Tabs">
-                <Tab label="Home" />
+            <Tabs 
+                value={tabIndex} 
+                onChange={handleTabChange} 
+                aria-label="Event Panel Tabs"
+                TabIndicatorProps={{ style: { backgroundColor: '#36a0c8' } }}
+            >
+                <Tab label="Home" style={StyleSheet.tab}/>
                 {/* <Tab label="Donors" /> */}
-                <Tab label="Events" />
-                <Tab label="List Generator" />
+                <Tab label="Events" style={StyleSheet.tab}/>
+                <Tab label="List Generator" style={StyleSheet.tab}/>
                 {/* <Tab label="Event Review" /> */}
-                <Tab label="Tasks" />
+                <Tab label="Tasks" style={StyleSheet.tab}/>
                 {/* <Tab label="Item Editor" /> */}
-                <Tab label="User Login/Logout" />
+                <Tab label="User Login/Logout" style={StyleSheet.tab}/>
             </Tabs>
 
             {/* Render the content based on the selected tab */}
@@ -174,6 +179,13 @@ const ControlPanel: React.FC = () => {
             )}
         </Box>
     )
+}
+
+const StyleSheet = {
+    tab: {
+        color: '#36a0c8',
+        fontWeight: 'bold'
+    }
 }
 
 // Export the ControlPanel component as the default export of this module
