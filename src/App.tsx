@@ -1,5 +1,5 @@
 // Import the ControlPanel component from the local file './ControlPanel'
-import ControlPanel from './ControlPanel';
+import ControlPanel from './Screens/ControlPanel';
 
 // Import the CSS file for styling the App component
 import './App.css';

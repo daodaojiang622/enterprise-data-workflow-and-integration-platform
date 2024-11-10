@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, colors } from '@mui/material';
 
 interface HomeProps {
     navigateToLogin: () => void;
@@ -22,9 +22,9 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
             ) : (
                 <>
                     <Typography variant="h5" gutterBottom>
-                        Please log in to access the Event List Generator and Task Management System
+                        Please log in to access the System
                     </Typography>
-                    <Button variant="contained" color="primary" onClick={navigateToLogin}>
+                    <Button variant="contained" sx={{ marginTop: 5, backgroundColor: '#36a0c8', color: 'white' }} onClick={navigateToLogin}>
                         Login
                     </Button>
                 </>

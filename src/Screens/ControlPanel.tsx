@@ -7,7 +7,6 @@ import ItemCreator from './ItemCreator';
 import ItemEditor from './ItemEditor';
 import UserLogin from './UserLogin';
 import Home from './Home';
-import Colors from './Util/Style';
 
 /**
  * The ControlPanel component is the main component that manages the state and logic
