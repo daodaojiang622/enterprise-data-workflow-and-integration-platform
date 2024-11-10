@@ -6,6 +6,7 @@ import EventTable from './EventTable';
 import ItemCreator from './ItemCreator';
 import ItemEditor from './ItemEditor';
 import UserLogin from './UserLogin';
+import Home from './Home';
 
 /**
  * The ControlPanel component is the main component that manages the state and logic
@@ -98,7 +99,7 @@ const ControlPanel: React.FC = () => {
             {/* Render the content based on the selected tab */}
             {tabIndex === 0 && (
                 <Box mt={4}>
-                    <DonorTable />
+                    <Home />
                 </Box>
             )}
 
