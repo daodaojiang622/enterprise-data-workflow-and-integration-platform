@@ -98,7 +98,12 @@ const ControlPanel: React.FC = () => {
                 variant="h4" 
                 gutterBottom 
                 align="center" 
-                sx={{ color: "#905aa7", padding: '8px' }}
+                sx={{ 
+                    background: 'linear-gradient(to right, #36a0c8, #905aa7)', 
+                    color: 'white', 
+                    padding: '8px',
+                    borderRadius: '4px' // Optional: Add rounded corners
+                }}
             >
                 Event and Task Manager
             </Typography>
@@ -111,12 +116,9 @@ const ControlPanel: React.FC = () => {
                 aria-label="Event Panel Tabs"
             >
                 <Tab label="Home" style={StyleSheet.tab} />
-                {/* <Tab label="Donors" sx={{ backgroundColor: '#36a0c8', color: 'white' }} /> */}
                 <Tab label="Events" style={StyleSheet.tab} />
                 <Tab label="List Generator" style={StyleSheet.tab} />
-                {/* <Tab label="Event Review" sx={{ backgroundColor: '#36a0c8', color: 'white' }} /> */}
                 <Tab label="Tasks" style={StyleSheet.tab} />
-                {/* <Tab label="Item Editor" sx={{ backgroundColor: '#36a0c8', color: 'white' }} /> */}
                 <Tab label="User Logout" style={StyleSheet.tab} />
             </Tabs>
             ) : (
