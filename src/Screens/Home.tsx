@@ -186,17 +186,18 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
                         <Box sx={{ width: '35%', textAlign: 'right' }}>
                             <Button
                                 variant="contained"
+                                disableRipple
                                 sx={{
-                                    px: 2,
-                                    py: 0.5,
-                                    backgroundColor: event.isIndeterminate ? 'gray' : 'red',
-                                    color: event.isIndeterminate ? 'black' : 'white',
+                                    backgroundColor: '#36a0c8',
                                     ':hover': {
-                                        backgroundColor: event.isIndeterminate ? 'darkgray' : 'darkred'
+                                        backgroundColor: '#1e5a70' 
+                                    },
+                                    ':focus': {
+                                        outline: 'none'      // Ensures no outline on focus
                                     }
                                 }}
                             >
-                                List
+                                Details
                             </Button>
                         </Box>
                     </Box>
@@ -229,12 +230,14 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
                         <Box sx={{ width: '35%', textAlign: 'right' }}>
                             <Button
                                 variant="contained"
+                                disableRipple
                                 sx={{
-                                    px: 2,
-                                    py: 0.5,
-                                    backgroundColor: 'gray',
+                                    backgroundColor: '#36a0c8',
                                     ':hover': {
-                                        backgroundColor: 'darkgray' 
+                                        backgroundColor: '#1e5a70' 
+                                    },
+                                    ':focus': {
+                                        outline: 'none'      // Ensures no outline on focus
                                     }
                                 }}
                             >
