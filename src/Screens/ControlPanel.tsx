@@ -97,10 +97,10 @@ const ControlPanel: React.FC = () => {
             <Typography 
                 variant="h4" 
                 gutterBottom 
-                align="left" 
+                align="center" 
                 sx={{ color: "#905aa7", padding: '8px' }}
             >
-                Event List Generator & Task Management System
+                Event and Task Manager
             </Typography>
 
             {/* Tabs component to switch between different views */}
