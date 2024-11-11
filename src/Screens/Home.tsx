@@ -166,7 +166,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
     return (
         <Box>
             {/* Upcoming events section */}
-            <Typography variant="h4" sx={{ textAlign: 'left', marginBottom: 2  }}>Upcoming Events</Typography>
+            <Typography variant="h4" sx={{ textAlign: 'left', marginBottom: 2, marginLeft: 2  }}>Upcoming Events</Typography>
             <Paper sx={{ p: 2, height: '150px', overflow: 'auto' }}>
                 {filteredEvents.map((event) => (
                     <Box 
