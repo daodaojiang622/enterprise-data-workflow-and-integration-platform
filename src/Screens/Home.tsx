@@ -52,7 +52,19 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
             date: '--/--/---',
             hasGeneratedList: false,
             isIndeterminate: true
-        }
+        },
+        {
+            id: '4',
+            title: 'Event D (list generated)',
+            date: '01/01/2023',
+            hasGeneratedList: true
+        },
+        {
+            id: '5',
+            title: 'Event E (list generated)',
+            date: '01/01/2025',
+            hasGeneratedList: true
+        },
     ];
 
     const tasks: TaskSchemaCommentJoin[] = [
@@ -100,6 +112,36 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
             user: 'MeowMeow',
             dueDate: '01/12/2024',
             Event: 'Event C'
+        },
+        {
+            id: '4',
+            taskName: 'Task4',
+            approver1: 'Apple',
+            approver2: 'Banana',
+            approver3: 'Tree',
+            taskDescription: 'We need to do this task',
+            recommendation: 'We recommend this',
+            decisionMaker: 'Apple',
+            commentId: 111,
+            comment: 'Yes we can',
+            user: 'MeowMeow',
+            dueDate: '01/12/2025',
+            Event: 'Event A'
+        },
+        {
+            id: '5',
+            taskName: 'Task5',
+            approver1: 'Apple',
+            approver2: 'Banana',
+            approver3: 'Tree',
+            taskDescription: 'We need to do this task',
+            recommendation: 'We recommend this',
+            decisionMaker: 'Apple',
+            commentId: 111,
+            comment: 'Yes we can',
+            user: 'MeowMeow',
+            dueDate: '01/12/2025',
+            Event: 'Event A'
         }
     ];
 
@@ -114,7 +156,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
         <Box>
             {/* Upcoming events section */}
             <Typography variant="h4" sx={{ textAlign: 'left', marginBottom: 2  }}>Upcoming Events</Typography>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: 2, height: '150px', overflow: 'auto' }}>
                 {events.map((event) => (
                     <Box 
                         key={event.id} 
@@ -163,7 +205,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
 
             {/* Upcoming Tasks section */}
             <Typography variant="h4" sx={{ textAlign: 'left', margin: 2  }}>Upcoming Tasks</Typography>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: 2, height: '150px', overflow: 'auto'  }}>
                 {filteredTasks.map((task) => (
                     <Box 
                         key={task.id} 
