@@ -114,6 +114,11 @@ const ControlPanel: React.FC = () => {
                 value={tabIndex} 
                 onChange={handleTabChange} 
                 aria-label="Event Panel Tabs"
+                TabIndicatorProps={{
+                    style: {
+                        backgroundColor: '#905aa7'
+                    }
+                }}
             >
                 <Tab label="Home" style={StyleSheet.tab} />
                 <Tab label="Events" style={StyleSheet.tab} />
