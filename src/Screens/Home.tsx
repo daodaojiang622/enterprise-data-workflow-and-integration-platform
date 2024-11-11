@@ -153,12 +153,19 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
         return taskDueDate >= currentDate;
     });
 
+    // Filter events to exclude those with due dates in the past
+    const filteredEvents = events.filter(event => {
+        const eventDate = new Date(event.date);
+        const currentDate = new Date();
+        return eventDate >= currentDate;
+    });
+
     return (
         <Box>
             {/* Upcoming events section */}
             <Typography variant="h4" sx={{ textAlign: 'left', marginBottom: 2  }}>Upcoming Events</Typography>
             <Paper sx={{ p: 2, height: '150px', overflow: 'auto' }}>
-                {events.map((event) => (
+                {filteredEvents.map((event) => (
                     <Box 
                         key={event.id} 
                         sx={{ 
