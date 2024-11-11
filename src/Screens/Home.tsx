@@ -50,7 +50,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
         {
             id: '3',
             title: 'Event C',
-            date: '--/--/---',
+            date: '',
             hasGeneratedList: false,
             isIndeterminate: true
         },
@@ -155,6 +155,9 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
 
     // Filter events to exclude those with due dates in the past
     const filteredEvents = events.filter(event => {
+        if (!event.date) {
+            return true;
+        }
         const eventDate = new Date(event.date);
         const currentDate = new Date();
         return eventDate >= currentDate;
