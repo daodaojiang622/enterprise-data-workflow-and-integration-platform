@@ -26,6 +26,7 @@ const ControlPanel: React.FC = () => {
     const [limit, setLimit] = useState<number>(1);
     // State to store the index of the currently selected tab
     const [tabIndex, setTabIndex] = useState<number>(0);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
     /**
      * Handles the selection and deselection of cities.
@@ -103,7 +104,8 @@ const ControlPanel: React.FC = () => {
             </Typography>
 
             {/* Tabs component to switch between different views */}
-            <Tabs 
+            {isLoggedIn? (
+                <Tabs 
                 value={tabIndex} 
                 onChange={handleTabChange} 
                 aria-label="Event Panel Tabs"
@@ -117,41 +119,56 @@ const ControlPanel: React.FC = () => {
                 {/* <Tab label="Item Editor" sx={{ backgroundColor: '#36a0c8', color: 'white' }} /> */}
                 <Tab label="User Login/Logout" style={StyleSheet.tab} />
             </Tabs>
+            ) : (
+                <Box p={2} position="absolute" top={100} left={0} mt={2} width="100%">
+                    <Typography 
+                        variant="h4" 
+                        gutterBottom 
+                        align="center" 
+                        sx={{ color: "#905aa7", padding: '8px' }}
+                    >
+                        Please Log In to Continue
+                    </Typography>
+                    <Box mt={4}>
+                        <UserLogin setIsLoggedIn={setIsLoggedIn} />
+                    </Box>
+                </Box>
+            )}
 
             {/* Render the content based on the selected tab */}
-            {tabIndex === 0 && (
+            {isLoggedIn && tabIndex === 0 && (
                 <Box mt={4}>
                     <Home navigateToLogin={navigateToLogin} />
                 </Box>
             )}
 
-            {tabIndex === 1 && (
+            {isLoggedIn && tabIndex === 1 && (
                 <Box mt={4}>
                     <Event headers={headers} data={data}/>
                 </Box>
             )}
 
-            {tabIndex === 2 && (
+            {isLoggedIn && tabIndex === 2 && (
                 <Box mt={4}>
                     <EventTable headers={headers} data={data} />
                 </Box>
             )}
 
-            {tabIndex === 3 && (
+            {isLoggedIn && tabIndex === 3 && (
                 <Box mt={4}>
                     <ItemCreator />
                 </Box>
             )}
 
-            {tabIndex === 4 && (
+            {isLoggedIn && tabIndex === 4 && (
                 <Box mt={4}>
                     <ItemEditor />
                 </Box>
             )}
 
-            {tabIndex === 5 && (
+            {isLoggedIn && tabIndex === 5 && (
                 <Box mt={4}>
-                    <UserLogin />
+                    <UserLogin setIsLoggedIn={setIsLoggedIn}/>
                 </Box>
             )}
         </Box>
