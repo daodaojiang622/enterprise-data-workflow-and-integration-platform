@@ -30,7 +30,7 @@ const UserLogin: React.FC = () => {
 
     return (
 
-        <Box display="flex" flexDirection="column" alignItems="flex-start" justifyContent="flex-start" p={2}>
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start" p={2}>
             <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" >
                 <form onSubmit={handleFormSubmit}>
                     <TextField
