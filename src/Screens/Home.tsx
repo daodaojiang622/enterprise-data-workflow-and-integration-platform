@@ -32,7 +32,7 @@ interface TaskSchemaCommentJoin {
 
 const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
 
-    // Sample data - in a real app, this would likely come from props or an API
+    // Sample data
     const events: Event[] = [
         {
             id: '1',
@@ -103,6 +103,13 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
         }
     ];
 
+    // Filter tasks to exclude those with due dates in the past
+    const filteredTasks = tasks.filter(task => {
+        const taskDueDate = new Date(task.dueDate);
+        const currentDate = new Date();
+        return taskDueDate >= currentDate;
+    });
+
     return (
         <Box>
             {/* Upcoming events section */}
@@ -157,7 +164,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
             {/* Upcoming Tasks section */}
             <Typography variant="h4" sx={{ textAlign: 'left', margin: 2  }}>Upcoming Tasks</Typography>
             <Paper sx={{ p: 2 }}>
-                {tasks.map((task) => (
+                {filteredTasks.map((task) => (
                     <Box 
                         key={task.id} 
                         sx={{ 
