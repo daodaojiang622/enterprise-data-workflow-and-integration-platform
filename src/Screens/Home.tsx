@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Paper, Button, Grid2, Checkbox } from '@mui/material';
 import { alignProperty } from '@mui/material/styles/cssUtils';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 interface HomeProps {
     navigateToLogin: () => void;
@@ -168,13 +169,8 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
                     >
                         {/* Title and Checkbox */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '50%' }}>
-                            <Checkbox
-                                checked={event.hasGeneratedList}
-                                readOnly
-                                size="small"
-                                indeterminate={event.isIndeterminate}
-                            />
                             <Typography>{event.title}</Typography>
+                            <ListAltIcon fontSize="small" sx={{ color: 'gray' }} /> {/* Icon next to the title */}
                         </Box>
 
                         {/* Date */}
