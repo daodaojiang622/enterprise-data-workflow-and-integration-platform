@@ -55,7 +55,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
         }
     ];
 
-    const taks: TaskSchemaCommentJoin[] = [
+    const tasks: TaskSchemaCommentJoin[] = [
         {
             id: '1',
             taskName: 'Task1',
@@ -157,7 +157,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
             {/* Upcoming Tasks section */}
             <Typography variant="h4" sx={{ textAlign: 'left', margin: 2  }}>Upcoming Tasks</Typography>
             <Paper sx={{ p: 2 }}>
-                {events.map((task) => (
+                {tasks.map((task) => (
                     <Box 
                         key={task.id} 
                         sx={{ 
@@ -168,12 +168,12 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
                     >
                         {/* Task Name */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '50%' }}>
-                            <Typography>{task.title}</Typography>
+                            <Typography>{task.Event}: {task.taskName}</Typography>
                         </Box>
 
                         {/* Date */}
                         <Typography sx={{ width: '15%', textAlign: 'center' }}>
-                            {task.date}
+                            {task.dueDate}
                         </Typography>
 
                         {/* List Button */}
