@@ -178,6 +178,19 @@ const ControlPanel: React.FC = () => {
                     <UserLogin setIsLoggedIn={setIsLoggedIn}/>
                 </Box>
             )}
+
+            {/* Footer for every page */}
+            <Typography 
+                gutterBottom 
+                align="center" 
+                sx={{ 
+                    fontSize: '12px',
+                    marginTop: '260px',
+                    color: 'lightgray',
+                }}
+            >
+                This system is created by: Yuting Xie, Taoning Wang, Chenyu Jiang, Zi Ju. When in trouble, hire us!
+            </Typography>
         </Box>
     )
 }
