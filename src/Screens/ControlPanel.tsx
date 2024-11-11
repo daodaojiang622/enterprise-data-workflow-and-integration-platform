@@ -93,20 +93,6 @@ const ControlPanel: React.FC = () => {
 
     return (
         <Box p={2} position="absolute" top={0} left={0} mt={2} width="100%">
-            {/* Header for every page */}
-            <Typography 
-                variant="h4" 
-                gutterBottom 
-                align="center" 
-                sx={{ 
-                    background: 'linear-gradient(to right, #36a0c8, #905aa7)', 
-                    color: 'white', 
-                    padding: '8px',
-                    borderRadius: '4px' // Optional: Add rounded corners
-                }}
-            >
-                Event and Task Manager
-            </Typography>
 
             {/* Tabs component to switch between different views */}
             {isLoggedIn? (
