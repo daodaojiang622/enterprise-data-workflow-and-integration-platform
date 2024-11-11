@@ -27,6 +27,7 @@ interface TaskSchemaCommentJoin {
     comment: string,
     user: string,
     dueDate: string,
+    Event: string,
 };
 
 const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
@@ -67,7 +68,8 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
             commentId: 111,
             comment: 'we cant do this',
             user: 'MeowMeow',
-            dueDate: '12/12/2024'
+            dueDate: '12/12/2024',
+            Event: 'Event A'
         },
         {
             id: '2',
@@ -81,7 +83,8 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
             commentId: 111,
             comment: '',
             user: 'MeowMeow',
-            dueDate: '01/01/2025'
+            dueDate: '01/01/2025',
+            Event: 'Event B'
         },
         {
             id: '3',
@@ -95,7 +98,8 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
             commentId: 111,
             comment: 'Yes we can',
             user: 'MeowMeow',
-            dueDate: '01/12/2024'
+            dueDate: '01/12/2024',
+            Event: 'Event C'
         }
     ];
 
@@ -125,12 +129,12 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
                         </Box>
 
                         {/* Date */}
-                        <Typography sx={{ width: '25%', textAlign: 'center' }}>
+                        <Typography sx={{ width: '15%', textAlign: 'center' }}>
                             {event.date}
                         </Typography>
 
                         {/* List Button */}
-                        <Box sx={{ width: '25%', textAlign: 'right' }}>
+                        <Box sx={{ width: '35%', textAlign: 'right' }}>
                             <Button
                                 variant="contained"
                                 sx={{
@@ -153,46 +157,39 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
             {/* Upcoming Tasks section */}
             <Typography variant="h4" sx={{ textAlign: 'left', margin: 2  }}>Upcoming Tasks</Typography>
             <Paper sx={{ p: 2 }}>
-                {events.map((event) => (
+                {events.map((task) => (
                     <Box 
-                        key={event.id} 
+                        key={task.id} 
                         sx={{ 
                             display: 'flex', 
                             alignItems: 'center', 
                             mb: 1 
                         }}
                     >
-                        {/* Title and Checkbox */}
+                        {/* Task Name */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '50%' }}>
-                        <Checkbox
-                                checked={event.hasGeneratedList}
-                                readOnly
-                                size="small"
-                                indeterminate={event.isIndeterminate}
-                            />
-                            <Typography>{event.title}</Typography>
+                            <Typography>{task.title}</Typography>
                         </Box>
 
                         {/* Date */}
-                        <Typography sx={{ width: '25%', textAlign: 'center' }}>
-                            {event.date}
+                        <Typography sx={{ width: '15%', textAlign: 'center' }}>
+                            {task.date}
                         </Typography>
 
                         {/* List Button */}
-                        <Box sx={{ width: '25%', textAlign: 'right' }}>
+                        <Box sx={{ width: '35%', textAlign: 'right' }}>
                             <Button
                                 variant="contained"
                                 sx={{
                                     px: 2,
                                     py: 0.5,
-                                    backgroundColor: event.isIndeterminate ? 'gray' : 'red',
-                                    color: event.isIndeterminate ? 'black' : 'white',
+                                    backgroundColor: 'gray',
                                     ':hover': {
-                                        backgroundColor: event.isIndeterminate ? 'darkgray' : 'darkred'
+                                        backgroundColor: 'darkgray' 
                                     }
                                 }}
                             >
-                                List
+                                Details
                             </Button>
                         </Box>
                     </Box>
