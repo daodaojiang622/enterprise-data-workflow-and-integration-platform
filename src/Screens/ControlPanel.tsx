@@ -26,7 +26,7 @@ const ControlPanel: React.FC = () => {
     const [limit, setLimit] = useState<number>(1);
     // State to store the index of the currently selected tab
     const [tabIndex, setTabIndex] = useState<number>(0);
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true); // Change to false when submitting!!!
 
     /**
      * Handles the selection and deselection of cities.
@@ -117,7 +117,7 @@ const ControlPanel: React.FC = () => {
                 {/* <Tab label="Event Review" sx={{ backgroundColor: '#36a0c8', color: 'white' }} /> */}
                 <Tab label="Tasks" style={StyleSheet.tab} />
                 {/* <Tab label="Item Editor" sx={{ backgroundColor: '#36a0c8', color: 'white' }} /> */}
-                <Tab label="User Login/Logout" style={StyleSheet.tab} />
+                <Tab label="User Logout" style={StyleSheet.tab} />
             </Tabs>
             ) : (
                 <Box p={2} position="absolute" top={100} left={0} mt={2} width="100%">
