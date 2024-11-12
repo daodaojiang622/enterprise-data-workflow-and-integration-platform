@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { Button, List, ListItem, ListItemText, Paper, Box, Typography, Grid2, Divider, TextField } from '@mui/material';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Task {
     id: string,
-    taskName: string,
+    name: string,
+    event: string,
+    dueDate: string,
+    description: string,
+    commentId: number,
+    comment: string,
     approver1: string,
     approver2: string,
     approver3: string,
-    taskDescription: string,
-    commentId: number,
-    comment: string,
-    user: string,
-    dueDate: string,
-    Event: string,
+    owner: string,
     isCompleted: boolean,
     isApprovedByApprover1: boolean,
     isApprovedByApprover2: boolean,
@@ -24,16 +25,16 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
     const tasks: Task[] = [
         {
             id: '1',
-            taskName: 'Draft a proposal on the new project',
+            name: 'Draft a proposal on the new project',
             approver1: 'Apple',
             approver2: 'Banana',
             approver3: 'Tree',
-            taskDescription: 'We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task',
+            description: 'We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task',
             commentId: 111,
             comment: 'we cant do this',
-            user: 'MeowMeow',
+            owner: 'MeowMeow',
             dueDate: '12/12/2024',
-            Event: 'Event A',
+            event: 'Event A',
             isCompleted: true,
             isApprovedByApprover1: true,
             isApprovedByApprover2: true,
@@ -41,16 +42,16 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         },
         {
             id: '2',
-            taskName: 'Task2',
+            name: 'Task2',
             approver1: 'Apple',
             approver2: 'Banana',
             approver3: '',
-            taskDescription: 'We need to do this task',
+            description: 'We need to do this task',
             commentId: 111,
             comment: '',
-            user: 'MeowMeow',
+            owner: 'MeowMeow',
             dueDate: '01/01/2025',
-            Event: 'Event B',
+            event: 'Event B',
             isCompleted: false,
             isApprovedByApprover1: false,
             isApprovedByApprover2: false,
@@ -58,16 +59,16 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         },
         {
             id: '3',
-            taskName: 'Task3',
+            name: 'Task3',
             approver1: 'Apple',
             approver2: 'Banana',
             approver3: 'Tree',
-            taskDescription: 'We need to do this task',
+            description: 'We need to do this task',
             commentId: 111,
             comment: 'Yes we can',
-            user: 'MeowMeow',
+            owner: 'MeowMeow',
             dueDate: '01/12/2024',
-            Event: 'Event C',
+            event: 'Event C',
             isCompleted: true,
             isApprovedByApprover1: true,
             isApprovedByApprover2: true,
@@ -75,16 +76,16 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         },
         {
             id: '4',
-            taskName: 'Task4',
+            name: 'Task4',
             approver1: 'Apple',
             approver2: 'Banana',
             approver3: 'Tree',
-            taskDescription: 'We need to do this task',
+            description: 'We need to do this task',
             commentId: 111,
             comment: 'Yes we can',
-            user: 'MeowMeow',
+            owner: 'MeowMeow',
             dueDate: '01/12/2025',
-            Event: 'Event A',
+            event: 'Event A',
             isCompleted: false,
             isApprovedByApprover1: false,
             isApprovedByApprover2: false,
@@ -92,16 +93,16 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         },
         {
             id: '5',
-            taskName: 'Task5',
+            name: 'Task5',
             approver1: 'Apple',
             approver2: 'Banana',
             approver3: 'Tree',
-            taskDescription: 'We need to do this task',
+            description: 'We need to do this task',
             commentId: 111,
             comment: 'Yes we can',
-            user: 'MeowMeow',
+            owner: 'MeowMeow',
             dueDate: '01/12/2025',
-            Event: 'Event A',
+            event: 'Event A',
             isCompleted: false,
             isApprovedByApprover1: false,
             isApprovedByApprover2: false,
@@ -193,7 +194,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
     
         if (selectedTask.isCompleted) {
             return approvers.length > 0 
-                ? `Task Completed. Approved by Approver ${approvers.join(', ')}.`
+                ? `Task Completed. Approved by ${approvers.join(', ')}.`
                 : "Task Completed";
         } else if (approvers.length > 0) {
             const waitingMessage = pendingApprovers.length > 0 
@@ -244,10 +245,11 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                                 backgroundColor: '#e3f2fd'
                                 },
                                 textAlign: 'center',
+                                ':focus': {outline: 'none'}
                             }}
                         >
                         <ListItemText 
-                            primary={task.taskName} 
+                            primary={task.name} 
                             sx={{ 
                                 color: selectedTask?.id === task.id ? 'purple' : 'inherit' ,
                                 wordWrap: 'break-word',
@@ -270,7 +272,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     variant="contained"
                     onClick={handleCreate}
                     fullWidth
-                    sx={{ mt: 5, backgroundColor: '#36a0c8' }}
+                    sx={{ mt: 5, backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}
                     >
                     Create
                 </Button>
@@ -279,28 +281,30 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             {/* Right Panel - Task Details */}
             <Grid2 item xs={4} >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                <Typography variant="h4">Task Details</Typography>
+                {isEditing? ( <Typography variant="h4">Create Task</Typography>
+                ) : (
+                    <Typography variant="h4">Task Details</Typography>
+                )}
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     {selectedTask && !isEditing && (
                     <Button
                     variant="contained"
                     color="error"
                     onClick={handleDelete}
-                    sx={{ ml: 60}}
+                    sx={{ ml: 60, ':focus': {outline: 'none'}}}
                     >
-                        Delete
+                    <DeleteIcon />
                     </Button>
                     )}
                 </Box>
             </Box>
                 <Paper sx={{ p: 2,  height: '400px', overflow: 'auto', width: '800px'}}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
                     </Box>
                 
                 {isEditing ? (
                     <Box>
-                        <Grid2 container spacing={2}>
-                        <Grid2 item xs={6}>
+                        <Grid2 >
                             <TextField
                                 label="Name"
                                 name="name"
@@ -310,17 +314,17 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                                 margin="normal"
                             />
                             <TextField
-                                label="Date"
-                                name="date"
-                                value={editableTask?.date || ''}
+                                label="Event"
+                                name="Event"
+                                value={editableTask?.dueDate || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
                             />
                             <TextField
-                                label="Type of Cancer"
-                                name="typeOfCancer"
-                                value={editableTask?.typeOfCancer || ''}
+                                label="Due Date"
+                                name="dueDate"
+                                value={editableTask?.dueDate || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
@@ -328,41 +332,52 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                             <TextField
                                 label="Description"
                                 name="description"
-                                value={editableTask?.description || ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                        </Grid2>
-
-                        <Grid2 item xs={6}>
-                            <TextField
-                                label="Region"
-                                name="Region"
-                                value={editableTask?.region || ''}
+                                value={editableTask?.description|| ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
                             />
                             <TextField
-                                label="Particular Topic"
-                                name="particularTopic"
-                                value={editableTask?.particularTopic || ''}
+                                label="Comment"
+                                name="comment"
+                                value={editableTask?.comment || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Approver 1"
+                                name="approver1"
+                                value={editableTask?.approver1 || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Approver 2"
+                                name="approver2"
+                                value={editableTask?.approver2 || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Approver 3"
+                                name="approver3"
+                                value={editableTask?.approver3 || ''}
+                                onChange={handleInputChange}
+                                fullWidth
+                                margin="normal"
+                            />
+                            <TextField
+                                label="Assign to"
+                                name="owner"
+                                value={editableTask?.owner || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
                             />
                         </Grid2>
-                        </Grid2>
-
-                        <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'flex-start' }}>
-                        <Button variant="contained" onClick={handleSave}>
-                            Save
-                        </Button>
-                        <Button variant="contained" onClick={handleCancel}>
-                            Cancel
-                        </Button>
-                        </Box>
                     </Box>
                 ) : ( selectedTask ? (
                     <Box>
@@ -372,14 +387,14 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                         {/* Task Details */}
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold', wordWrap: 'break-word', overflowWrap: 'break-word'}}>Name: </Typography>
-                        <Typography>{selectedTask.taskName}</Typography>
+                        <Typography>{selectedTask.name}</Typography>
                         </Box>
 
                         <Divider sx={{ mb: 1 }} />
                         
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Event: </Typography>
-                        <Typography>{selectedTask.Event}</Typography>
+                        <Typography>{selectedTask.event}</Typography>
                         </Box>
                         
                         <Divider sx={{ mb: 1 }} />
@@ -393,7 +408,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
 
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold', wordWrap: 'break-word', overflowWrap: 'break-word'}}>Task Description: </Typography>
-                        <Typography>{selectedTask.taskDescription}</Typography>
+                        <Typography>{selectedTask.description}</Typography>
                         </Box>
 
                         <Divider sx={{ mb: 1 }} />
@@ -432,13 +447,22 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     )
                 )}
                 </Paper>
-                {selectedTask ? (
+                {selectedTask && !isEditing ? (
                     <Box sx={{ mt: 5, display: 'flex', gap: 10, justifyContent: 'center'}}>
-                        <Button variant="contained" onClick={handleEdit} sx={{backgroundColor: '#36a0c8'}}>
+                        <Button variant="contained" onClick={handleEdit} sx={{backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}>
                             Edit
                         </Button>
-                        <Button variant="contained" onClick={handleGenerateList} sx={{backgroundColor: '#36a0c8'}}>
+                        <Button variant="contained" onClick={handleGenerateList} sx={{backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}>
                             Completed
+                        </Button>
+                    </Box>
+                ) : !selectedTask && isEditing ? (
+                    <Box sx={{ mt: 5, display: 'flex', gap: 10, justifyContent: 'center'}}>
+                        <Button variant="contained" onClick={handleSave} sx={{backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}>
+                            Save
+                        </Button>
+                        <Button variant="contained" onClick={handleCancel} sx={{backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}>
+                            Cancel
                         </Button>
                     </Box>
                 ) : null}
