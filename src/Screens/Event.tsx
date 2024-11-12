@@ -1,186 +1,179 @@
-import React, { useState } from 'react';
-import { Button, List, ListItem, ListItemText, Paper, Box, Typography, Grid2, Divider } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Button, List, Paper, Box, Typography, Divider, Grid2 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import TaskListItem from '../Components/TaskListItem';
+import TaskDetailsField from '../Components/TaskDetailsField';
+import TaskForm from '../Components/TaskForm';
+import { boxStyle, buttonStyle, colors } from '../Utils/Style';
+import { events as initialEvents } from '../Data';
+import EventListItem from '../Components/EventListItem';
 
 export interface Event {
     id: string;
-    name: string;
+    title: string;
     date: string;
-    typeOfCancer: string;
-    description: string;
-    region: string;
-    particularTopic: string;
-  }
+    hasGeneratedList: boolean;
+}
 
+interface EventProps {
+    selectedEventId: string | null;
+}
 
-const EventTable: React.FC<EventTableProps> = ({ headers, data }) => {
-    const [events, setEvents] = useState<Event[]> ([
-        { id: '1', name: 'Event A', date: '2024-03-20', typeOfCancer: 'Lung', description: 'Description A', region: 'West', particularTopic: 'Research' },
-        { id: '2', name: 'Event B', date: '2024-03-21', typeOfCancer: 'Breast', description: 'Description B', region: 'East', particularTopic: 'Treatment' },
-        { id: '3', name: 'Event C', date: '2024-03-22', typeOfCancer: 'Skin', description: 'Description C', region: 'North', particularTopic: 'Prevention' },
-      ]);
-
+const Event: React.FC<EventProps> = ({ selectedEventId }) => {
+    const [events, setEvents] = useState<Event[]>(initialEvents);
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editableEvent, setEditableEvent] = useState<Event | null>(null);
+
+    useEffect(() => {
+        if (selectedEventId) {
+            const event = events.find((event) => event.id === selectedEventId);
+            setSelectedEvent(event || null);
+        }
+    }, [selectedEventId, events]);
 
     const handleEventSelect = (event: Event) => {
-    setSelectedEvent(event);
+        console.log('Event selected:', event);
+        setSelectedEvent(event);
+        setIsEditing(false);
     };
 
     const handleDelete = () => {
-    if (selectedEvent) {
-        setEvents(events.filter(event => event.id !== selectedEvent.id));
-        setSelectedEvent(null);
-    }
+        if (selectedEvent) {
+            setEvents(events.filter((event) => event.id !== selectedEvent.id));
+            setSelectedEvent(null);
+        }
     };
 
     const handleEdit = () => {
-    // Implement edit functionality
-    if (selectedEvent) {
-        const updatedEvents = events.map(event =>
-            event.id === selectedEvent.id ? selectedEvent : event
-        );
-        setEvents(updatedEvents);
-        console.log('Edit event:', selectedEvent);
-    } else {
-        console.log('No event selected for editing');
-    }
+        if (selectedEvent) {
+            setEditableEvent(selectedEvent);
+            setIsEditing(true);
+        }
     };
 
     const handleCreate = () => {
-        // Implement create functionality
-        const newEvent: Event = {
-            id: Date.now().toString(),
-            name: 'New Event',
-            date: '2024-03-23',
-            typeOfCancer: 'Unknown',
-            description: 'New event description',
-            region: 'Unknown',
-            particularTopic: 'General'
-        };
-        setEvents([...events, newEvent]);
-        console.log('Create new event:', newEvent);
+        setSelectedEvent(null);
+        setEditableEvent({
+            id: '10',
+            title: '',
+            date: '',
+            hasGeneratedList: false,
+        });
+        setIsEditing(true);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setEditableEvent((prevEvent) => (prevEvent ? { ...prevEvent, [name]: value } : null));
+    };
+
+    const handleSave = () => {
+        if (!editableEvent) return;
+
+        if (editableEvent.id) {
+            const updatedEvents = events.map((event) =>
+                event.id === editableEvent.id ? editableEvent : event
+            );
+            setEvents(updatedEvents);
+        } else {
+            setEvents([...events, { ...editableEvent, id: Date.now().toString() }]);
+        }
+        setSelectedEvent(editableEvent);
+        setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+        if (window.confirm('Are you sure you want to cancel? All unsaved changes will be lost.')) {
+            setIsEditing(false);
+            setEditableEvent(null);
+        }
     };
 
     const handleGenerateList = () => {
-    // Implement list generation functionality
-    console.log('Generate list for event:', selectedEvent);
-    if (selectedEvent) {
-        const eventList = events.filter(event => event.id === selectedEvent.id);
-        console.log('Generated list:', eventList);
-    } else {
-        console.log('No event selected for list generation');
-    }
+        if (selectedEvent) {
+            console.log('Generate list for event:', selectedEvent);
+        } else {
+            console.log('No event selected for list generation');
+        }
     };
-    
+
     return (
         <Box p={2}>
-          <Grid2 container spacing={2}>
-
-            {/* Left Panel - Events List */}
-            <Grid2 item xs={4}>
-                <Typography variant="h6" gutterBottom>
-                    Events
-                </Typography>
-                    
-                <Paper sx={{p: 5, height: "200%" }}>
-                    <List sx={{ maxHeight: 400, overflow: 'auto' }}>
-                    {events.map((event) => (
-                        <ListItem
-                            key={event.id}
-                            button
-                            selected={selectedEvent?.id === event.id}
-                            onClick={() => handleEventSelect(event)}
-                            sx={{ 
-                                '&.Mui-selected': {
-                                backgroundColor: '#e3f2fd'
-                                }
-                            }}
-                        >
-                            <ListItemText primary={event.name} />
-                        </ListItem>
-                    ))}
-                    </List>
-                    <Button
-                    variant="contained"
-                    onClick={handleCreate}
-                    fullWidth
-                    sx={{ mt: 2 }}
-                    >
-                    Create
+            <Grid2 container spacing={2}>
+                {/* Left Panel - Events List */}
+                <Grid2 item xs={4} ml={5} mr={5}>
+                    <Typography variant="h4" gutterBottom>Events</Typography>
+                    <Paper sx={{ height: '435px', overflow: 'auto', width: '200px' }}>
+                        <List>
+                            {events.map((event) => (
+                                <EventListItem
+                                    key={event.id}
+                                    task={event}
+                                    isSelected={selectedEvent?.id === event.id}
+                                    onSelect={handleEventSelect}
+                                />
+                            ))}
+                        </List>
+                    </Paper>
+                    <Button variant="contained" onClick={handleCreate} fullWidth sx={{ mt: 5, backgroundColor: colors.primary, ':focus': { outline: 'none' } }}>
+                        Create
                     </Button>
-                </Paper>
-            </Grid2>
-        
-            {/* Right Panel - Event Details */}
-            <Grid2 item xs={8}>
-                <Typography variant="h6">Event Details</Typography>
-                <Paper sx={{ p: 2, width: "300%", height:"200%"}}>
+                </Grid2>
+
+                {/* Right Panel - Event Details */}
+                <Grid2 item xs={4}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    {selectedEvent && (
-                        <Button
-                        variant="contained"
-                        color="error"
-                        onClick={handleDelete}
-                        >
-                        Delete
-                        </Button>
-                    )}
+                        <Typography variant="h4">
+                            {isEditing ? (selectedEvent ? 'Edit Event' : 'Create Event') : 'Event Details'}
+                        </Typography>
+                        {selectedEvent && !isEditing && (
+                            <Button variant="contained" color="error" onClick={handleDelete} sx={{ ml: 2 }}>
+                                <DeleteIcon />
+                            </Button>
+                        )}
                     </Box>
-            
-                {selectedEvent ? (
-                <Box>
-                    <Grid2 container spacing={2}>
-                    <Grid2 item xs={6}>
-                        <Typography variant="subtitle2">Name</Typography>
-                        <Typography>{selectedEvent.name}</Typography>
-                        <Divider sx={{ my: 1 }} />
-                        
-                        <Typography variant="subtitle2">Date</Typography>
-                        <Typography>{selectedEvent.date}</Typography>
-                        <Divider sx={{ my: 1 }} />
-                        
-                        <Typography variant="subtitle2">Type of Cancer</Typography>
-                        <Typography>{selectedEvent.typeOfCancer}</Typography>
-                        <Divider sx={{ my: 1 }} />
-                        
-                        <Typography variant="subtitle2">Description</Typography>
-                        <Typography>{selectedEvent.description}</Typography>
-                    </Grid2>
-                    
-                    <Grid2 item xs={6}>
-                        <Typography variant="subtitle2">ID</Typography>
-                        <Typography>{selectedEvent.id}</Typography>
-                        <Divider sx={{ my: 1 }} />
-                        
-                        <Typography variant="subtitle2">Region</Typography>
-                        <Typography>{selectedEvent.region}</Typography>
-                        <Divider sx={{ my: 1 }} />
-                        
-                        <Typography variant="subtitle2">Particular Topic</Typography>
-                        <Typography>{selectedEvent.particularTopic}</Typography>
-                    </Grid2>
-                    </Grid2>
+                    <Paper sx={{ p: 2, height: '400px', overflow: 'auto', width: '800px' }}>
+                        {isEditing ? (
+                            <EventForm
+                                editableEvent={editableEvent}
+                                handleInputChange={handleInputChange}
+                                handleSave={handleSave}
+                                handleCancel={handleCancel}
+                            />
+                        ) : selectedEvent ? (
+                            <Box>
+                                {/* Status Bar */}
+                                <Box sx={{ backgroundColor: colors.secondaryBackground, padding: 1, mb: 2, borderRadius: 2 }}>
+                                    <Typography sx={{ color: 'green', fontWeight: 'bold', mb: 1 }}>List generate?</Typography>
+                                </Box>
 
-                    <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'flex-start' }}>
-                    <Button variant="contained" onClick={handleEdit}>
-                        Edit
-                    </Button>
-                    <Button variant="contained" onClick={handleGenerateList}>
-                        View / Generate List
-                    </Button>
+                                {/* Event Details */}
+     
+                                <Divider sx={{ mb: 1 }} />
+
+                            </Box>
+                        ) : (
+                            <Typography color="textSecondary" sx={{ textAlign: 'center', mt: 4 }}>Select a event to view details</Typography>
+                        )}
+                    </Paper>
+                    <Box sx={boxStyle}>
+                        {isEditing ? (
+                            <>
+                                <Button variant="contained" onClick={handleSave} sx={buttonStyle}>Save</Button>
+                                <Button variant="contained" onClick={handleCancel} sx={buttonStyle}>Cancel</Button>
+                            </>
+                        ) : selectedEvent && (
+                            <>
+                                <Button variant="contained" onClick={handleEdit} sx={buttonStyle}>Edit</Button>
+                                <Button variant="contained" onClick={handleGenerateList} sx={buttonStyle}>Completed</Button>
+                            </>
+                        )}
                     </Box>
-                    </Box>
-                    ) : (
-                    <Typography color="textSecondary" sx={{ textAlign: 'center', mt: 4 }}>
-                        Select an event to view details
-                    </Typography>
-                    )}
-                </Paper>
-            </Grid2>    
-        
-        </Grid2>    
-    </Box>
+                </Grid2>
+            </Grid2>
+        </Box>
     );
 };
 
-// Export the EventTable component as the default export of this module
-export default EventTable;
+export default Event;

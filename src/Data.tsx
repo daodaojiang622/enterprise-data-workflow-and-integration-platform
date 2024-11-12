@@ -20,7 +20,6 @@ export const events: Event[] = [
         title: 'Event C',
         date: '',
         hasGeneratedList: false,
-        isIndeterminate: true
     },
     {
         id: '4',

@@ -3,7 +3,6 @@ export interface Event {
     title: string;
     date: string;
     hasGeneratedList: boolean;
-    isIndeterminate?: boolean;
 }
 
 export interface Task {
