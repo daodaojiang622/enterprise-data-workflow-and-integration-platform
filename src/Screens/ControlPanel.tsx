@@ -109,7 +109,6 @@ const ControlPanel: React.FC = () => {
             >
                 <Tab label="Home" style={StyleSheet.tab} />
                 <Tab label="Events" style={StyleSheet.tab} />
-                <Tab label="List Generator" style={StyleSheet.tab} />
                 <Tab label="Tasks" style={StyleSheet.tab} />
                 <Tab label="User Logout" style={StyleSheet.tab} />
             </Tabs>
@@ -144,34 +143,17 @@ const ControlPanel: React.FC = () => {
 
             {isLoggedIn && tabIndex === 2 && (
                 <Box mt={4}>
-                    <EventTable headers={headers} data={data} />
+                    <Task />
                 </Box>
             )}
 
             {isLoggedIn && tabIndex === 3 && (
                 <Box mt={4}>
-                    <Task />
-                </Box>
-            )}
-
-            {isLoggedIn && tabIndex === 4 && (
-                <Box mt={4}>
                     <UserLogin setIsLoggedIn={setIsLoggedIn}/>
                 </Box>
             )}
 
-            {/* Footer for every page */}
-            <Typography 
-                gutterBottom 
-                align="center" 
-                sx={{ 
-                    fontSize: '12px',
-                    marginTop: '260px',
-                    color: 'lightgray',
-                }}
-            >
-                This system is created by: Yuting Xie, Taoning Wang, Chenyu Jiang, Zi Ju. When in trouble, hire us!
-            </Typography>
+
         </Box>
     )
 }
