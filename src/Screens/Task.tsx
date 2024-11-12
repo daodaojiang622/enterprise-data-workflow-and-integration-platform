@@ -210,9 +210,9 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         
             {/* Right Panel - Task Details */}
             <Grid2 item xs={4} >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                 <Typography variant="h4">Task Details</Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     {selectedTask && !isEditing && (
                     <Button
                     variant="contained"
@@ -225,7 +225,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     )}
                 </Box>
             </Box>
-                <Paper sx={{ p: 2, width: "80%", height:"92%"}}>
+                <Paper sx={{ p: 2, width: "80%", height:"90%"}}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     </Box>
                 
@@ -338,7 +338,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     )
                 )}
                 </Paper>
-                {isEditing ? (
+                {selectedTask ? (
                     <Box sx={{ mt: 5.5, display: 'flex', gap: 10, justifyContent: 'flex-start' }}>
                         <Button variant="contained" onClick={handleEdit} sx={{backgroundColor: '#36a0c8'}}>
                             Edit
@@ -346,11 +346,11 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                         <Button variant="contained" onClick={handleGenerateList} sx={{backgroundColor: '#36a0c8'}}>
                             View / Generate List
                         </Button>
+                        <Button variant="contained" onClick={handleGenerateList} sx={{backgroundColor: '#36a0c8'}}>
+                            Completed
+                        </Button>
                     </Box>
-                ) : (
-                    <Box>
-                    </Box>
-                )}
+                ) : null}
             </Grid2>    
         
         </Grid2>    
