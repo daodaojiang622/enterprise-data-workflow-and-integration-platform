@@ -197,10 +197,10 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             {/* Right Panel - Task Details */}
             <Grid2 item xs={4} >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                {isEditing? ( <Typography variant="h4">Create Task</Typography>
-                ) : (
-                    <Typography variant="h4">Task Details</Typography>
-                )}
+                <Typography variant="h4">
+                    {isEditing ? (selectedTask ? "Edit Task" : "Create Task") : "Task Details"}
+                </Typography>
+                
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     {selectedTask && !isEditing && (
                     <Button
@@ -259,35 +259,35 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     )
                 )}
                 </Paper>
-                {selectedTask ? (
-                    <Box sx={boxStyle}>
-                        <Button
-                            variant="contained"
-                            onClick={isEditing ? handleSave : handleEdit}
-                            sx={buttonStyle}
-                        >
-                            {isEditing ? 'Save' : 'Edit'}
-                        </Button>
-                        <Button
-                            variant="contained"
-                            onClick={isEditing ? handleCancel : handleGenerateList}
-                            sx={buttonStyle}
-                        >
-                            {isEditing ? 'Cancel' : 'Completed'}
-                        </Button>
-                    </Box>
-                ) : isEditing ? (
-                    <Box sx={boxStyle}>
-                        <Button variant="contained" onClick={handleSave} sx={buttonStyle}>
-                            Save
-                        </Button>
-                        <Button variant="contained" onClick={handleCancel} sx={buttonStyle}>
-                            Cancel
-                        </Button>
-                    </Box>
-                ) : null}
-            </Grid2>    
-        
+                    {selectedTask ? (
+                        <Box sx={boxStyle}>
+                            <Button
+                                variant="contained"
+                                onClick={isEditing ? handleSave : handleEdit}
+                                sx={buttonStyle}
+                            >
+                                {isEditing ? 'Save' : 'Edit'}
+                            </Button>
+                            <Button
+                                variant="contained"
+                                onClick={isEditing ? handleCancel : handleGenerateList}
+                                sx={buttonStyle}
+                            >
+                                {isEditing ? 'Cancel' : 'Completed'}
+                            </Button>
+                        </Box>
+                    ) : isEditing ? (
+                        <Box sx={boxStyle}>
+                            <Button variant="contained" onClick={handleSave} sx={buttonStyle}>
+                                Save
+                            </Button>
+                            <Button variant="contained" onClick={handleCancel} sx={buttonStyle}>
+                                Cancel
+                            </Button>
+                        </Box>
+                    ) : null}
+                </Grid2>    
+            
             </Grid2>    
         </Box>
     );
