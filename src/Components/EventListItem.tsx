@@ -1,16 +1,16 @@
 import { ListItem, ListItemText } from '@mui/material';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import { listItemStyle } from '../Utils/Style';
 
 interface Event {
-    name: string;
-    isCompleted: boolean;
+    title: string;
+    hasGeneratedList: boolean;
 }
 
 interface EventListItemProps {
-    task: Task;
+    event: Event;
     isSelected: boolean;
-    onSelect: (task: Task) => void;
+    onSelect: (event: Event) => void;
 }
 
 const EventListItem: React.FC<EventListItemProps> = ({ task, isSelected, onSelect }) => (
@@ -21,16 +21,16 @@ const EventListItem: React.FC<EventListItemProps> = ({ task, isSelected, onSelec
         sx={listItemStyle}
     >
         <ListItemText
-            primary={task.name}
+            primary={task.title}
             sx={{
                 color: isSelected ? 'purple' : 'inherit',
                 wordWrap: 'break-word',
                 overflowWrap: 'break-word',
             }}
         />
-        <TaskAltIcon
+        <ListAltIcon
             sx={{
-                color: task.isCompleted ? 'green' : 'darkgray',
+                color: task.hasGeneratedList ? 'green' : 'darkgray',
                 marginLeft: 1,
                 fontSize: 18,
             }}

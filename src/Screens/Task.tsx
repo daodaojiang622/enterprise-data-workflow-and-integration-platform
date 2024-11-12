@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Button, List, Paper, Box, Typography, Divider, Grid2 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TaskListItem from '../Components/TaskListItem';
-import TaskDetailsField from '../Components/TaskDetailsField';
+import TaskDetailsField from '../Components/ListDetailsField';
 import TaskForm from '../Components/TaskForm';
 import { boxStyle, buttonStyle, colors } from '../Utils/Style';
 import { tasks as initialTasks } from '../Data';
+import ListDetailsField from '../Components/ListDetailsField';
 
 export interface Task {
     id: string;
@@ -208,21 +209,21 @@ const Task: React.FC<TaskProps> = ({ selectedTaskId }) => {
                                 </Box>
 
                                 {/* Task Details */}
-                                <TaskDetailsField label="Name:" value={selectedTask.name} />
+                                <ListDetailsField label="Name:" value={selectedTask.name} />
                                 <Divider sx={{ mb: 1 }} />
-                                <TaskDetailsField label="Event:" value={selectedTask.event} />
+                                <ListDetailsField label="Event:" value={selectedTask.event} />
                                 <Divider sx={{ mb: 1 }} />
-                                <TaskDetailsField label="Due Date:" value={selectedTask.dueDate} />
+                                <ListDetailsField label="Due Date:" value={selectedTask.dueDate} />
                                 <Divider sx={{ mb: 1 }} />
-                                <TaskDetailsField label="Description:" value={selectedTask.description} />
+                                <ListDetailsField label="Description:" value={selectedTask.description} />
                                 <Divider sx={{ mb: 1 }} />
-                                <TaskDetailsField label="Comment:" value={selectedTask.comment} />
+                                <ListDetailsField label="Comment:" value={selectedTask.comment} />
                                 <Divider sx={{ mb: 1 }} />
-                                <TaskDetailsField label="Approver 1:" value={selectedTask.approver1} />
+                                <ListDetailsField label="Approver 1:" value={selectedTask.approver1} />
                                 <Divider sx={{ mb: 1 }} />
-                                <TaskDetailsField label="Approver 2:" value={selectedTask.approver2} />
+                                <ListDetailsField label="Approver 2:" value={selectedTask.approver2} />
                                 <Divider sx={{ mb: 1 }} />
-                                <TaskDetailsField label="Approver 3:" value={selectedTask.approver3} />
+                                <ListDetailsField label="Approver 3:" value={selectedTask.approver3} />
                             </Box>
                         ) : (
                             <Typography color="textSecondary" sx={{ textAlign: 'center', mt: 4 }}>Select a task to view details</Typography>
