@@ -3,6 +3,7 @@ import { Button, List, ListItem, ListItemText, Paper, Box, Typography, Grid2, Di
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TaskListItem from '../Components/TaskListItem';
+import TaskDetailsField from '../Components/TaskDetailsField';
 
 interface Task {
     id: string,
@@ -383,60 +384,26 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                         <TaskStatusBar selectedTask={selectedTask} />
 
                         {/* Task Details */}
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold', wordWrap: 'break-word', overflowWrap: 'break-word'}}>Name: </Typography>
-                        <Typography>{selectedTask.name}</Typography>
-                        </Box>
-
+                        <TaskDetailsField label="Name:" value={selectedTask.name} />
                         <Divider sx={{ mb: 1 }} />
                         
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Event: </Typography>
-                        <Typography>{selectedTask.event}</Typography>
-                        </Box>
-                        
+                        <TaskDetailsField label="Event:" value={selectedTask.event} />
                         <Divider sx={{ mb: 1 }} />
 
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Due Date: </Typography>
-                        <Typography>{selectedTask.dueDate}</Typography>
-                        </Box>
-                        
+                        <TaskDetailsField label="Due Date:" value={selectedTask.dueDate} />         
                         <Divider sx={{ mb: 1 }} />
 
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold', wordWrap: 'break-word', overflowWrap: 'break-word'}}>Task Description: </Typography>
-                        <Typography>{selectedTask.description}</Typography>
-                        </Box>
-
+                        <TaskDetailsField label="Description:" value={selectedTask.description} />
                         <Divider sx={{ mb: 1 }} />
                         
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Comment: </Typography>
-                        <Typography>{selectedTask.commentId} commented: {selectedTask.comment}</Typography>
-                        </Box>
-
+                        <TaskDetailsField label="Comment:" value={selectedTask.comment} />
                         <Divider sx={{ mb: 1 }} />
 
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Approver 1: </Typography>
-                        <Typography>{selectedTask.approver1}</Typography>
-                        </Box>
-
+                        <TaskDetailsField label="Approver 1:" value={selectedTask.approver1} />
                         <Divider sx={{ mb: 1 }} />
-
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Approver 2: </Typography>
-                        <Typography>{selectedTask.approver2}</Typography>
-                        </Box>
-
+                        <TaskDetailsField label="Approver 2:" value={selectedTask.approver2} />
                         <Divider sx={{ mb: 1 }} />
-
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Approver 3: </Typography>
-                        <Typography>{selectedTask.approver3}</Typography>
-                        </Box>
-
+                        <TaskDetailsField label="Approver 3:" value={selectedTask.approver3} />
                     </Box>
                 ) : (
                     <Typography color="textSecondary" sx={{ textAlign: 'center', mt: 4 }}>

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Divider } from '@mui/material';
 
 interface TaskDetailsFieldProps {
     label: string;
@@ -6,7 +6,7 @@ interface TaskDetailsFieldProps {
 }
 
 const TaskDetailsField = ({ label, value }: TaskDetailsFieldProps) => (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
         <Typography sx={{ color: '#905aa7', fontWeight: 'bold' }}>{label}</Typography>
         <Typography>{value}</Typography>
     </Box>
