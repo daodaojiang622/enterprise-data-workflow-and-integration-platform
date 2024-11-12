@@ -8,6 +8,7 @@ import ItemEditor from './ItemEditor';
 import UserLogin from './UserLogin';
 import Home from './Home';
 import Event from './Event';
+import Task from './Task';
 
 /**
  * The ControlPanel component is the main component that manages the state and logic
@@ -149,17 +150,11 @@ const ControlPanel: React.FC = () => {
 
             {isLoggedIn && tabIndex === 3 && (
                 <Box mt={4}>
-                    <ItemCreator />
+                    <Task />
                 </Box>
             )}
 
             {isLoggedIn && tabIndex === 4 && (
-                <Box mt={4}>
-                    <ItemEditor />
-                </Box>
-            )}
-
-            {isLoggedIn && tabIndex === 5 && (
                 <Box mt={4}>
                     <UserLogin setIsLoggedIn={setIsLoggedIn}/>
                 </Box>
