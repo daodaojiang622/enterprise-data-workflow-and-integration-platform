@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography, Tabs, Tab, TextField } from '@mui/material';
-import DonorTable from './DonorTable';
-import Cities from './Cities';
-import EventTable from './EventTable';
-import ItemCreator from './ItemCreator';
-import ItemEditor from './ItemEditor';
 import UserLogin from './UserLogin';
 import Home from './Home';
 import Event from './Event';
 import Task from './Task';
+import Profile from './Profile';
 
 /**
  * The ControlPanel component is the main component that manages the state and logic
@@ -110,7 +106,7 @@ const ControlPanel: React.FC = () => {
                 <Tab label="Home" style={StyleSheet.tab} />
                 <Tab label="Events" style={StyleSheet.tab} />
                 <Tab label="Tasks" style={StyleSheet.tab} />
-                <Tab label="User Logout" style={StyleSheet.tab} />
+                <Tab label="My Profile" style={StyleSheet.tab} />
             </Tabs>
             ) : (
                 <Box p={2} position="absolute" top={100} left={0} mt={2} width="100%">
@@ -149,7 +145,7 @@ const ControlPanel: React.FC = () => {
 
             {isLoggedIn && tabIndex === 3 && (
                 <Box mt={4}>
-                    <UserLogin setIsLoggedIn={setIsLoggedIn}/>
+                    <Profile />
                 </Box>
             )}
 

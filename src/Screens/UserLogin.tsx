@@ -3,7 +3,7 @@ import { Container, TextField, Button, Typography, Box, Snackbar, Alert } from '
 
 const UserLogin: React.FC = () => {
     const [username, setUsername] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -40,7 +40,7 @@ const UserLogin: React.FC = () => {
     };
 
     return (
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start" p={2}>
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="flex-start" p={2} mb={10}>
             {!isLoggedIn ? (
                 <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
                     <form onSubmit={handleFormSubmit}>
