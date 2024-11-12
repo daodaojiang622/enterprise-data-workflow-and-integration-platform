@@ -170,7 +170,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
           <Grid2 container spacing={2}>
 
             {/* Left Panel - Tasks List */}
-            <Grid2 item xs={4}>
+            <Grid2 item xs={4} ml={5} mr={10} >
                 <Typography variant="h4" gutterBottom>
                     Tasks
                 </Typography>
@@ -205,20 +205,21 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             </Grid2>
         
             {/* Right Panel - Task Details */}
-            <Grid2 item xs={8}>
+            <Grid2 item xs={20}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                 <Typography variant="h4">Task Details</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     {selectedTask && !isEditing && (
-                        <Button
-                        variant="contained"
-                        color="error"
-                        onClick={handleDelete}
-                        >
+                    <Button
+                    variant="contained"
+                    color="error"
+                    onClick={handleDelete}
+                    sx={{ ml: 80}}
+                    >
                         Delete
-                        </Button>
+                    </Button>
                     )}
-                    </Box>
+                </Box>
             </Box>
                 <Paper sx={{ p: 2, width: "300%", height:"200%"}}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
