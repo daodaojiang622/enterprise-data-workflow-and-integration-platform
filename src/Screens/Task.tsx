@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, List, ListItem, ListItemText, Paper, Box, Typography, Grid2, Divider, TextField } from '@mui/material';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 interface Task {
     id: string,
@@ -202,7 +203,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         } else if (pendingApprovers.length > 0) {
             return `Waiting for approval from ${pendingApprovers.join(', ')}.`;
         }
-        
+
         return null;
     }
     
@@ -252,7 +253,16 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                                 wordWrap: 'break-word',
                                 overflowWrap: 'break-word'
                             }} />
+                            
+                            <TaskAltIcon
+                            sx={{
+                                color: task.isCompleted ? 'green' : 'darkgray',
+                                marginLeft: 1,
+                                fontSize: 18
+                            }}
+                        />
                         </ListItem>
+                        
                     ))}
                     </List>
                 </Paper>
