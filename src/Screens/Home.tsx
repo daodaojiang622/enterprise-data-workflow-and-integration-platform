@@ -30,7 +30,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask, navigateTo
     });
 
     return (
-        <Box>
+        <Box p={2} mt={2} ml={5} mr={15}>
             {/* Upcoming events section */}
             <Typography variant="h4" sx={{ textAlign: 'left', marginBottom: 2, marginLeft: 2  }}>Upcoming Events</Typography>
             <Paper sx={{ p: 2, height: '150px', overflow: 'auto' }}>
