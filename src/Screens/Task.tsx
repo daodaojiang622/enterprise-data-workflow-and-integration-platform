@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, List, ListItem, ListItemText, Paper, Box, Typography, Grid2, Divider, TextField } from '@mui/material';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
+import TaskListItem from '../Components/TaskListItem';
 
 interface Task {
     id: string,
@@ -256,37 +257,13 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                 <Paper sx={{height: '435px', overflow: 'auto', width: '200px'}}>
                     <List >
                     {tasks.map((task) => (
-                        <ListItem
-                            key={task.id}
-                            button
-                            selected={selectedTask?.id === task.id}
-                            onClick={() => handleTaskSelect(task)}
-                            sx={{ 
-                                '&.Mui-selected': {
-                                backgroundColor: '#e3f2fd'
-                                },
-                                textAlign: 'center',
-                                ':focus': {outline: 'none'}
-                            }}
-                        >
-                        <ListItemText 
-                            primary={task.name} 
-                            sx={{ 
-                                color: selectedTask?.id === task.id ? 'purple' : 'inherit' ,
-                                wordWrap: 'break-word',
-                                overflowWrap: 'break-word'
-                            }} />
-                            
-                            <TaskAltIcon
-                            sx={{
-                                color: task.isCompleted ? 'green' : 'darkgray',
-                                marginLeft: 1,
-                                fontSize: 18
-                            }}
-                        />
-                        </ListItem>
-                        
-                    ))}
+                                <TaskListItem
+                                key={task.id}
+                                task={task}
+                                isSelected={selectedTask?.id === task.id}
+                                onSelect={handleTaskSelect}
+                            />
+                        ))}
                     </List>
                 </Paper>
                 <Button
