@@ -175,7 +175,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     Tasks
                 </Typography>
                     
-                <Paper sx={{p: 5, height: "100%" }}>
+                <Paper sx={{p: 5, height: "80%" }}>
                     <List sx={{ maxHeight: 400, overflow: 'auto' }}>
                     {tasks.map((task) => (
                         <ListItem
@@ -198,15 +198,15 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     variant="contained"
                     onClick={handleCreate}
                     fullWidth
-                    sx={{ mt: 2 }}
+                    sx={{ mt: 5, backgroundColor: '#36a0c8' }}
                     >
                     Create
                 </Button>
             </Grid2>
         
             {/* Right Panel - Task Details */}
-            <Grid2 item xs={20}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+            <Grid2 item xs={4} >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Typography variant="h4">Task Details</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     {selectedTask && !isEditing && (
@@ -214,14 +214,14 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     variant="contained"
                     color="error"
                     onClick={handleDelete}
-                    sx={{ ml: 80}}
+                    sx={{ ml: 60}}
                     >
                         Delete
                     </Button>
                     )}
                 </Box>
             </Box>
-                <Paper sx={{ p: 2, width: "300%", height:"200%"}}>
+                <Paper sx={{ p: 2, width: "80%", height:"92%"}}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     </Box>
                 
@@ -326,14 +326,6 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     </Grid2>
                     </Grid2>
 
-                    <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'flex-start' }}>
-                    <Button variant="contained" onClick={handleEdit}>
-                        Edit
-                    </Button>
-                    <Button variant="contained" onClick={handleGenerateList}>
-                        View / Generate List
-                    </Button>
-                    </Box>
                     </Box>
                     ) : (
                     <Typography color="textSecondary" sx={{ textAlign: 'center', mt: 4 }}>
@@ -342,6 +334,25 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     )
                 )}
                 </Paper>
+                {isEditing ? (
+                    <Box sx={{ mt: 5.5, display: 'flex', gap: 10, justifyContent: 'flex-start' }}>
+                        <Button variant="contained" onClick={handleEdit} sx={{backgroundColor: '#36a0c8'}}>
+                            Edit
+                        </Button>
+                        <Button variant="contained" onClick={handleGenerateList} sx={{backgroundColor: '#36a0c8'}}>
+                            View / Generate List
+                        </Button>
+                    </Box>
+                ) : (
+                    <Box sx={{ mt: 5.5, display: 'flex', gap: 10, justifyContent: 'flex-start' }}>
+                        <Button variant="contained" sx={{backgroundColor: 'darkgray'}}>
+                            Edit
+                        </Button>
+                        <Button variant="contained" sx={{backgroundColor: 'darkgray'}}>
+                            View / Generate List
+                        </Button>
+                    </Box>
+                )}
             </Grid2>    
         
         </Grid2>    
