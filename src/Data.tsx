@@ -1,0 +1,130 @@
+// Sample data for the app
+
+import { Event, Task } from './Types/types';
+
+export const events: Event[] = [
+    {
+        id: '1',
+        title: 'Event A (no lists)',
+        date: '12/12/2024',
+        hasGeneratedList: false
+    },
+    {
+        id: '2',
+        title: 'Event B (list generated)',
+        date: '01/01/2025',
+        hasGeneratedList: true
+    },
+    {
+        id: '3',
+        title: 'Event C',
+        date: '',
+        hasGeneratedList: false,
+        isIndeterminate: true
+    },
+    {
+        id: '4',
+        title: 'Event D (list generated)',
+        date: '01/01/2023',
+        hasGeneratedList: true
+    },
+    {
+        id: '5',
+        title: 'Event E (list generated)',
+        date: '01/01/2025',
+        hasGeneratedList: true
+    },
+];
+
+export const tasks: Task[] = [
+    {
+        id: '1',
+        name: 'Draft a proposal on the new project',
+        approver1: 'Apple',
+        approver2: 'Banana',
+        approver3: 'Tree',
+        description: 'We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task',
+        commentId: 111,
+        comment: 'we cant do this',
+        assignee: 'MeowMeow',
+        assigner: 'WoofWoof',
+        dueDate: '12/12/2024',
+        event: 'Event A',
+        isCompleted: true,
+        isApprovedByApprover1: true,
+        isApprovedByApprover2: true,
+        isApprovedByApprover3: false,
+    },
+    {
+        id: '2',
+        name: 'Task2',
+        approver1: 'Apple',
+        approver2: 'Banana',
+        approver3: '',
+        description: 'We need to do this task',
+        commentId: 111,
+        comment: '',
+        assignee: 'MeowMeow',
+        assigner: 'WoofWoof',
+        dueDate: '01/01/2025',
+        event: 'Event B',
+        isCompleted: false,
+        isApprovedByApprover1: false,
+        isApprovedByApprover2: false,
+        isApprovedByApprover3: false,
+    },
+    {
+        id: '3',
+        name: 'Task3',
+        approver1: 'Apple',
+        approver2: 'Banana',
+        approver3: 'Tree',
+        description: 'We need to do this task',
+        commentId: 111,
+        comment: 'Yes we can',
+        assignee: 'MeowMeow',
+        assigner: 'WoofWoof',
+        dueDate: '01/12/2024',
+        event: 'Event C',
+        isCompleted: true,
+        isApprovedByApprover1: true,
+        isApprovedByApprover2: true,
+        isApprovedByApprover3: true,
+    },
+    {
+        id: '4',
+        name: 'Task4',
+        approver1: 'Apple',
+        approver2: 'Banana',
+        approver3: 'Tree',
+        description: 'We need to do this task',
+        commentId: 111,
+        comment: 'Yes we can',
+        assignee: 'MeowMeow',
+        assigner: 'WoofWoof',
+        dueDate: '01/12/2025',
+        event: 'Event A',
+        isCompleted: false,
+        isApprovedByApprover1: false,
+        isApprovedByApprover2: false,
+        isApprovedByApprover3: false,
+    },
+    {
+        id: '5',
+        name: 'Task5',
+        approver1: 'Apple',
+        approver2: 'Banana',
+        approver3: 'Tree',
+        description: 'We need to do this task',
+        commentId: 111,
+        comment: 'Yes we can',
+        assignee: 'MeowMeow',
+        assigner: 'WoofWoof',
+        dueDate: '01/12/2025',
+        event: 'Event A',
+        isCompleted: false,
+        isApprovedByApprover1: false,
+        isApprovedByApprover2: false,
+        isApprovedByApprover3: false,
+    }
+];
