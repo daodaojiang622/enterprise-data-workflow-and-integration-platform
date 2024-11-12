@@ -189,7 +189,11 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                                 }
                             }}
                         >
-                            <ListItemText primary={task.taskName} />
+                        <ListItemText 
+                            primary={task.taskName} 
+                            sx={{ 
+                                color: selectedTask?.id === task.id ? 'purple' : 'inherit' 
+                            }} />
                         </ListItem>
                     ))}
                     </List>
