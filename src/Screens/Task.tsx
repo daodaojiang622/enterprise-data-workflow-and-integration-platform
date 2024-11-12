@@ -375,11 +375,6 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                         <Typography>{selectedTask.taskName}</Typography>
                         </Box>
 
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold', wordWrap: 'break-word', overflowWrap: 'break-word'}}>Name: </Typography>
-                        <Typography>{selectedTask.taskName}</Typography>
-                        </Box>
-
                         <Divider sx={{ mb: 1 }} />
                         
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
@@ -438,12 +433,9 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                 )}
                 </Paper>
                 {selectedTask ? (
-                    <Box sx={{ mt: 5, display: 'flex', gap: 10, justifyContent: 'flex-start' }}>
+                    <Box sx={{ mt: 5, display: 'flex', gap: 10, justifyContent: 'center'}}>
                         <Button variant="contained" onClick={handleEdit} sx={{backgroundColor: '#36a0c8'}}>
                             Edit
-                        </Button>
-                        <Button variant="contained" onClick={handleGenerateList} sx={{backgroundColor: '#36a0c8'}}>
-                            View / Generate List
                         </Button>
                         <Button variant="contained" onClick={handleGenerateList} sx={{backgroundColor: '#36a0c8'}}>
                             Completed
