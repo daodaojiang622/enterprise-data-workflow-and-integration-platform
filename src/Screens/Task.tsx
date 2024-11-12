@@ -164,8 +164,11 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
     };
 
     const handleCancel = () => {
-        setIsEditing(false);
-        setEditableTask(null);
+        const confirm = window.confirm("Are you sure you want to cancel? All unsaved changes will be lost.");
+        if (confirm) {
+            setIsEditing(false);
+            setEditableTask(null);
+        }
     };
 
     const handleGenerateList = () => {
