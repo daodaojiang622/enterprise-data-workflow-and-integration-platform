@@ -51,7 +51,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ editableTask, handleInputChange, ha
                 ))}
             </Select>
             
-            <TextField label="Due Date*" name="dueDate" value={editableTask?.dueDate || ''} onChange={handleInputChange} fullWidth margin="normal" />
+            <TextField label="Due Date: DD/MM/YYYY *" name="dueDate" value={editableTask?.dueDate || ''} onChange={handleInputChange} fullWidth margin="normal" />
             <TextField label="Description*" name="description" value={editableTask?.description || ''} onChange={handleInputChange} fullWidth margin="normal" />
             <TextField label="Comment" name="comment" value={editableTask?.comment || ''} onChange={handleInputChange} fullWidth margin="normal" />
             <TextField label="Approver 1*" name="approver1" value={editableTask?.approver1 || ''} onChange={handleInputChange} fullWidth margin="normal" />
@@ -60,10 +60,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ editableTask, handleInputChange, ha
             <TextField label="Assign to*" name="assignee" value={editableTask?.assignee || ''} onChange={handleInputChange} fullWidth margin="normal" />
         </Grid2>
 
-        <Box mt={2} display="flex" justifyContent="space-between">
-            <Button variant="contained" color="primary" onClick={handleSave}>Save</Button>
-            <Button variant="outlined" color="secondary" onClick={handleCancel}>Cancel</Button>
-        </Box>
     </Box>
 );
 

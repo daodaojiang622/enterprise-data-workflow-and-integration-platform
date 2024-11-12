@@ -5,7 +5,7 @@ import TaskListItem from '../Components/TaskListItem';
 import TaskDetailsField from '../Components/TaskDetailsField';
 import TaskForm from '../Components/TaskForm';
 import { boxStyle, buttonStyle, colors } from '../Utils/Style';
-import { tasks} from '../Data';
+import { tasks } from '../Data';
 
 export interface Task {
     id: string,
@@ -74,8 +74,15 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         const { name, event, dueDate, description, approver1, assignee } = editableTask;
 
         // Check if any required field is missing
-        if (!name || !event || !dueDate || !description || !approver1 || !assignTo) {
+        if (!name || !event || !dueDate || !description || !approver1 || !assignee) {
             alert("Please fill in all mandatory fields: Name, Event, Due Date, Description, Approver 1, and Assign To.");
+            return;
+        }
+
+        const eventDate = new Date(dueDate);
+        const currentDate = new Date();
+        if (eventDate < currentDate) {
+            alert("You cannot create a task for the past.");
             return;
         }
 
@@ -252,16 +259,24 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     )
                 )}
                 </Paper>
-                {selectedTask && !isEditing ? (
+                {selectedTask ? (
                     <Box sx={boxStyle}>
-                        <Button variant="contained" onClick={handleEdit} sx={buttonStyle}>
-                            Edit
+                        <Button
+                            variant="contained"
+                            onClick={isEditing ? handleSave : handleEdit}
+                            sx={buttonStyle}
+                        >
+                            {isEditing ? 'Save' : 'Edit'}
                         </Button>
-                        <Button variant="contained" onClick={handleGenerateList} sx={buttonStyle}>
-                            Completed
+                        <Button
+                            variant="contained"
+                            onClick={isEditing ? handleCancel : handleGenerateList}
+                            sx={buttonStyle}
+                        >
+                            {isEditing ? 'Cancel' : 'Completed'}
                         </Button>
                     </Box>
-                ) : !selectedTask && isEditing ? (
+                ) : isEditing ? (
                     <Box sx={boxStyle}>
                         <Button variant="contained" onClick={handleSave} sx={buttonStyle}>
                             Save
