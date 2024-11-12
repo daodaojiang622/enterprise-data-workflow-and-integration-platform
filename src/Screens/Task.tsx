@@ -344,13 +344,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                         </Button>
                     </Box>
                 ) : (
-                    <Box sx={{ mt: 5.5, display: 'flex', gap: 10, justifyContent: 'flex-start' }}>
-                        <Button variant="contained" sx={{backgroundColor: 'darkgray'}}>
-                            Edit
-                        </Button>
-                        <Button variant="contained" sx={{backgroundColor: 'darkgray'}}>
-                            View / Generate List
-                        </Button>
+                    <Box>
                     </Box>
                 )}
             </Grid2>    
