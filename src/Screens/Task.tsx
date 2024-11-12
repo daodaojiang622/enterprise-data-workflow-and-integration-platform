@@ -171,7 +171,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
 
             {/* Left Panel - Tasks List */}
             <Grid2 item xs={4}>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h4" gutterBottom>
                     Tasks
                 </Typography>
                     
@@ -206,9 +206,9 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         
             {/* Right Panel - Task Details */}
             <Grid2 item xs={8}>
-                <Typography variant="h6">Task Details</Typography>
-                <Paper sx={{ p: 2, width: "300%", height:"200%"}}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                <Typography variant="h4">Task Details</Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     {selectedTask && !isEditing && (
                         <Button
                         variant="contained"
@@ -218,6 +218,10 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                         Delete
                         </Button>
                     )}
+                    </Box>
+            </Box>
+                <Paper sx={{ p: 2, width: "300%", height:"200%"}}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     </Box>
                 
                 {isEditing ? (
