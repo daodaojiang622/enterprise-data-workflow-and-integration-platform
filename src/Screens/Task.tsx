@@ -139,6 +139,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
 
     const handleCreate = () => {
         // Implement create functionality
+        setSelectedTask(null);
         setEditableTask({id: '', name: '', date: '', typeOfCancer: '', description: '', region: '', particularTopic: ''});
         setIsEditing(true);
     };
