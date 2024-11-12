@@ -13,17 +13,13 @@ import Profile from './Profile';
  * @returns {JSX.Element} The JSX code to render the ControlPanel component.
  */
 const ControlPanel: React.FC = () => {
-    // State to store the selected cities
     const [selectedCities, setSelectedCities] = useState<string[]>([]);
-    // State to store the headers of the fetched event data
     const [headers, setHeaders] = useState<string[]>([]);
-    // State to store the fetched event data
     const [data, setData] = useState<(string | number)[][]>([]);
-    // State to store the limit for the number of events to fetch
     const [limit, setLimit] = useState<number>(1);
-    // State to store the index of the currently selected tab
     const [tabIndex, setTabIndex] = useState<number>(0);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true); // Change to false when submitting!!!
+    const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null); 
 
     /**
      * Handles the selection and deselection of cities.
@@ -81,11 +77,14 @@ const ControlPanel: React.FC = () => {
         setTabIndex(newValue);
     };
 
-    /**
-     * Navigates to the login/logout tab.
-     */
     const navigateToLogin = () => {
         setTabIndex(5); // Assuming the login/logout tab is at index 5
+    };
+
+    const navigateToTask = (taskId: string) => {
+        setSelectedTaskId(taskId); // Set the selected task ID
+        setTabIndex(2); // Navigate to the Task tab (assuming Task is at index 2)
+        console.log('Navigating to task:', taskId);
     };
 
     return (
@@ -127,7 +126,7 @@ const ControlPanel: React.FC = () => {
             {/* Render the content based on the selected tab */}
             {isLoggedIn && tabIndex === 0 && (
                 <Box mt={4}>
-                    <Home navigateToLogin={navigateToLogin} />
+                    <Home navigateToLogin={navigateToLogin} navigateToTask={navigateToTask} />
                 </Box>
             )}
 
@@ -139,7 +138,7 @@ const ControlPanel: React.FC = () => {
 
             {isLoggedIn && tabIndex === 2 && (
                 <Box mt={4}>
-                    <Task />
+                    <Task selectedTaskId={selectedTaskId}/>
                 </Box>
             )}
 

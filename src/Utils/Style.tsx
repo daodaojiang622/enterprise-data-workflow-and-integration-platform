@@ -23,6 +23,11 @@ const boxStyle = {
     justifyContent: 'center',
 };
 
+const tab = {
+    color: colors.primary,
+    fontWeight: 'bold',
+};
 
 
-export { listItemStyle, buttonStyle, boxStyle, colors };
+
+export { listItemStyle, buttonStyle, boxStyle, colors, tab };

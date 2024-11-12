@@ -5,10 +5,11 @@ import { events, tasks } from '../Data';
 
 export interface HomeProps {
     navigateToLogin: () => void;
+    navigateToTask: (taskId: string) => void; 
 }
 
 
-const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
+const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask }) => {
 
     // Filter tasks to exclude those with due dates in the past
     const filteredTasks = tasks.filter(task => {
@@ -104,6 +105,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
                             <Button
                                 variant="contained"
                                 disableRipple
+                                onClick={() => navigateToTask(task.id)}
                                 sx={{
                                     backgroundColor: '#36a0c8',
                                     ':hover': {
@@ -124,5 +126,4 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
     );
 }
 
-// Export the Home component as the default export of this module
 export default Home;
