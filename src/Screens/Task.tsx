@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, List, ListItem, ListItemText, Paper, Box, Typography, Grid2, Divider, TextField } from '@mui/material';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TaskListItem from '../Components/TaskListItem';
 import TaskDetailsField from '../Components/TaskDetailsField';
 import TaskForm from '../Components/TaskForm';
+import { boxStyle, buttonStyle, colors } from '../Utils/Style';
 
 interface Task {
     id: string,
@@ -238,7 +238,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         if (!message) return null;
     
         return (
-            <Box sx={{ backgroundColor: '#dae4e8', paddingTop: 1.5, paddingBottom: 0.1, mb: 2, borderRadius: 2 }}>
+            <Box sx={{ backgroundColor: colors.secondaryBackground, paddingTop: 1.5, paddingBottom: 0.1, mb: 2, borderRadius: 2 }}>
                 <Typography sx={{ color: 'green', fontWeight: 'bold', mb: 2, align: 'center' }}>
                     {message}
                 </Typography>
@@ -272,7 +272,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     variant="contained"
                     onClick={handleCreate}
                     fullWidth
-                    sx={{ mt: 5, backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}
+                    sx={{ mt: 5, backgroundColor: colors.primary, ':focus': {outline: 'none'}}}
                     >
                     Create
                 </Button>
@@ -344,20 +344,20 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                 )}
                 </Paper>
                 {selectedTask && !isEditing ? (
-                    <Box sx={{ mt: 5, display: 'flex', gap: 10, justifyContent: 'center'}}>
-                        <Button variant="contained" onClick={handleEdit} sx={{backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}>
+                    <Box sx={boxStyle}>
+                        <Button variant="contained" onClick={handleEdit} sx={buttonStyle}>
                             Edit
                         </Button>
-                        <Button variant="contained" onClick={handleGenerateList} sx={{backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}>
+                        <Button variant="contained" onClick={handleGenerateList} sx={buttonStyle}>
                             Completed
                         </Button>
                     </Box>
                 ) : !selectedTask && isEditing ? (
-                    <Box sx={{ mt: 5, display: 'flex', gap: 10, justifyContent: 'center'}}>
-                        <Button variant="contained" onClick={handleSave} sx={{backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}>
+                    <Box sx={boxStyle}>
+                        <Button variant="contained" onClick={handleSave} sx={buttonStyle}>
                             Save
                         </Button>
-                        <Button variant="contained" onClick={handleCancel} sx={{backgroundColor: '#36a0c8', ':focus': {outline: 'none'}}}>
+                        <Button variant="contained" onClick={handleCancel} sx={buttonStyle}>
                             Cancel
                         </Button>
                     </Box>

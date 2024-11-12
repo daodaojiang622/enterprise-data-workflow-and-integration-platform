@@ -1,5 +1,6 @@
 import { ListItem, ListItemText } from '@mui/material';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import { listItemStyle } from '../Utils/Style';
 
 interface Task {
     name: string;
@@ -17,11 +18,7 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, isSelected, onSelect 
         button
         selected={isSelected}
         onClick={() => onSelect(task)}
-        sx={{
-            '&.Mui-selected': { backgroundColor: '#e3f2fd' },
-            textAlign: 'center',
-            ':focus': { outline: 'none' },
-        }}
+        sx={listItemStyle}
     >
         <ListItemText
             primary={task.name}
