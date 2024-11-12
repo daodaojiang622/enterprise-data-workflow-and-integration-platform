@@ -189,6 +189,9 @@ const Event: React.FC<EventProps> = ({ selectedEventId }) => {
                         ) : selectedEvent && (
                             <>
                                 <Button variant="contained" onClick={handleEdit} sx={buttonStyle}>Edit</Button>
+                                <Button variant="contained" onClick={handleEdit} sx={buttonStyle}>
+                                    { selectedEvent.hasGeneratedList ? 'View List' : 'Generate List' }
+                                    </Button>
                             </>
                         )}
                     </Box>
