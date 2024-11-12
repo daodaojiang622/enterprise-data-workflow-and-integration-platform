@@ -7,6 +7,7 @@ import TaskForm from '../Components/TaskForm';
 import { boxStyle, buttonStyle, colors } from '../Utils/Style';
 import { events as initialEvents } from '../Data';
 import EventListItem from '../Components/EventListItem';
+import ListDetailsField from '../Components/ListDetailsField';
 
 export interface Event {
     id: string;
@@ -144,13 +145,18 @@ const Event: React.FC<EventProps> = ({ selectedEventId }) => {
                         ) : selectedEvent ? (
                             <Box>
                                 {/* Status Bar */}
-                                <Box sx={{ backgroundColor: colors.secondaryBackground, padding: 1, mb: 2, borderRadius: 2 }}>
-                                    <Typography sx={{ color: 'green', fontWeight: 'bold', mb: 1 }}>List generate?</Typography>
+                                <Box sx={{ backgroundColor: colors.secondaryBackground, padding: 1, mb: 1, borderRadius: 2 }}>
+                                <Typography sx={{ color: selectedEvent.hasGeneratedList ? 'green' : 'red', fontWeight: 'bold'}}>
+                                    {selectedEvent.hasGeneratedList ? 'List generated' : 'List not generated'}
+                                </Typography>
                                 </Box>
 
                                 {/* Event Details */}
-     
+                                <ListDetailsField label="Title" value={selectedEvent.title} />
                                 <Divider sx={{ mb: 1 }} />
+                                <ListDetailsField label="Date" value={selectedEvent.date} />
+                                <Divider sx={{ mb: 1 }} />
+                                <ListDetailsField label="List Generated" value={selectedEvent.hasGeneratedList ? 'Yes' : 'No'} />
 
                             </Box>
                         ) : (
@@ -166,7 +172,6 @@ const Event: React.FC<EventProps> = ({ selectedEventId }) => {
                         ) : selectedEvent && (
                             <>
                                 <Button variant="contained" onClick={handleEdit} sx={buttonStyle}>Edit</Button>
-                                <Button variant="contained" onClick={handleGenerateList} sx={buttonStyle}>Completed</Button>
                             </>
                         )}
                     </Box>

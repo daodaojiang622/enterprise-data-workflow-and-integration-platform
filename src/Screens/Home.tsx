@@ -47,7 +47,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask }) => {
                             <Typography>{event.title}</Typography>
                             <ListAltIcon 
                                 fontSize="small" 
-                                sx={{ color: event.hasGeneratedList ? 'green' : 'red' }} 
+                                sx={{ color: event.hasGeneratedList ? 'green' : 'darkgray' }} 
                             /> 
                         </Box>
 
