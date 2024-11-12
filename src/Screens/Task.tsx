@@ -20,11 +20,11 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
     const tasks: Task[] = [
         {
             id: '1',
-            taskName: 'Task1',
+            taskName: 'Draft a proposal on the new project',
             approver1: 'Apple',
             approver2: 'Banana',
             approver3: 'Tree',
-            taskDescription: 'We need to do this task',
+            taskDescription: 'We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task',
             decisionMaker: 'Apple',
             commentId: 111,
             comment: 'we cant do this',
@@ -164,12 +164,12 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
           <Grid2 container spacing={2}>
 
             {/* Left Panel - Tasks List */}
-            <Grid2 item xs={4} ml={5} mr={10} >
+            <Grid2 item xs={4} ml={5} mr={5} >
                 <Typography variant="h4" gutterBottom>
                     Tasks
                 </Typography>
                     
-                <Paper sx={{p: 5, height: '358px', overflow: 'auto' }}>
+                <Paper sx={{height: '435px', overflow: 'auto', width: '200px'}}>
                     <List >
                     {tasks.map((task) => (
                         <ListItem
@@ -180,13 +180,16 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                             sx={{ 
                                 '&.Mui-selected': {
                                 backgroundColor: '#e3f2fd'
-                                }
+                                },
+                                textAlign: 'center',
                             }}
                         >
                         <ListItemText 
                             primary={task.taskName} 
                             sx={{ 
-                                color: selectedTask?.id === task.id ? 'purple' : 'inherit' 
+                                color: selectedTask?.id === task.id ? 'purple' : 'inherit' ,
+                                wordWrap: 'break-word',
+                                overflowWrap: 'break-word'
                             }} />
                         </ListItem>
                     ))}
@@ -219,7 +222,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     )}
                 </Box>
             </Box>
-                <Paper sx={{ p: 2,  height: '400px', overflow: 'auto'}}>
+                <Paper sx={{ p: 2,  height: '400px', overflow: 'auto', width: '800px'}}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                     </Box>
                 
@@ -292,45 +295,61 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     </Box>
                 ) : ( selectedTask ? (
                     <Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Name: </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Typography sx={{color: '#905aa7', fontWeight: 'bold', wordWrap: 'break-word', overflowWrap: 'break-word'}}>Name: </Typography>
                         <Typography>{selectedTask.taskName}</Typography>
                         </Box>
 
+                        <Divider sx={{ mb: 1 }} />
+                        
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Event: </Typography>
                         <Typography>{selectedTask.Event}</Typography>
                         </Box>
                         
+                        <Divider sx={{ mb: 1 }} />
+
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Due Date: </Typography>
                         <Typography>{selectedTask.dueDate}</Typography>
                         </Box>
                         
+                        <Divider sx={{ mb: 1 }} />
+
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Task Description: </Typography>
+                        <Typography sx={{color: '#905aa7', fontWeight: 'bold', wordWrap: 'break-word', overflowWrap: 'break-word'}}>Task Description: </Typography>
                         <Typography>{selectedTask.taskDescription}</Typography>
                         </Box>
+
+                        <Divider sx={{ mb: 1 }} />
                         
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Comment: </Typography>
                         <Typography>{selectedTask.commentId} commented: {selectedTask.comment}</Typography>
                         </Box>
 
+                        <Divider sx={{ mb: 1 }} />
+
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Approver 1: </Typography>
                         <Typography>{selectedTask.approver1}</Typography>
                         </Box>
+
+                        <Divider sx={{ mb: 1 }} />
 
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Approver 2: </Typography>
                         <Typography>{selectedTask.approver2}</Typography>
                         </Box>
 
+                        <Divider sx={{ mb: 1 }} />
+
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Approver 3: </Typography>
                         <Typography>{selectedTask.approver3}</Typography>
                         </Box>
+
+                        <Divider sx={{ mb: 1 }} />
 
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Decision Maker: </Typography>
@@ -359,8 +378,8 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                 ) : null}
             </Grid2>    
         
-        </Grid2>    
-    </Box>
+            </Grid2>    
+        </Box>
     );
 };
 
