@@ -1,90 +1,167 @@
 import React, { useState } from 'react';
 import { Button, List, ListItem, ListItemText, Paper, Box, Typography, Grid2, Divider, TextField } from '@mui/material';
 
-export interface Event {
-    id: string;
-    name: string;
-    date: string;
-    typeOfCancer: string;
-    description: string;
-    region: string;
-    particularTopic: string;
-  }
-
+interface Task {
+    id: string,
+    taskName: string,
+    approver1: string,
+    approver2: string,
+    approver3: string,
+    taskDescription: string,
+    recommendation: string,
+    decisionMaker: string,
+    commentId: number,
+    comment: string,
+    user: string,
+    dueDate: string,
+    Task: string,
+};
 
 const Task: React.FC<TaskProps> = ({ headers, data }) => {
-    const [events, setEvents] = useState<Event[]> ([
-        { id: '1', name: 'Event A', date: '2024-03-20', typeOfCancer: 'Lung', description: 'Description A', region: 'West', particularTopic: 'Research' },
-        { id: '2', name: 'Event B', date: '2024-03-21', typeOfCancer: 'Breast', description: 'Description B', region: 'East', particularTopic: 'Treatment' },
-        { id: '3', name: 'Event C', date: '2024-03-22', typeOfCancer: 'Skin', description: 'Description C', region: 'North', particularTopic: 'Prevention' },
-      ]);
+    const tasks: Task[] = [
+        {
+            id: '1',
+            taskName: 'Task1',
+            approver1: 'Apple',
+            approver2: 'Banana',
+            approver3: 'Tree',
+            taskDescription: 'We need to do this task',
+            recommendation: 'We recommend this',
+            decisionMaker: 'Apple',
+            commentId: 111,
+            comment: 'we cant do this',
+            user: 'MeowMeow',
+            dueDate: '12/12/2024',
+            Task: 'Task A'
+        },
+        {
+            id: '2',
+            taskName: 'Task2',
+            approver1: 'Apple',
+            approver2: 'Banana',
+            approver3: '',
+            taskDescription: 'We need to do this task',
+            recommendation: 'We recommend this',
+            decisionMaker: 'Apple',
+            commentId: 111,
+            comment: '',
+            user: 'MeowMeow',
+            dueDate: '01/01/2025',
+            Task: 'Task B'
+        },
+        {
+            id: '3',
+            taskName: 'Task3',
+            approver1: 'Apple',
+            approver2: 'Banana',
+            approver3: 'Tree',
+            taskDescription: 'We need to do this task',
+            recommendation: 'We recommend this',
+            decisionMaker: 'Apple',
+            commentId: 111,
+            comment: 'Yes we can',
+            user: 'MeowMeow',
+            dueDate: '01/12/2024',
+            Task: 'Task C'
+        },
+        {
+            id: '4',
+            taskName: 'Task4',
+            approver1: 'Apple',
+            approver2: 'Banana',
+            approver3: 'Tree',
+            taskDescription: 'We need to do this task',
+            recommendation: 'We recommend this',
+            decisionMaker: 'Apple',
+            commentId: 111,
+            comment: 'Yes we can',
+            user: 'MeowMeow',
+            dueDate: '01/12/2025',
+            Task: 'Task A'
+        },
+        {
+            id: '5',
+            taskName: 'Task5',
+            approver1: 'Apple',
+            approver2: 'Banana',
+            approver3: 'Tree',
+            taskDescription: 'We need to do this task',
+            recommendation: 'We recommend this',
+            decisionMaker: 'Apple',
+            commentId: 111,
+            comment: 'Yes we can',
+            user: 'MeowMeow',
+            dueDate: '01/12/2025',
+            Task: 'Task A'
+        }
+    ];
 
-    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [editableEvent, setEditableEvent] = useState<Event | null>(null);
+    const [editableTask, setEditableTask] = useState<Task | null>(null);
 
-    const handleEventSelect = (event: Event) => {
-        setSelectedEvent(event);
+    const handleTaskSelect = (task: Task) => {
+        setSelectedTask(task);
         setIsEditing(false);
     };
 
     const handleDelete = () => {
-    if (selectedEvent) {
-        setEvents(events.filter(event => event.id !== selectedEvent.id));
-        setSelectedEvent(null);
+    if (selectedTask) {
+        setTasks(tasks.filter(task => task.id !== selectedTask.id));
+        setSelectedTask(null);
     }
     };
 
     const handleEdit = () => {
     // Implement edit functionality
-    if (selectedEvent) {
-        setEditableEvent(selectedEvent);
+    if (selectedTask) {
+        setEditableTask(selectedTask);
         setIsEditing(true);
-        console.log('Edit event:', selectedEvent);
+        console.log('Edit task:', selectedTask);
     } else {
-        console.log('No event selected for editing');
+        console.log('No task selected for editing');
     }
     };
 
     const handleCreate = () => {
         // Implement create functionality
-        setEditableEvent({id: '', name: '', date: '', typeOfCancer: '', description: '', region: '', particularTopic: ''});
+        setEditableTask({id: '', name: '', date: '', typeOfCancer: '', description: '', region: '', particularTopic: ''});
         setIsEditing(true);
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeTask<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEditableEvent(prevEvent => prevEvent ? { ...prevEvent, [name]: value } : null);
+    setEditableTask(prevTask => prevTask ? { ...prevTask, [name]: value } : null);
     };
 
     const handleSave = () => {
-        if (editableEvent) {
-            if (editableEvent.id) {
-                // Edit event
-                const updatedEvents = events.map(event => event.id === editableEvent.id ? editableEvent : event);
-                setEvents(updatedEvents);
+        if (editableTask) {
+            if (editableTask.id) {
+                // Edit task
+                const updatedTasks = tasks.map(task => task.id === editableTask.id ? editableTask : task);
+                setTasks(updatedTasks);
             } else {
-                // Create new event
-                setEvents([...events, { ...editableEvent, id: Date.now().toString() }]);
+                // Create new task
+                setTasks([...tasks, { ...editableTask, id: Date.now().toString() }]);
             }
-            setSelectedEvent(editableEvent);
+            setSelectedTask(editableTask);
             setIsEditing(false);
         }
     };
 
     const handleCancel = () => {
         setIsEditing(false);
-        setEditableEvent(null);
+        setEditableTask(null);
     };
 
     const handleGenerateList = () => {
     // Implement list generation functionality
-    console.log('Generate list for event:', selectedEvent);
-    if (selectedEvent) {
-        const eventList = events.filter(event => event.id === selectedEvent.id);
-        console.log('Generated list:', eventList);
+    console.log('Generate list for task:', selectedTask);
+    if (selectedTask) {
+        const taskList = tasks.filter(task => task.id === selectedTask.id);
+        console.log('Generated list:', taskList);
     } else {
-        console.log('No event selected for list generation');
+        console.log('No task selected for list generation');
     }
     };
     
@@ -92,47 +169,47 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
         <Box p={2}>
           <Grid2 container spacing={2}>
 
-            {/* Left Panel - Events List */}
+            {/* Left Panel - Tasks List */}
             <Grid2 item xs={4}>
                 <Typography variant="h6" gutterBottom>
                     Tasks
                 </Typography>
                     
-                <Paper sx={{p: 5, height: "200%" }}>
+                <Paper sx={{p: 5, height: "100%" }}>
                     <List sx={{ maxHeight: 400, overflow: 'auto' }}>
-                    {events.map((event) => (
+                    {tasks.map((task) => (
                         <ListItem
-                            key={event.id}
+                            key={task.id}
                             button
-                            selected={selectedEvent?.id === event.id}
-                            onClick={() => handleEventSelect(event)}
+                            selected={selectedTask?.id === task.id}
+                            onClick={() => handleTaskSelect(task)}
                             sx={{ 
                                 '&.Mui-selected': {
                                 backgroundColor: '#e3f2fd'
                                 }
                             }}
                         >
-                            <ListItemText primary={event.name} />
+                            <ListItemText primary={task.taskName} />
                         </ListItem>
                     ))}
                     </List>
-                    <Button
+                </Paper>
+                <Button
                     variant="contained"
                     onClick={handleCreate}
                     fullWidth
                     sx={{ mt: 2 }}
                     >
                     Create
-                    </Button>
-                </Paper>
+                </Button>
             </Grid2>
         
-            {/* Right Panel - Event Details */}
+            {/* Right Panel - Task Details */}
             <Grid2 item xs={8}>
-                <Typography variant="h6">Event Details</Typography>
+                <Typography variant="h6">Task Details</Typography>
                 <Paper sx={{ p: 2, width: "300%", height:"200%"}}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                    {selectedEvent && !isEditing && (
+                    {selectedTask && !isEditing && (
                         <Button
                         variant="contained"
                         color="error"
@@ -150,7 +227,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                             <TextField
                                 label="Name"
                                 name="name"
-                                value={editableEvent?.name || ''}
+                                value={editableTask?.name || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
@@ -158,7 +235,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                             <TextField
                                 label="Date"
                                 name="date"
-                                value={editableEvent?.date || ''}
+                                value={editableTask?.date || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
@@ -166,7 +243,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                             <TextField
                                 label="Type of Cancer"
                                 name="typeOfCancer"
-                                value={editableEvent?.typeOfCancer || ''}
+                                value={editableTask?.typeOfCancer || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
@@ -174,7 +251,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                             <TextField
                                 label="Description"
                                 name="description"
-                                value={editableEvent?.description || ''}
+                                value={editableTask?.description || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
@@ -185,7 +262,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                             <TextField
                                 label="Region"
                                 name="Region"
-                                value={editableEvent?.region || ''}
+                                value={editableTask?.region || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
@@ -193,7 +270,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                             <TextField
                                 label="Particular Topic"
                                 name="particularTopic"
-                                value={editableEvent?.particularTopic || ''}
+                                value={editableTask?.particularTopic || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
@@ -210,37 +287,37 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                         </Button>
                         </Box>
                     </Box>
-                ) : ( selectedEvent ? (
+                ) : ( selectedTask ? (
                 <Box>
                     <Grid2 container spacing={2}>
                     <Grid2 item xs={6}>
                         <Typography variant="subtitle2">Name</Typography>
-                        <Typography>{selectedEvent.name}</Typography>
+                        <Typography>{selectedTask.name}</Typography>
                         <Divider sx={{ my: 1 }} />
                         
                         <Typography variant="subtitle2">Date</Typography>
-                        <Typography>{selectedEvent.date}</Typography>
+                        <Typography>{selectedTask.date}</Typography>
                         <Divider sx={{ my: 1 }} />
                         
                         <Typography variant="subtitle2">Type of Cancer</Typography>
-                        <Typography>{selectedEvent.typeOfCancer}</Typography>
+                        <Typography>{selectedTask.typeOfCancer}</Typography>
                         <Divider sx={{ my: 1 }} />
                         
                         <Typography variant="subtitle2">Description</Typography>
-                        <Typography>{selectedEvent.description}</Typography>
+                        <Typography>{selectedTask.description}</Typography>
                     </Grid2>
                     
                     <Grid2 item xs={6}>
                         <Typography variant="subtitle2">ID</Typography>
-                        <Typography>{selectedEvent.id}</Typography>
+                        <Typography>{selectedTask.id}</Typography>
                         <Divider sx={{ my: 1 }} />
                         
                         <Typography variant="subtitle2">Region</Typography>
-                        <Typography>{selectedEvent.region}</Typography>
+                        <Typography>{selectedTask.region}</Typography>
                         <Divider sx={{ my: 1 }} />
                         
                         <Typography variant="subtitle2">Particular Topic</Typography>
-                        <Typography>{selectedEvent.particularTopic}</Typography>
+                        <Typography>{selectedTask.particularTopic}</Typography>
                     </Grid2>
                     </Grid2>
 
@@ -255,7 +332,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     </Box>
                     ) : (
                     <Typography color="textSecondary" sx={{ textAlign: 'center', mt: 4 }}>
-                        Select an event to view details
+                        Select an task to view details
                     </Typography>
                     )
                 )}
@@ -267,5 +344,5 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
     );
 };
 
-// Export the EventTable component as the default export of this module
+// Export the TaskTable component as the default export of this module
 export default Task;

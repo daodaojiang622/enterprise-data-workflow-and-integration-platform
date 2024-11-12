@@ -15,7 +15,7 @@ interface Event {
     isIndeterminate?: boolean;
 }
 
-interface TaskSchemaCommentJoin {
+interface Task {
     id: string,
     taskName: string,
     approver1: string,
@@ -68,7 +68,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
         },
     ];
 
-    const tasks: TaskSchemaCommentJoin[] = [
+    const tasks: Task[] = [
         {
             id: '1',
             taskName: 'Task1',
