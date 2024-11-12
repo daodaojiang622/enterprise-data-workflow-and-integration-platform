@@ -4,6 +4,7 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TaskListItem from '../Components/TaskListItem';
 import TaskDetailsField from '../Components/TaskDetailsField';
+import TaskForm from '../Components/TaskForm';
 
 interface Task {
     id: string,
@@ -302,82 +303,12 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     </Box>
                 
                 {isEditing ? (
-                    <Box>
-                        <Grid2 >
-                            <TextField
-                                label="Name*"
-                                name="name"
-                                value={editableTask?.name || ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <TextField
-                                label="Event*"
-                                name="Event"
-                                value={editableTask?.dueDate || ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <TextField
-                                label="Due Date*"
-                                name="dueDate"
-                                value={editableTask?.dueDate || ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <TextField
-                                label="Description*"
-                                name="description"
-                                value={editableTask?.description|| ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <TextField
-                                label="Comment"
-                                name="comment"
-                                value={editableTask?.comment || ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <TextField
-                                label="Approver 1*"
-                                name="approver1"
-                                value={editableTask?.approver1 || ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <TextField
-                                label="Approver 2"
-                                name="approver2"
-                                value={editableTask?.approver2 || ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <TextField
-                                label="Approver 3"
-                                name="approver3"
-                                value={editableTask?.approver3 || ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                            <TextField
-                                label="Assign to*"
-                                name="assignee"
-                                value={editableTask?.assignee || ''}
-                                onChange={handleInputChange}
-                                fullWidth
-                                margin="normal"
-                            />
-                        </Grid2>
-                    </Box>
+                    <TaskForm
+                        editableTask={editableTask}
+                        handleInputChange={handleInputChange}
+                        handleSave={handleSave}
+                        handleCancel={handleCancel}
+                    />
                 ) : ( selectedTask ? (
                     <Box>
                         {/* Task Status Bar */}
