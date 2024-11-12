@@ -20,6 +20,7 @@ const ControlPanel: React.FC = () => {
     const [tabIndex, setTabIndex] = useState<number>(0);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true); // Change to false when submitting!!!
     const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null); 
+    const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
     /**
      * Handles the selection and deselection of cities.
@@ -87,6 +88,12 @@ const ControlPanel: React.FC = () => {
         console.log('Navigating to task:', taskId);
     };
 
+    const navigateToEvent = (eventId: string) => {
+        setSelectedEventId(eventId); // Set the selected task ID
+        setTabIndex(1); // Navigate to the Task tab (assuming Task is at index 2)
+        console.log('Navigating to event:', eventId);
+    };
+
     return (
         <Box p={2} position="absolute" top={0} left={0} mt={2} width="100%">
 
@@ -126,13 +133,13 @@ const ControlPanel: React.FC = () => {
             {/* Render the content based on the selected tab */}
             {isLoggedIn && tabIndex === 0 && (
                 <Box mt={4}>
-                    <Home navigateToLogin={navigateToLogin} navigateToTask={navigateToTask} />
+                    <Home navigateToLogin={navigateToLogin} navigateToTask={navigateToTask} navigateToEvent={navigateToEvent}/>
                 </Box>
             )}
 
             {isLoggedIn && tabIndex === 1 && (
                 <Box mt={4}>
-                    <Event headers={headers} data={data}/>
+                    <Event selectedEventId={selectedEventId}/>
                 </Box>
             )}
 

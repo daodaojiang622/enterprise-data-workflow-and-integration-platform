@@ -6,10 +6,11 @@ import { events, tasks } from '../Data';
 export interface HomeProps {
     navigateToLogin: () => void;
     navigateToTask: (taskId: string) => void; 
+    navigateToEvent: (eventId: string) => void; 
 }
 
 
-const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask }) => {
+const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask, navigateToEvent }) => {
 
     // Filter tasks to exclude those with due dates in the past
     const filteredTasks = tasks.filter(task => {
@@ -56,11 +57,12 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask }) => {
                             {event.date}
                         </Typography>
 
-                        {/* List Button */}
+                        {/* Details Button */}
                         <Box sx={{ width: '35%', textAlign: 'right' }}>
                             <Button
                                 variant="contained"
                                 disableRipple
+                                onClick={() => navigateToEvent(event.id)}
                                 sx={{
                                     backgroundColor: '#36a0c8',
                                     ':hover': {
@@ -100,7 +102,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask }) => {
                             {task.dueDate}
                         </Typography>
 
-                        {/* List Button */}
+                        {/* Details Button */}
                         <Box sx={{ width: '35%', textAlign: 'right' }}>
                             <Button
                                 variant="contained"

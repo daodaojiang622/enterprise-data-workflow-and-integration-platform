@@ -99,12 +99,8 @@ const Event: React.FC<EventProps> = ({ selectedEventId }) => {
         }
     };
 
-    const handleGenerateList = () => {
-        if (selectedEvent) {
-            console.log('Generate list for event:', selectedEvent);
-        } else {
-            console.log('No event selected for list generation');
-        }
+    const handleList = () => {
+        // navigate to the list page
     };
 
     return (
@@ -189,7 +185,7 @@ const Event: React.FC<EventProps> = ({ selectedEventId }) => {
                         ) : selectedEvent && (
                             <>
                                 <Button variant="contained" onClick={handleEdit} sx={buttonStyle}>Edit</Button>
-                                <Button variant="contained" onClick={handleEdit} sx={buttonStyle}>
+                                <Button variant="contained" onClick={handleList} sx={buttonStyle}>
                                     { selectedEvent.hasGeneratedList ? 'View List' : 'Generate List' }
                                     </Button>
                             </>
