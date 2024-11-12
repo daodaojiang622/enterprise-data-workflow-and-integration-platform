@@ -2,6 +2,11 @@ export interface Event {
     id: string;
     title: string;
     date: string;
+    owner: string;
+    typeOfCancer: string;
+    description: string;
+    region: string;
+    particularTopic: string;
     hasGeneratedList: boolean;
 }
 

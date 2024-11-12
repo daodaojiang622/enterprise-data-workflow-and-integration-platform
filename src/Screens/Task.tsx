@@ -209,21 +209,21 @@ const Task: React.FC<TaskProps> = ({ selectedTaskId }) => {
                                 </Box>
 
                                 {/* Task Details */}
-                                <ListDetailsField label="Name:" value={selectedTask.name} />
+                                <ListDetailsField label="Name" value={selectedTask.name} />
                                 <Divider sx={{ mb: 1 }} />
-                                <ListDetailsField label="Event:" value={selectedTask.event} />
+                                <ListDetailsField label="Event" value={selectedTask.event} />
                                 <Divider sx={{ mb: 1 }} />
-                                <ListDetailsField label="Due Date:" value={selectedTask.dueDate} />
+                                <ListDetailsField label="Due Date" value={selectedTask.dueDate} />
                                 <Divider sx={{ mb: 1 }} />
-                                <ListDetailsField label="Description:" value={selectedTask.description} />
+                                <ListDetailsField label="Description" value={selectedTask.description} />
                                 <Divider sx={{ mb: 1 }} />
-                                <ListDetailsField label="Comment:" value={selectedTask.comment} />
+                                <ListDetailsField label="Comment" value={selectedTask.comment} />
                                 <Divider sx={{ mb: 1 }} />
-                                <ListDetailsField label="Approver 1:" value={selectedTask.approver1} />
+                                <ListDetailsField label="Approver 1" value={selectedTask.approver1} />
                                 <Divider sx={{ mb: 1 }} />
-                                <ListDetailsField label="Approver 2:" value={selectedTask.approver2} />
+                                <ListDetailsField label="Approver 2" value={selectedTask.approver2} />
                                 <Divider sx={{ mb: 1 }} />
-                                <ListDetailsField label="Approver 3:" value={selectedTask.approver3} />
+                                <ListDetailsField label="Approver 3" value={selectedTask.approver3} />
                             </Box>
                         ) : (
                             <Typography color="textSecondary" sx={{ textAlign: 'center', mt: 4 }}>Select a task to view details</Typography>

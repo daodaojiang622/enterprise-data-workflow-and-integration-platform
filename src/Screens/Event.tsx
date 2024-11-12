@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Button, List, Paper, Box, Typography, Divider, Grid2 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TaskListItem from '../Components/TaskListItem';
-import TaskDetailsField from '../Components/TaskDetailsField';
-import TaskForm from '../Components/TaskForm';
 import { boxStyle, buttonStyle, colors } from '../Utils/Style';
 import { events as initialEvents } from '../Data';
 import EventListItem from '../Components/EventListItem';
 import ListDetailsField from '../Components/ListDetailsField';
+import EventForm from '../Components/EventForm';
 
 export interface Event {
     id: string;
     title: string;
     date: string;
+    owner: string;
+    typeOfCancer: string;
+    description: string;
+    region: string;
+    particularTopic: string;
     hasGeneratedList: boolean;
 }
 
@@ -59,7 +62,12 @@ const Event: React.FC<EventProps> = ({ selectedEventId }) => {
             id: '10',
             title: '',
             date: '',
+            owner: '',
             hasGeneratedList: false,
+            typeOfCancer: '',
+            description: '',
+            region: '',
+            particularTopic: '',
         });
         setIsEditing(true);
     };
@@ -156,7 +164,16 @@ const Event: React.FC<EventProps> = ({ selectedEventId }) => {
                                 <Divider sx={{ mb: 1 }} />
                                 <ListDetailsField label="Date" value={selectedEvent.date} />
                                 <Divider sx={{ mb: 1 }} />
-                                <ListDetailsField label="List Generated" value={selectedEvent.hasGeneratedList ? 'Yes' : 'No'} />
+                                <ListDetailsField label="Owner" value={selectedEvent.owner} />
+                                <Divider sx={{ mb: 1 }} />
+                                <ListDetailsField label="Type of Cancer" value={selectedEvent.typeOfCancer} />
+                                <Divider sx={{ mb: 1 }} />
+                                <ListDetailsField label="Description" value={selectedEvent.description} />
+                                <Divider sx={{ mb: 1 }} />
+                                <ListDetailsField label="Region" value={selectedEvent.region} />
+                                <Divider sx={{ mb: 1 }} />
+                                <ListDetailsField label="Particular Topic" value={selectedEvent.particularTopic} />
+                                <Divider sx={{ mb: 1 }} />
 
                             </Box>
                         ) : (
