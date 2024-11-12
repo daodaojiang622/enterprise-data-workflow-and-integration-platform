@@ -8,12 +8,15 @@ interface Task {
     approver2: string,
     approver3: string,
     taskDescription: string,
-    decisionMaker: string,
     commentId: number,
     comment: string,
     user: string,
     dueDate: string,
     Event: string,
+    isCompleted: boolean,
+    isApprovedByApprover1: boolean,
+    isApprovedByApprover2: boolean,
+    isApprovedByApprover3: boolean,
 };
 
 const Task: React.FC<TaskProps> = ({ headers, data }) => {
@@ -25,12 +28,15 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             approver2: 'Banana',
             approver3: 'Tree',
             taskDescription: 'We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task',
-            decisionMaker: 'Apple',
             commentId: 111,
             comment: 'we cant do this',
             user: 'MeowMeow',
             dueDate: '12/12/2024',
-            Event: 'Event A'
+            Event: 'Event A',
+            isCompleted: true,
+            isApprovedByApprover1: true,
+            isApprovedByApprover2: true,
+            isApprovedByApprover3: false,
         },
         {
             id: '2',
@@ -39,12 +45,15 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             approver2: 'Banana',
             approver3: '',
             taskDescription: 'We need to do this task',
-            decisionMaker: 'Apple',
             commentId: 111,
             comment: '',
             user: 'MeowMeow',
             dueDate: '01/01/2025',
-            Event: 'Event B'
+            Event: 'Event B',
+            isCompleted: false,
+            isApprovedByApprover1: false,
+            isApprovedByApprover2: false,
+            isApprovedByApprover3: false,
         },
         {
             id: '3',
@@ -53,12 +62,15 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             approver2: 'Banana',
             approver3: 'Tree',
             taskDescription: 'We need to do this task',
-            decisionMaker: 'Apple',
             commentId: 111,
             comment: 'Yes we can',
             user: 'MeowMeow',
             dueDate: '01/12/2024',
-            Event: 'Event C'
+            Event: 'Event C',
+            isCompleted: true,
+            isApprovedByApprover1: true,
+            isApprovedByApprover2: true,
+            isApprovedByApprover3: true,
         },
         {
             id: '4',
@@ -67,12 +79,15 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             approver2: 'Banana',
             approver3: 'Tree',
             taskDescription: 'We need to do this task',
-            decisionMaker: 'Apple',
             commentId: 111,
             comment: 'Yes we can',
             user: 'MeowMeow',
             dueDate: '01/12/2025',
-            Event: 'Event A'
+            Event: 'Event A',
+            isCompleted: false,
+            isApprovedByApprover1: false,
+            isApprovedByApprover2: false,
+            isApprovedByApprover3: false,
         },
         {
             id: '5',
@@ -81,12 +96,15 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             approver2: 'Banana',
             approver3: 'Tree',
             taskDescription: 'We need to do this task',
-            decisionMaker: 'Apple',
             commentId: 111,
             comment: 'Yes we can',
             user: 'MeowMeow',
             dueDate: '01/12/2025',
-            Event: 'Event A'
+            Event: 'Event A',
+            isCompleted: false,
+            isApprovedByApprover1: false,
+            isApprovedByApprover2: false,
+            isApprovedByApprover3: false,
         }
     ];
 
@@ -159,6 +177,49 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
     }
     };
     
+    function getApprovalMessage(selectedTask: Task) {
+        const approvers = [
+            selectedTask.isApprovedByApprover1 && selectedTask.approver1,
+            selectedTask.isApprovedByApprover2 && selectedTask.approver2,
+            selectedTask.isApprovedByApprover3 && selectedTask.approver3,
+        ].filter(Boolean);
+
+        const pendingApprovers = [
+            !selectedTask.isApprovedByApprover1 && selectedTask.approver1,
+            !selectedTask.isApprovedByApprover2 && selectedTask.approver2,
+            !selectedTask.isApprovedByApprover3 && selectedTask.approver3,
+        ].filter(Boolean);    
+    
+        if (selectedTask.isCompleted) {
+            return approvers.length > 0 
+                ? `Task Completed. Approved by Approver ${approvers.join(', ')}.`
+                : "Task Completed";
+        } else if (approvers.length > 0) {
+            const waitingMessage = pendingApprovers.length > 0 
+                ? ` Waiting for approval from ${pendingApprovers.join(', ')}.`
+                : '';
+            return `Approved by Approver ${approvers.join(', ')}.${waitingMessage}`;
+        } else if (pendingApprovers.length > 0) {
+            return `Waiting for approval from ${pendingApprovers.join(', ')}.`;
+        }
+        
+        return null;
+    }
+    
+    function TaskStatusBar({ selectedTask }: { selectedTask: Task }) {
+        const message = getApprovalMessage(selectedTask);
+    
+        if (!message) return null;
+    
+        return (
+            <Box sx={{ backgroundColor: '#dae4e8', paddingTop: 1.5, paddingBottom: 0.1, mb: 2, borderRadius: 2 }}>
+                <Typography sx={{ color: 'green', fontWeight: 'bold', mb: 2, align: 'center' }}>
+                    {message}
+                </Typography>
+            </Box>
+        );
+    }
+
     return (
         <Box p={2}>
           <Grid2 container spacing={2}>
@@ -295,6 +356,15 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     </Box>
                 ) : ( selectedTask ? (
                     <Box>
+                        {/* Task Status Bar */}
+                        <TaskStatusBar selectedTask={selectedTask} />
+
+                        {/* Task Details */}
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Typography sx={{color: '#905aa7', fontWeight: 'bold', wordWrap: 'break-word', overflowWrap: 'break-word'}}>Name: </Typography>
+                        <Typography>{selectedTask.taskName}</Typography>
+                        </Box>
+
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                         <Typography sx={{color: '#905aa7', fontWeight: 'bold', wordWrap: 'break-word', overflowWrap: 'break-word'}}>Name: </Typography>
                         <Typography>{selectedTask.taskName}</Typography>
@@ -349,12 +419,6 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                         <Typography>{selectedTask.approver3}</Typography>
                         </Box>
 
-                        <Divider sx={{ mb: 1 }} />
-
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography sx={{color: '#905aa7', fontWeight: 'bold'}}>Decision Maker: </Typography>
-                        <Typography>{selectedTask.decisionMaker}</Typography>
-                        </Box>
                     </Box>
                 ) : (
                     <Typography color="textSecondary" sx={{ textAlign: 'center', mt: 4 }}>
