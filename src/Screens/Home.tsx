@@ -81,8 +81,8 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask, navigateTo
             </Paper>
 
             {/* Upcoming Tasks section */}
-            <Typography variant="h4" sx={{ textAlign: 'left', margin: 2  }}>Upcoming Tasks</Typography>
-            <Paper sx={{ p: 2, height: '150px', overflow: 'auto'  }}>
+            <Typography variant="h4" sx={{ textAlign: 'left', margin: 2, mt: 5  }}>Upcoming Tasks</Typography>
+            <Paper sx={{ p: 2, height: '150px', overflow: 'auto' }}>
                 {filteredTasks.map((task) => (
                     <Box 
                         key={task.id} 
