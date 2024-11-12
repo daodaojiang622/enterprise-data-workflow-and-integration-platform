@@ -14,7 +14,8 @@ interface Task {
     approver1: string,
     approver2: string,
     approver3: string,
-    owner: string,
+    assigner: string,
+    assignee: string,
     isCompleted: boolean,
     isApprovedByApprover1: boolean,
     isApprovedByApprover2: boolean,
@@ -32,7 +33,8 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             description: 'We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task We need to do this task',
             commentId: 111,
             comment: 'we cant do this',
-            owner: 'MeowMeow',
+            assignee: 'MeowMeow',
+            assigner: 'WoofWoof',
             dueDate: '12/12/2024',
             event: 'Event A',
             isCompleted: true,
@@ -49,7 +51,8 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             description: 'We need to do this task',
             commentId: 111,
             comment: '',
-            owner: 'MeowMeow',
+            assignee: 'MeowMeow',
+            assigner: 'WoofWoof',
             dueDate: '01/01/2025',
             event: 'Event B',
             isCompleted: false,
@@ -66,7 +69,8 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             description: 'We need to do this task',
             commentId: 111,
             comment: 'Yes we can',
-            owner: 'MeowMeow',
+            assignee: 'MeowMeow',
+            assigner: 'WoofWoof',
             dueDate: '01/12/2024',
             event: 'Event C',
             isCompleted: true,
@@ -83,7 +87,8 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             description: 'We need to do this task',
             commentId: 111,
             comment: 'Yes we can',
-            owner: 'MeowMeow',
+            assignee: 'MeowMeow',
+            assigner: 'WoofWoof',
             dueDate: '01/12/2025',
             event: 'Event A',
             isCompleted: false,
@@ -100,7 +105,8 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
             description: 'We need to do this task',
             commentId: 111,
             comment: 'Yes we can',
-            owner: 'MeowMeow',
+            assignee: 'MeowMeow',
+            assigner: 'WoofWoof',
             dueDate: '01/12/2025',
             event: 'Event A',
             isCompleted: false,
@@ -140,7 +146,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
     const handleCreate = () => {
         // Implement create functionality
         setSelectedTask(null);
-        setEditableTask({id: '', name: '', date: '', typeOfCancer: '', description: '', region: '', particularTopic: ''});
+        setEditableTask({ id: '', name: '', event: '', dueDate: '', description: '', commentId: 0, comment: '', approver1: '', approver2: '', approver3: '', assignee: '', assigner: '', isCompleted: false, isApprovedByApprover1: false, isApprovedByApprover2: false, isApprovedByApprover3: false });
         setIsEditing(true);
     };
 
@@ -150,6 +156,17 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
     };
 
     const handleSave = () => {
+        if (!editableTask) return;
+
+            // Define required fields
+        const { name, event, dueDate, description, approver1, assignee } = editableTask;
+
+        // Check if any required field is missing
+        if (!name || !event || !dueDate || !description || !approver1 || !assignTo) {
+            alert("Please fill in all mandatory fields: Name, Event, Due Date, Description, Approver 1, and Assign To.");
+            return;
+        }
+
         if (editableTask) {
             if (editableTask.id) {
                 // Edit task
@@ -310,7 +327,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                     <Box>
                         <Grid2 >
                             <TextField
-                                label="Name"
+                                label="Name*"
                                 name="name"
                                 value={editableTask?.name || ''}
                                 onChange={handleInputChange}
@@ -318,7 +335,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                                 margin="normal"
                             />
                             <TextField
-                                label="Event"
+                                label="Event*"
                                 name="Event"
                                 value={editableTask?.dueDate || ''}
                                 onChange={handleInputChange}
@@ -326,7 +343,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                                 margin="normal"
                             />
                             <TextField
-                                label="Due Date"
+                                label="Due Date*"
                                 name="dueDate"
                                 value={editableTask?.dueDate || ''}
                                 onChange={handleInputChange}
@@ -334,7 +351,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                                 margin="normal"
                             />
                             <TextField
-                                label="Description"
+                                label="Description*"
                                 name="description"
                                 value={editableTask?.description|| ''}
                                 onChange={handleInputChange}
@@ -350,7 +367,7 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                                 margin="normal"
                             />
                             <TextField
-                                label="Approver 1"
+                                label="Approver 1*"
                                 name="approver1"
                                 value={editableTask?.approver1 || ''}
                                 onChange={handleInputChange}
@@ -374,9 +391,9 @@ const Task: React.FC<TaskProps> = ({ headers, data }) => {
                                 margin="normal"
                             />
                             <TextField
-                                label="Assign to"
-                                name="owner"
-                                value={editableTask?.owner || ''}
+                                label="Assign to*"
+                                name="assignee"
+                                value={editableTask?.assignee || ''}
                                 onChange={handleInputChange}
                                 fullWidth
                                 margin="normal"
