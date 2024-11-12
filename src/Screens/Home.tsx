@@ -15,7 +15,7 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask }) => {
     const filteredTasks = tasks.filter(task => {
         const taskDueDate = new Date(task.dueDate);
         const currentDate = new Date();
-        return taskDueDate >= currentDate;
+        return taskDueDate >= currentDate && !task.isCompleted;
     });
 
     // Filter events to exclude those with due dates in the past

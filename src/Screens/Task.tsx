@@ -66,17 +66,17 @@ const Task: React.FC<TaskProps> = ({ selectedTaskId }) => {
     const handleCreate = () => {
         setSelectedTask(null);
         setEditableTask({
-            id: '',
-            name: '',
-            event: '',
-            dueDate: '',
-            description: '',
+            id: '10',
+            name: 'aaa',
+            event: 'Event B',
+            dueDate: '11/11/2026',
+            description: 'hhhh',
             commentId: 0,
             comment: '',
-            approver1: '',
+            approver1: 'test',
             approver2: '',
             approver3: '',
-            assignee: '',
+            assignee: 'test',
             assigner: '',
             isCompleted: false,
             isApprovedByApprover1: false,
@@ -175,7 +175,7 @@ const Task: React.FC<TaskProps> = ({ selectedTaskId }) => {
                             ))}
                         </List>
                     </Paper>
-                    <Button variant="contained" onClick={handleCreate} fullWidth sx={{ mt: 5, backgroundColor: colors.primary }}>
+                    <Button variant="contained" onClick={handleCreate} fullWidth sx={{ mt: 5, backgroundColor: colors.primary, ':focus': { outline: 'none' } }}>
                         Create
                     </Button>
                 </Grid2>
