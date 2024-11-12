@@ -24,7 +24,3 @@ export interface Task {
     isApprovedByApprover2: boolean,
     isApprovedByApprover3: boolean,
 };
-
-export interface HomeProps {
-    navigateToLogin: () => void;
-}

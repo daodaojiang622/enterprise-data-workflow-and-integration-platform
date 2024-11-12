@@ -1,8 +1,12 @@
 import React from 'react';
 import { Box, Typography, Paper, Button, Grid2, Checkbox } from '@mui/material';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import { HomeProps } from '../Types/types';
 import { events, tasks } from '../Data';
+
+export interface HomeProps {
+    navigateToLogin: () => void;
+}
+
 
 const Home: React.FC<HomeProps> = ({ navigateToLogin }) => {
 
