@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",          // Use ESNext module system (ESM)
+    "target": "ES6",             // Target modern JavaScript (ES6)
+    "moduleResolution": "node",  // Resolve modules like Node.js
+    "esModuleInterop": true,     // Ensure compatibility with CommonJS modules
+    "skipLibCheck": true,        // Skip library checks to avoid type issues
+    "outDir": "./dist",          // Output directory for compiled JS files
+    "rootDir": ".",              // Source directory for TypeScript files
+    "strict": true,               // Enable strict type checking (optional)
+    "jsx": "react"
+  },
+  "include": ["*.ts", "*.tsx"],  // Include all .ts files in the 'server' folder
+  "exclude": ["node_modules"]     // Exclude node_modules
+}
