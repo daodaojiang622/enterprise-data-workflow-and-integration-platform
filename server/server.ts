@@ -2,13 +2,14 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import SQLiteContainer from './sqlite';
-import { Task } from '../src/Screens/Task';
+import { Task, Event } from '../src/Types/types';
 
 const app = express();
 const port = 3500;
 
 const SQLContainer = new SQLiteContainer('production');
 const taskContainer = SQLContainer;
+const eventContainer = SQLContainer;
 
 app.use(bodyParser.json());
 app.use(cors({ origin: '*' })); // make it globally available
@@ -17,6 +18,17 @@ app.use(cors({ origin: '*' })); // make it globally available
 app.get('/tasks', (req, res) => {
     const [code, tasks] = taskContainer.getAllTasks();
     res.status(code).json(tasks);
+});
+
+// Get all tasks, including their id, name, and isCompleted status
+app.get('/tasks/names-status', (req, res) => {
+    try {
+        const [code, tasks] = taskContainer.getAllTasksNamesAndStatus();
+        res.status(code).json(tasks);
+    } catch (error) {
+        console.error('Error fetching tasks:', (error as Error).message);
+        res.status(500).send(`An error occurred: ${(error as Error).message}`);
+    }
 });
 
 // Get a task by ID
@@ -48,6 +60,66 @@ app.delete('/tasks/:id', (req, res) => {
     const [code, message] = taskContainer.deleteTask(id);
     res.status(code).send(message);
 });
+
+
+// Get all events
+app.get('/events', (req, res) => {
+    const [code, events] = eventContainer.getAllEvents();
+    res.status(code).json(events);
+});
+
+// Get All Events with Names and IDs
+app.get('/events/names-ids', (req, res) => {
+    try {
+        const [code, events] = eventContainer.getAllEventsNamesAndIds();
+        res.status(code).json(events);
+    } catch (error) {
+        console.error('Error fetching events:', (error as Error).message);
+        res.status(500).send(`An error occurred: ${(error as Error).message}`);
+    }
+});
+
+// Get All Events with IDs, Titles and hasGeneratedList Status
+app.get('/events/titles-status', (req, res) => {
+    try {
+        const [code, events] = eventContainer.getAllEventSummaries();
+        res.status(code).json(events);
+    } catch (error) {
+        console.error('Error fetching events:', (error as Error).message);
+        res.status(500).send(`An error occurred: ${(error as Error).message}`);
+    }
+});
+
+// Get an event by ID
+app.get('/events/:id', (req, res) => {
+    const { id } = req.params;
+    const [code, event] = eventContainer.getEvent(id);
+    res.status(code).json(event);
+});
+
+// Create a new event
+app.post('/events', (req, res) => {
+    const { id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList } = req.body;
+    const event: Event = { id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList };
+    const [code, message] = eventContainer.addEvent(event);
+    res.status(code).send(message);
+});
+
+// Update an event by ID
+app.put('/events/:id', (req, res) => {
+    const { id } = req.params;
+    const event: Partial<Event> = req.body;
+    const [code, message] = eventContainer.editEvent(id, event);
+    res.status(code).send(message);
+});
+
+// Delete an event by ID
+app.delete('/events/:id', (req, res) => {
+    const { id } = req.params;
+    const [code, message] = eventContainer.deleteEvent(id);
+    res.status(code).send(message);
+});
+
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
