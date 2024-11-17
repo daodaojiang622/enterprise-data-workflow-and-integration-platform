@@ -60,7 +60,7 @@ interface DonorData {
 }
 
 const ListGenerator: React.FC = () => {
-    const [region, setRegion] = useState("");
+    const [region, setRegion] = useState<string[]>([]);
     const [cancerType, setCancerType] = useState("");
     const [amount, setAmount] = useState<number | null>(null);
     const [date, setDate] = useState<Dayjs | null>(null);
@@ -131,7 +131,7 @@ const ListGenerator: React.FC = () => {
     const handleGenerate = () => {
         let filtered: DonorData[] = donorData.filter((donor) => {
         return (
-            (region === "" || donor.city === region) &&
+            (region.length === 0 || region.includes(donor.city)) &&
             (cancerType === "" || donor.communication_preference === cancerType) &&
             (date === null ||
             dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isSame(
@@ -210,74 +210,93 @@ const ListGenerator: React.FC = () => {
             <Container>
                 <Grid2 container spacing={4}>
                     {/* Filters Section */}
-                    <Grid2 item xs={12} sm={4}>
-                        <Typography variant="h6">Filters</Typography>
-                        <FormControl fullWidth margin="normal">
-                        <InputLabel>Region</InputLabel>
-                            <Select
-                            value={region}
-                            onChange={(e) => setRegion(e.target.value)}
-                            label="Region"
+                    <Paper sx={{ p: 2, height: '435px', overflow: 'auto', width: '200px', pl: 6 }}>
+                        <Grid2 
+                            item 
+                            xs={12} 
+                            sm={4}
+                            ml={-2}                       
                             >
-                            <MenuItem value="">All</MenuItem>
-                            {regions.map((region) => (
-                                <MenuItem key={region} value={region}>
-                                {region}
-                                </MenuItem>
-                            ))}
-                            </Select>
-                        </FormControl>
-                        <DatePicker
-                            label="Date"
-                            value={date}
-                            onChange={(newDate) => setDate(newDate)}
-                            slotProps={{ textField: { fullWidth: true, margin: "normal" } }}
-                        />
-                        <FormControl fullWidth margin="normal">
-                            <InputLabel sx={{backgroundColor: "white"}}> Cancer Type </InputLabel>
+                            <Typography variant="h6">Filters</Typography>
+                            <FormControl fullWidth margin="normal">
+                            <InputLabel>Regions</InputLabel>
                             <Select
-                                value={cancerType}
-                                onChange={(e) => setCancerType(e.target.value)}
-                            >
-                            <MenuItem value="">All</MenuItem>
-                            {regions.map((region) => (
-                                <MenuItem key={region} value={region}>
-                                {region}
-                                </MenuItem>
+                                multiple
+                                value={region} // This will now hold an array of selected regions
+                                onChange={(e) => setRegion(e.target.value as string[])} // Update region state as an array
+                                renderValue={(selected) => selected.join(", ")} // Display selected regions as a comma-separated string
+                                label="Regions"
+                                sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
+                            >   
+
+                                <MenuItem value="">All</MenuItem>
+                                {regions.map((region) => (
+                                    <MenuItem key={region} value={region}>
+                                    {region}
+                                    </MenuItem>
                                 ))}
-                            </Select>
-                        </FormControl>
-                        <Box display="flex" alignItems="center" mt={2}>
-                            <TextField
-                                label="Number of Guests"
-                                type="number"
-                                value={amount || ""}
-                                onChange={(e) => setAmount(parseInt(e.target.value))}
-                                InputProps={{
-                                    endAdornment: (
-                                        <>
-                                            <IconButton size="small">
-                                                <ArrowDropUp />
-                                            </IconButton>
-                                            <IconButton size="small">
-                                                <ArrowDropDown />
-                                            </IconButton>
-                                        </>
-                                    ),
+                                </Select>
+                            </FormControl>
+                            <DatePicker
+                                label="Date"
+                                value={date}
+                                onChange={(newDate) => setDate(newDate)}
+                                slotProps={{
+                                    textField: {
+                                    fullWidth: true,
+                                    margin: "normal",
+                                    sx: { maxWidth: "200px", minWidth: "200px", marginLeft: "-15px"
+                                    },
+                                    },
                                 }}
-                                fullWidth
                             />
-                        </Box>
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            style={{ backgroundColor: "#36a0c8"}}
-                            sx={{ mt: 2}}
-                            onClick={handleGenerate}
-                        >
-                            Generate
-                        </Button>
-                    </Grid2>
+                            <FormControl fullWidth margin="normal">
+                                <InputLabel sx={{backgroundColor: "white"}}> Cancer Type </InputLabel>
+                                <Select
+                                    value={cancerType}
+                                    onChange={(e) => setCancerType(e.target.value)}
+                                    sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
+                                >
+                                <MenuItem value="">All</MenuItem>
+                                {regions.map((region) => (
+                                    <MenuItem key={region} value={region}>
+                                    {region}
+                                    </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <Box display="flex" alignItems="center" mt={2}>
+                                <TextField
+                                    label="#Guests"
+                                    type="number"
+                                    value={amount || ""}
+                                    onChange={(e) => setAmount(parseInt(e.target.value))}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <>
+                                                <IconButton size="small">
+                                                    <ArrowDropUp />
+                                                </IconButton>
+                                                <IconButton size="small">
+                                                    <ArrowDropDown />
+                                                </IconButton>
+                                            </>
+                                        ),
+                                    }}
+                                    fullWidth
+                                    sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
+                                />
+                            </Box>
+                            <Button
+                                variant="contained"
+                                style={{ backgroundColor: "#36a0c8"}}
+                                onClick={handleGenerate}
+                                sx={{maxWidth: "100px", margin: "20px 0 0 0"}}
+                            >
+                                Generate
+                            </Button>
+                        </Grid2>
+                    </Paper>
 
                     {/* Invite List Section */}
                     <Grid2 item xs={12} sm={8}>
