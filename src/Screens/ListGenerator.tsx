@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {
     Box,
-    Grid,
     TextField,
     Button,
     Typography,
@@ -18,6 +17,8 @@ import {
     Paper,
     IconButton,
     Container,
+    Grid2,
+    OutlinedInput,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
@@ -147,15 +148,16 @@ const ListGenerator: React.FC = () => {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Container>
-                <Grid container spacing={4}>
+                <Grid2 container spacing={4}>
                     {/* Filters Section */}
-                    <Grid item xs={12} sm={4}>
+                    <Grid2 item xs={12} sm={4}>
                         <Typography variant="h6">Filters</Typography>
                         <FormControl fullWidth margin="normal">
-                            <InputLabel>Region</InputLabel>
+                            <InputLabel sx={{backgroundColor: "white"}}>Region</InputLabel>
                             <Select
                                 value={region}
                                 onChange={(e) => setRegion(e.target.value)}
+                                label="Region"
                             >
                                 <MenuItem key={'all'} value="">All</MenuItem>
                                 {regions.map(region => {
@@ -170,7 +172,7 @@ const ListGenerator: React.FC = () => {
                             slotProps={{ textField: { fullWidth: true, margin: "normal" } }}
                         />
                         <FormControl fullWidth margin="normal">
-                            <InputLabel>Cancer Type</InputLabel>
+                            <InputLabel sx={{backgroundColor: "white"}}> Cancer Type </InputLabel>
                             <Select
                                 value={cancerType}
                                 onChange={(e) => setCancerType(e.target.value)}
@@ -211,10 +213,10 @@ const ListGenerator: React.FC = () => {
                         >
                             Generate
                         </Button>
-                    </Grid>
+                    </Grid2>
 
                     {/* Invite List Section */}
-                    <Grid item xs={12} sm={8}>
+                    <Grid2 item xs={12} sm={8}>
                         <Typography variant="h6">Event: xxxxxx</Typography>
                         <Typography variant="subtitle1" sx={{ mt: 2 }}>
                             Invite List
@@ -265,8 +267,8 @@ const ListGenerator: React.FC = () => {
                             </Button>
                             <Button variant="outlined">Save</Button>
                         </Box>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             </Container>
         </LocalizationProvider>
     );
