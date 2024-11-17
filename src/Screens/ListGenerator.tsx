@@ -206,9 +206,9 @@ const ListGenerator: React.FC = () => {
                         </Box>
                         <Button
                             variant="contained"
-                            color="error"
                             fullWidth
-                            sx={{ mt: 2 }}
+                            style={{ backgroundColor: "#36a0c8"}}
+                            sx={{ mt: 2}}
                             onClick={handleGenerate}
                         >
                             Generate
