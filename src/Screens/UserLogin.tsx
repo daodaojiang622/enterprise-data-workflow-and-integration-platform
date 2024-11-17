@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Typography, Box, Snackbar, Alert } from '@mui/material';
 
-const UserLogin: React.FC = () => {
+interface UserLoginProps {
+    login: (username: string) => void;
+    logout: () => void;
+    isLoggedIn: boolean;
+}
+
+const UserLogin: React.FC<UserLoginProps> = ({login, isLoggedIn, logout}) => {
     const [username, setUsername] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -11,7 +16,7 @@ const UserLogin: React.FC = () => {
         const storedUsername = sessionStorage.getItem('5500user');
         if (storedUsername) {
             setUsername(storedUsername);
-            setIsLoggedIn(true);
+            login(storedUsername);
         }
     }, []);
 
@@ -24,13 +29,13 @@ const UserLogin: React.FC = () => {
         sessionStorage.setItem('5500user', username);
         setSnackbarMessage(`Username ${username} stored in session storage`);
         setSnackbarOpen(true);
-        setIsLoggedIn(true);
+        login(username);
     };
 
     const handleLogout = () => {
         sessionStorage.removeItem('5500user');
         setUsername('');
-        setIsLoggedIn(false);
+        logout();
         setSnackbarMessage('Logged out successfully');
         setSnackbarOpen(true);
     };
