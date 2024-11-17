@@ -133,16 +133,16 @@ const ListGenerator: React.FC = () => {
         let filtered: DonorData[] = donorData.filter((donor) => {
         return (
             (region.length === 0 || region.includes(donor.city))
-        //     (date === null ||
+        //     && (date === null ||
         //     dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isSame(
         //         date,
         //         "day"
-        //     ))
+        //     )) 
         );
         });
 
         if (amount) {
-        filtered = filtered.slice(0, amount);
+        filtered = filtered.slice(0, amount); 
         }
         setFilteredData(filtered);
     };
