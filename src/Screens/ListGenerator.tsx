@@ -132,12 +132,12 @@ const ListGenerator: React.FC = () => {
     const handleGenerate = () => {
         let filtered: DonorData[] = donorData.filter((donor) => {
         return (
-            (region.length === 0 || region.includes(donor.city)) &&
-            (date === null ||
-            dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isSame(
-                date,
-                "day"
-            ))
+            (region.length === 0 || region.includes(donor.city))
+        //     (date === null ||
+        //     dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isSame(
+        //         date,
+        //         "day"
+        //     ))
         );
         });
 
@@ -255,7 +255,7 @@ const ListGenerator: React.FC = () => {
                                     <InputLabel sx={{backgroundColor: "white"}}> Cancer Type </InputLabel>
                                     <Select
                                         value={cancerType}
-                                        onChange={(e) => setCancerType(e.target.value)}
+                                        // onChange={(e) => setCancerType(e.target.value)}
                                         sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
                                     >
                                     <MenuItem value="">All</MenuItem>
