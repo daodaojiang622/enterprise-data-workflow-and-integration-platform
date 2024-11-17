@@ -59,30 +59,90 @@ interface DonorData {
     communication_preference: string;
 }
 
-const datas: DonorData[] = donorsData as DonorData[];
-
-const regions = [...new Set(datas.map(item => item.city))];
-const communication_preferences = [...new Set(datas.map(item => item.communication_preference))];
-
 const ListGenerator: React.FC = () => {
     const [region, setRegion] = useState("");
     const [cancerType, setCancerType] = useState("");
     const [amount, setAmount] = useState<number | null>(null);
     const [date, setDate] = useState<Dayjs | null>(null);
+    const [donorData, setDonorData] = useState<DonorData[]>([]);
+    const [regions, setRegions] = useState<string[]>([]);
     const [filteredData, setFilteredData] = useState<DonorData[]>([]);
+  
+    // Fetch donor data from API and parse HTML
+    useEffect(() => {
+      fetch("https://bc-cancer-faux.onrender.com/donors")
+        .then((response) => response.text())
+        .then((html) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          const tableRows = doc.querySelectorAll("table tr");
+  
+          const data: DonorData[] = [];
+          tableRows.forEach((row, index) => {
+            if (index === 0) return; // Skip header row
+  
+            const cells = row.querySelectorAll("td");
+            if (cells.length === 0) return; // Skip empty rows
+  
+            const donor: DonorData = {
+              pmm: cells[0].textContent || "",
+              smm: cells[1].textContent || "",
+              vmm: cells[2].textContent || "",
+              exclude: cells[3].textContent === "yes" ? "yes" : "no",
+              deceased: cells[4].textContent === "yes" ? "yes" : "no",
+              first_name: cells[5].textContent || "",
+              nick_name: cells[6].textContent || "",
+              last_name: cells[7].textContent || "",
+              organization_name: cells[8].textContent || "",
+              total_donations: cells[9].textContent || "",
+              total_pledge: cells[10].textContent || "",
+              largest_gift: cells[11].textContent || "",
+              largest_gift_appeal: cells[12].textContent || "",
+              first_gift_date: cells[13].textContent || "",
+              last_gift_date: cells[14].textContent || "",
+              last_gift_amount: cells[15].textContent || "",
+              last_gift_request: cells[16].textContent || "",
+              last_gift_appeal: cells[17].textContent || "",
+              address_line1: cells[18].textContent || "",
+              address_line2: cells[19].textContent || "",
+              city: cells[20].textContent || "",
+              contact_phone_type: cells[21].textContent || "",
+              phone_restrictions: cells[22].textContent || "",
+              email_restrictions: cells[23].textContent || "",
+              communication_restrictions: cells[24].textContent || "",
+              subscription_events_in_person: cells[25].textContent === "Opt-in" ? "Opt-in" : "Opt-out",
+              subscription_events_magazine: cells[26].textContent === "Opt-in" ? "Opt-in" : "Opt-out",
+              communication_preference: cells[27].textContent || "",
+            };
+  
+            data.push(donor);
+          });
+  
+          setDonorData(data);
+  
+          // Extract unique cities
+          const uniqueCities = [...new Set(data.map((donor) => donor.city))];
+          setRegions(uniqueCities);
+        })
+        .catch((error) => console.error("Error fetching donor data:", error));
+    }, []);
 
+    // Handle the filtering and generation of the list
     const handleGenerate = () => {
-
-        let filtered: DonorData[] = datas.filter((donor) => {
-            // filter conditions
-            return (
-                (region === "" || donor.city === region) &&
-                (cancerType === "" || donor.communication_preference === cancerType) &&
-                (date === null || dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isSame(date, 'day'))
-            );
+        let filtered: DonorData[] = donorData.filter((donor) => {
+        return (
+            (region === "" || donor.city === region) &&
+            (cancerType === "" || donor.communication_preference === cancerType) &&
+            (date === null ||
+            dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isSame(
+                date,
+                "day"
+            ))
+        );
         });
+
         if (amount) {
-            filtered = filtered.slice(0, amount);
+        filtered = filtered.slice(0, amount);
         }
         setFilteredData(filtered);
     };
@@ -116,34 +176,34 @@ const ListGenerator: React.FC = () => {
         document.body.removeChild(link);
     };
 
-    useEffect(() => {
-        const eventStr = localStorage.getItem('event');
-        if (eventStr) {
-            try {
-                const data: any = JSON.parse(eventStr);
-                if (data) {
-                   setRegion(data.region);
-                   setDate(dayjs(data.date));
-                   setCancerType(data.typeOfCancer);
-                   const region = data.region;
-                     const cancerType = data.typeOfCancer;
-                     const date = dayjs(data.date);
-                    let filtered: DonorData[] = datas.filter((donor) => {
-                        // filter conditions
-                        return (
-                            (data.region === "" || donor.city === region) &&
-                            (data.typeOfCancer === "" || donor.communication_preference === cancerType) &&
-                            (!data.date || dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isAfter(date, 'day'))
-                        );
-                    });
+    // useEffect(() => {
+    //     const eventStr = localStorage.getItem('event');
+    //     if (eventStr) {
+    //         try {
+    //             const data: any = JSON.parse(eventStr);
+    //             if (data) {
+    //                setRegion(data.region);
+    //                setDate(dayjs(data.date));
+    //                setCancerType(data.typeOfCancer);
+    //                const region = data.region;
+    //                  const cancerType = data.typeOfCancer;
+    //                  const date = dayjs(data.date);
+    //                 let filtered: DonorData[] = datas.filter((donor) => {
+    //                     // filter conditions
+    //                     return (
+    //                         (data.region === "" || donor.city === region) &&
+    //                         (data.typeOfCancer === "" || donor.communication_preference === cancerType) &&
+    //                         (!data.date || dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isAfter(date, 'day'))
+    //                     );
+    //                 });
 
-                    setFilteredData(filtered);
-                }
-            } catch (error) {
+    //                 setFilteredData(filtered);
+    //             }
+    //         } catch (error) {
 
-            }
-        }
-    }, []);
+    //         }
+    //     }
+    // }, []);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -153,16 +213,18 @@ const ListGenerator: React.FC = () => {
                     <Grid2 item xs={12} sm={4}>
                         <Typography variant="h6">Filters</Typography>
                         <FormControl fullWidth margin="normal">
-                            <InputLabel sx={{backgroundColor: "white"}}>Region</InputLabel>
+                        <InputLabel>Region</InputLabel>
                             <Select
-                                value={region}
-                                onChange={(e) => setRegion(e.target.value)}
-                                label="Region"
+                            value={region}
+                            onChange={(e) => setRegion(e.target.value)}
+                            label="Region"
                             >
-                                <MenuItem key={'all'} value="">All</MenuItem>
-                                {regions.map(region => {
-                                    return <MenuItem key={region} value={region}>{region}</MenuItem>
-                                })}
+                            <MenuItem value="">All</MenuItem>
+                            {regions.map((region) => (
+                                <MenuItem key={region} value={region}>
+                                {region}
+                                </MenuItem>
+                            ))}
                             </Select>
                         </FormControl>
                         <DatePicker
@@ -177,10 +239,12 @@ const ListGenerator: React.FC = () => {
                                 value={cancerType}
                                 onChange={(e) => setCancerType(e.target.value)}
                             >
-                                <MenuItem key={'all'} value="">All</MenuItem>
-                                {communication_preferences.map(communication_preference => {
-                                    return <MenuItem key={communication_preference} value={communication_preference}>{communication_preference}</MenuItem>
-                                })}
+                            <MenuItem value="">All</MenuItem>
+                            {regions.map((region) => (
+                                <MenuItem key={region} value={region}>
+                                {region}
+                                </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                         <Box display="flex" alignItems="center" mt={2}>
@@ -217,10 +281,7 @@ const ListGenerator: React.FC = () => {
 
                     {/* Invite List Section */}
                     <Grid2 item xs={12} sm={8}>
-                        <Typography variant="h6">Event: xxxxxx</Typography>
-                        <Typography variant="subtitle1" sx={{ mt: 2 }}>
-                            Invite List
-                        </Typography>
+                        <Typography variant="h6">Invite List for Event XXXX</Typography>
                         <TableContainer component={Paper} sx={{ mt: 2 }}>
                             <Table>
                                 <TableHead>
