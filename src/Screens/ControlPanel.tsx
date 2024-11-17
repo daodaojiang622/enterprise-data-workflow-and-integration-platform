@@ -5,6 +5,7 @@ import Home from './Home';
 import Event from './Event';
 import Task from './Task';
 import Profile from './Profile';
+import ListGenerator from "./ListGenerator";
 
 /**
  * The ControlPanel component is the main component that manages the state and logic
@@ -18,9 +19,10 @@ const ControlPanel: React.FC = () => {
     const [data, setData] = useState<(string | number)[][]>([]);
     const [limit, setLimit] = useState<number>(1);
     const [tabIndex, setTabIndex] = useState<number>(0);
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true); // Change to false when submitting!!!
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // Change to false when submitting!!!
     const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null); 
     const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+    const [username, setUsername] = useState<string>('');
 
     /**
      * Handles the selection and deselection of cities.
@@ -111,6 +113,7 @@ const ControlPanel: React.FC = () => {
             >
                 <Tab label="Home" style={StyleSheet.tab} />
                 <Tab label="Events" style={StyleSheet.tab} />
+                <Tab label={'List Generator'} style={StyleSheet.tab} />
                 <Tab label="Tasks" style={StyleSheet.tab} />
                 <Tab label="My Profile" style={StyleSheet.tab} />
             </Tabs>
@@ -125,7 +128,15 @@ const ControlPanel: React.FC = () => {
                         Please Log In to Continue
                     </Typography>
                     <Box mt={4}>
-                        <UserLogin setIsLoggedIn={setIsLoggedIn} />
+                        <UserLogin
+                            isLoggedIn={isLoggedIn}
+                            logout={() => {
+                                setIsLoggedIn(false);
+                            }}
+                            login={username => {
+                                setUsername(username);
+                            setIsLoggedIn(true);
+                        }} />
                     </Box>
                 </Box>
             )}
@@ -145,13 +156,22 @@ const ControlPanel: React.FC = () => {
 
             {isLoggedIn && tabIndex === 2 && (
                 <Box mt={4}>
-                    <Task selectedTaskId={selectedTaskId}/>
+                    <ListGenerator />
                 </Box>
             )}
 
             {isLoggedIn && tabIndex === 3 && (
                 <Box mt={4}>
-                    <Profile />
+                    <Task selectedTaskId={selectedTaskId}/>
+                </Box>
+            )}
+
+            {isLoggedIn && tabIndex === 4 && (
+                <Box mt={4}>
+                    <Profile username={username} logout={() => {
+                        setIsLoggedIn(false);
+                        setUsername('')
+                    }}/>
                 </Box>
             )}
 
