@@ -260,12 +260,17 @@ const ListGenerator: React.FC = () => {
                         <Box display="flex" justifyContent="flex-end" mt={2}>
                             <Button
                                 variant="outlined"
-                                sx={{ mr: 2 }}
+                                sx={{ mr: 2, color: "#36a0c8" }}
                                 onClick={handleExportCSV}
                             >
                                 Export
                             </Button>
-                            <Button variant="outlined">Save</Button>
+                            <Button 
+                                variant="outlined"
+                                sx={{ color: "#36a0c8" }}
+                            >
+                                Save
+                            </Button>
                         </Box>
                     </Grid2>
                 </Grid2>
