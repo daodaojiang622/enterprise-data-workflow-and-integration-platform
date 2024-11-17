@@ -26,6 +26,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import donorsData from "../donors.json";
 import dayjs, {Dayjs} from "dayjs";
+import { boxStyle, buttonStyle, colors } from '../Utils/Style';
 
 
 interface DonorData {
@@ -206,156 +207,163 @@ const ListGenerator: React.FC = () => {
     // }, []);
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Container>
-                <Grid2 container spacing={4}>
-                    {/* Filters Section */}
-                    <Paper sx={{ p: 2, height: '435px', overflow: 'auto', width: '200px', pl: 6 }}>
+        <Box p={2}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Container>
+                    <Grid2 container spacing={4}>
+                        {/* Filters Section */}
                         <Grid2 
                             item 
                             xs={12} 
                             sm={4}
-                            ml={-2}                       
+                            ml={-1}                       
                             >
-                            <Typography variant="h6">Filters</Typography>
-                            <FormControl fullWidth margin="normal">
-                            <InputLabel>Regions</InputLabel>
-                            <Select
-                                multiple
-                                value={region} // This will now hold an array of selected regions
-                                onChange={(e) => setRegion(e.target.value as string[])} // Update region state as an array
-                                renderValue={(selected) => selected.join(", ")} // Display selected regions as a comma-separated string
-                                label="Regions"
-                                sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
-                            >   
-
-                                <MenuItem value="">All</MenuItem>
-                                {regions.map((region) => (
-                                    <MenuItem key={region} value={region}>
-                                    {region}
-                                    </MenuItem>
-                                ))}
-                                </Select>
-                            </FormControl>
-                            <DatePicker
-                                label="Date"
-                                value={date}
-                                onChange={(newDate) => setDate(newDate)}
-                                slotProps={{
-                                    textField: {
-                                    fullWidth: true,
-                                    margin: "normal",
-                                    sx: { maxWidth: "200px", minWidth: "200px", marginLeft: "-15px"
-                                    },
-                                    },
-                                }}
-                            />
-                            <FormControl fullWidth margin="normal">
-                                <InputLabel sx={{backgroundColor: "white"}}> Cancer Type </InputLabel>
+                            <Typography variant="h4" gutterBottom>Filters</Typography>
+                                <Paper sx={{ p: 2, height: '405px', overflow: 'auto', width: '200px' }}>
+                                <FormControl fullWidth margin="normal">
+                                <InputLabel>Regions</InputLabel>
                                 <Select
-                                    value={cancerType}
-                                    onChange={(e) => setCancerType(e.target.value)}
+                                    multiple
+                                    value={region} // This will now hold an array of selected regions
+                                    onChange={(e) => setRegion(e.target.value as string[])} // Update region state as an array
+                                    renderValue={(selected) => selected.join(", ")} // Display selected regions as a comma-separated string
+                                    label="Regions"
                                     sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
-                                >
-                                <MenuItem value="">All</MenuItem>
-                                {regions.map((region) => (
-                                    <MenuItem key={region} value={region}>
-                                    {region}
-                                    </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <Box display="flex" alignItems="center" mt={2}>
-                                <TextField
-                                    label="#Guests"
-                                    type="number"
-                                    value={amount || ""}
-                                    onChange={(e) => setAmount(parseInt(e.target.value))}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <>
-                                                <IconButton size="small">
-                                                    <ArrowDropUp />
-                                                </IconButton>
-                                                <IconButton size="small">
-                                                    <ArrowDropDown />
-                                                </IconButton>
-                                            </>
-                                        ),
-                                    }}
-                                    fullWidth
-                                    sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
-                                />
-                            </Box>
-                            <Button
-                                variant="contained"
-                                style={{ backgroundColor: "#36a0c8"}}
-                                onClick={handleGenerate}
-                                sx={{maxWidth: "100px", margin: "20px 0 0 0"}}
-                            >
-                                Generate
-                            </Button>
-                        </Grid2>
-                    </Paper>
+                                >   
 
-                    {/* Invite List Section */}
-                    <Grid2 item xs={12} sm={8}>
-                        <Typography variant="h6">Invite List for Event XXXX</Typography>
-                        <TableContainer component={Paper} sx={{ mt: 2 }}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell>Region</TableCell>
-                                        <TableCell>Email</TableCell>
-                                        <TableCell>Phone</TableCell>
-                                        <TableCell>Last Invited</TableCell>
-                                        <TableCell>Donor</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {filteredData.map((donor, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>
-                                                {donor.first_name} {donor.last_name}
-                                            </TableCell>
-                                            <TableCell>{donor.city}</TableCell>
-                                            <TableCell>
-                                                {donor.email_restrictions || "N/A"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {donor.contact_phone_type || "N/A"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {new Date(
-                                                    parseInt(donor.last_gift_request) * 1000
-                                                ).toLocaleDateString()}
-                                            </TableCell>
-                                            <TableCell>{donor.total_donations}</TableCell>
-                                        </TableRow>
+                                    <MenuItem value="">All</MenuItem>
+                                    {regions.map((region) => (
+                                        <MenuItem key={region} value={region}>
+                                        {region}
+                                        </MenuItem>
                                     ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <Box display="flex" justifyContent="flex-end" mt={2}>
-                            <Button
-                                variant="outlined"
-                                sx={{ mr: 2, color: "#36a0c8" }}
-                                onClick={handleExportCSV}
-                            >
-                                Export
-                            </Button>
-                            <Button 
-                                variant="outlined"
-                                sx={{ color: "#36a0c8" }}
-                            >
-                                Save
-                            </Button>
-                        </Box>
+                                    </Select>
+                                </FormControl>
+                                <DatePicker
+                                    label="Date"
+                                    value={date}
+                                    onChange={(newDate) => setDate(newDate)}
+                                    slotProps={{
+                                        textField: {
+                                        fullWidth: true,
+                                        margin: "normal",
+                                        sx: { maxWidth: "200px", minWidth: "200px"
+                                        },
+                                        },
+                                    }}
+                                />
+                                <FormControl fullWidth margin="normal">
+                                    <InputLabel sx={{backgroundColor: "white"}}> Cancer Type </InputLabel>
+                                    <Select
+                                        value={cancerType}
+                                        onChange={(e) => setCancerType(e.target.value)}
+                                        sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
+                                    >
+                                    <MenuItem value="">All</MenuItem>
+                                    {regions.map((region) => (
+                                        <MenuItem key={region} value={region}>
+                                        {region}
+                                        </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <Box display="flex" alignItems="center" mt={2}>
+                                    <TextField
+                                        label="#Guests"
+                                        type="number"
+                                        value={amount || ""}
+                                        onChange={(e) => setAmount(parseInt(e.target.value))}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <>
+                                                    <IconButton size="small">
+                                                        <ArrowDropUp />
+                                                    </IconButton>
+                                                    <IconButton size="small">
+                                                        <ArrowDropDown />
+                                                    </IconButton>
+                                                </>
+                                            ),
+                                        }}
+                                        fullWidth
+                                        sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
+                                    />
+                                </Box>
+                                </Paper>
+                                <Button
+                                    variant="contained"
+                                    style={{ backgroundColor: "#36a0c8"}}
+                                    onClick={handleGenerate}
+                                    fullWidth
+                                    sx={{margin: "38px 0 0 0"}}
+                                >
+                                    Generate
+                                </Button>
+                            </Grid2>
+
+
+                        {/* Invite List Section */}
+
+                        <Grid2 item xs={12} sm={8}>
+                            <Typography variant="h4" gutterBottom>Invite List for Event XXXX</Typography>
+                                <Paper sx={{ p: 2, height: '405px', overflow: 'auto', width: '800px'}}>
+                                    <TableContainer component={Paper} sx={{ mt: 2 }}>
+                                        <Table>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Name</TableCell>
+                                                    <TableCell>Region</TableCell>
+                                                    <TableCell>Email</TableCell>
+                                                    <TableCell>Phone</TableCell>
+                                                    <TableCell>Last Invited</TableCell>
+                                                    <TableCell>Donor</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {filteredData.map((donor, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell>
+                                                            {donor.first_name} {donor.last_name}
+                                                        </TableCell>
+                                                        <TableCell>{donor.city}</TableCell>
+                                                        <TableCell>
+                                                            {donor.email_restrictions || "N/A"}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {donor.contact_phone_type || "N/A"}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {new Date(
+                                                                parseInt(donor.last_gift_request) * 1000
+                                                            ).toLocaleDateString()}
+                                                        </TableCell>
+                                                        <TableCell>{donor.total_donations}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                            </Paper>
+                            <Box sx={boxStyle}>
+                                    <Button
+                                        variant="contained"
+                                        sx={buttonStyle}
+                                        onClick={handleExportCSV}
+                                    >
+                                        Export
+                                    </Button>
+                                    <Button 
+                                        variant="contained"
+                                        sx={buttonStyle}
+                                    >
+                                        Save
+                                    </Button>
+                                </Box>
+                        </Grid2>
                     </Grid2>
-                </Grid2>
-            </Container>
-        </LocalizationProvider>
+                </Container>
+            </LocalizationProvider>
+        </Box>
     );
 };
 
