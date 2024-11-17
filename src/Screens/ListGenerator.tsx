@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     Box,
     Grid,
@@ -70,11 +70,10 @@ const ListGenerator: React.FC = () => {
     const [date, setDate] = useState<Dayjs | null>(null);
     const [filteredData, setFilteredData] = useState<DonorData[]>([]);
 
-    // 筛选逻辑
     const handleGenerate = () => {
 
         let filtered: DonorData[] = datas.filter((donor) => {
-            // 筛选条件
+            // filter conditions
             return (
                 (region === "" || donor.city === region) &&
                 (cancerType === "" || donor.communication_preference === cancerType) &&
@@ -87,12 +86,12 @@ const ListGenerator: React.FC = () => {
         setFilteredData(filtered);
     };
 
-    // 导出CSV
+    // export CSV
     const handleExportCSV = () => {
         const csvRows = [
-            // CSV表头
+            // CSV header
             ["Name", "Region", "Email", "Phone", "Last Invited", "Donor"],
-            // 数据行
+            // CSV data
             ...filteredData.map((donor) => [
                 donor.first_name + " " + donor.last_name,
                 donor.city,
@@ -115,6 +114,35 @@ const ListGenerator: React.FC = () => {
         link.click();
         document.body.removeChild(link);
     };
+
+    useEffect(() => {
+        const eventStr = localStorage.getItem('event');
+        if (eventStr) {
+            try {
+                const data: any = JSON.parse(eventStr);
+                if (data) {
+                   setRegion(data.region);
+                   setDate(dayjs(data.date));
+                   setCancerType(data.typeOfCancer);
+                   const region = data.region;
+                     const cancerType = data.typeOfCancer;
+                     const date = dayjs(data.date);
+                    let filtered: DonorData[] = datas.filter((donor) => {
+                        // filter conditions
+                        return (
+                            (data.region === "" || donor.city === region) &&
+                            (data.typeOfCancer === "" || donor.communication_preference === cancerType) &&
+                            (!data.date || dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isAfter(date, 'day'))
+                        );
+                    });
+
+                    setFilteredData(filtered);
+                }
+            } catch (error) {
+
+            }
+        }
+    }, []);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

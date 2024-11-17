@@ -21,9 +21,10 @@ export interface Event {
 
 interface EventProps {
     selectedEventId: string | null;
+    setTabIndex: (index: number) => void;
 }
 
-const Event: React.FC<EventProps> = ({ selectedEventId }) => {
+const Event: React.FC<EventProps> = ({ selectedEventId, setTabIndex }) => {
     const [events, setEvents] = useState<Event[]>(initialEvents);
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -101,6 +102,8 @@ const Event: React.FC<EventProps> = ({ selectedEventId }) => {
 
     const handleList = () => {
         // navigate to the list page
+        localStorage.setItem('event', JSON.stringify(selectedEvent));
+        setTabIndex(2);
     };
 
     return (

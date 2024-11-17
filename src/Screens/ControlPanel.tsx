@@ -77,6 +77,7 @@ const ControlPanel: React.FC = () => {
      * @param {number} newValue - The index of the newly selected tab.
      */
     const handleTabChange = (_event: React.ChangeEvent<{}>, newValue: number) => {
+        localStorage.removeItem('event');
         setTabIndex(newValue);
     };
 
@@ -150,7 +151,11 @@ const ControlPanel: React.FC = () => {
 
             {isLoggedIn && tabIndex === 1 && (
                 <Box mt={4}>
-                    <Event selectedEventId={selectedEventId}/>
+                    <Event
+                        setTabIndex={(index) => {
+                            setTabIndex(index)
+                        }}
+                        selectedEventId={selectedEventId}/>
                 </Box>
             )}
 
