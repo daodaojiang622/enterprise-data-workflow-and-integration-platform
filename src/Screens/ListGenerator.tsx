@@ -133,7 +133,6 @@ const ListGenerator: React.FC = () => {
         let filtered: DonorData[] = donorData.filter((donor) => {
         return (
             (region.length === 0 || region.includes(donor.city)) &&
-            (cancerType === "" || donor.communication_preference === cancerType) &&
             (date === null ||
             dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isSame(
                 date,
@@ -260,11 +259,11 @@ const ListGenerator: React.FC = () => {
                                         sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
                                     >
                                     <MenuItem value="">All</MenuItem>
-                                    {regions.map((region) => (
+                                    {/* {regions.map((region) => (
                                         <MenuItem key={region} value={region}>
                                         {region}
                                         </MenuItem>
-                                        ))}
+                                        ))} */}
                                     </Select>
                                 </FormControl>
                                 <Box display="flex" alignItems="center" mt={2}>
