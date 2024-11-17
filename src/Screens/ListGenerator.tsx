@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     Box,
     Grid,
@@ -115,6 +115,35 @@ const ListGenerator: React.FC = () => {
         link.click();
         document.body.removeChild(link);
     };
+
+    useEffect(() => {
+        const eventStr = localStorage.getItem('event');
+        if (eventStr) {
+            try {
+                const data: any = JSON.parse(eventStr);
+                if (data) {
+                   setRegion(data.region);
+                   setDate(dayjs(data.date));
+                   setCancerType(data.typeOfCancer);
+                   const region = data.region;
+                     const cancerType = data.typeOfCancer;
+                     const date = dayjs(data.date);
+                    let filtered: DonorData[] = datas.filter((donor) => {
+                        // 筛选条件
+                        return (
+                            (data.region === "" || donor.city === region) &&
+                            (data.typeOfCancer === "" || donor.communication_preference === cancerType) &&
+                            (!data.date || dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isSame(date, 'day'))
+                        );
+                    });
+
+                    setFilteredData(filtered);
+                }
+            } catch (error) {
+
+            }
+        }
+    }, []);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
