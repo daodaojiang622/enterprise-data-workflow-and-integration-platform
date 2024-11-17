@@ -183,7 +183,7 @@ const ListGenerator: React.FC = () => {
                         </FormControl>
                         <Box display="flex" alignItems="center" mt={2}>
                             <TextField
-                                label="Amount"
+                                label="Number of Guests"
                                 type="number"
                                 value={amount || ""}
                                 onChange={(e) => setAmount(parseInt(e.target.value))}
