@@ -87,7 +87,7 @@ const ControlPanel: React.FC = () => {
 
     const navigateToTask = (taskId: string) => {
         setSelectedTaskId(taskId); // Set the selected task ID
-        setTabIndex(2); // Navigate to the Task tab (assuming Task is at index 2)
+        setTabIndex(3); // Navigate to the Task tab (assuming Task is at index 2)
         console.log('Navigating to task:', taskId);
     };
 
