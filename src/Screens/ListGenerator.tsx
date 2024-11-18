@@ -332,7 +332,7 @@ const ListGenerator: React.FC<ListGeneratorProps> = ( {selectedEventId}) => {
                         {/* Invite List Section */}
 
                         <Grid2 item xs={12} sm={8}>
-                            <Typography variant="h4" gutterBottom>{event ? `Invite List for Event ${event.title}` : 'List Generator'}</Typography>
+                            <Typography variant="h4" gutterBottom>{event ? `Invite List for ${event.title}` : 'List Generator'}</Typography>
                                 <Paper sx={{ p: 2, height: '405px', overflow: 'auto', width: '800px'}}>
                                     <TableContainer component={Paper} sx={{ mt: 2 }}>
                                         <Table>

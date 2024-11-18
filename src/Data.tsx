@@ -27,13 +27,13 @@ export const events: Event[] = [
     },
     {
         id: '3',
-        title: 'Event C',
+        title: 'Activity C',
         date: '',
         hasGeneratedList: false,
         owner: 'You know them',
         typeOfCancer: 'Tongue Cancer',
         description: 'this is rare',
-        region: 'California',
+        region: 'West Vancouver',
         particularTopic: '',
     },
     {
