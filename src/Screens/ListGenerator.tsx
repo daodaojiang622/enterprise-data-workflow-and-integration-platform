@@ -24,9 +24,9 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import donorsData from "../donors.json";
 import dayjs, {Dayjs} from "dayjs";
 import { boxStyle, buttonStyle, colors } from '../Utils/Style';
+import { events } from "../Data";
 
 
 interface DonorData {
@@ -60,7 +60,24 @@ interface DonorData {
     communication_preference: string;
 }
 
-const ListGenerator: React.FC = () => {
+export interface Event {
+    id: string;
+    title: string;
+    date: string;
+    owner: string;
+    typeOfCancer: string;
+    description: string;
+    region: string;
+    particularTopic: string;
+    hasGeneratedList: boolean;
+}
+
+interface ListGeneratorProps {
+    selectedEventId: string | null;
+}
+
+const ListGenerator: React.FC<ListGeneratorProps> = ( {selectedEventId}) => {
+    const [event, setEvent] = useState<Event | null>(null);
     const [region, setRegion] = useState<string[]>([]);
     const [cancerType, setCancerType] = useState("");
     const [amount, setAmount] = useState<number | null>(null);
@@ -175,6 +192,17 @@ const ListGenerator: React.FC = () => {
         link.click();
         document.body.removeChild(link);
     };
+
+    useEffect(() => {
+        if (selectedEventId) {
+            const selectedEvent = events.find(e => e.id === selectedEventId);
+            setEvent(selectedEvent || null);
+            setRegion(Array.isArray(selectedEvent?.region) ? selectedEvent.region : [selectedEvent?.region || ""]);
+            setDate(selectedEvent?.date ? dayjs(selectedEvent.date) : null);
+            setCancerType(selectedEvent?.typeOfCancer || "");
+        }
+    }, [selectedEventId]);
+
 
     // useEffect(() => {
     //     const eventStr = localStorage.getItem('event');
@@ -304,7 +332,7 @@ const ListGenerator: React.FC = () => {
                         {/* Invite List Section */}
 
                         <Grid2 item xs={12} sm={8}>
-                            <Typography variant="h4" gutterBottom>Invite List for Event XXXX</Typography>
+                            <Typography variant="h4" gutterBottom>{event ? `Invite List for Event ${event.title}` : 'List Generator'}</Typography>
                                 <Paper sx={{ p: 2, height: '405px', overflow: 'auto', width: '800px'}}>
                                     <TableContainer component={Paper} sx={{ mt: 2 }}>
                                         <Table>

@@ -22,9 +22,10 @@ export interface Event {
 interface EventProps {
     selectedEventId: string | null;
     setTabIndex: (index: number) => void;
+    navigateToListGenerator: (eventId: string) => void;
 }
 
-const Event: React.FC<EventProps> = ({ selectedEventId, setTabIndex }) => {
+const Event: React.FC<EventProps> = ({ selectedEventId, setTabIndex, navigateToListGenerator }) => {
     const [events, setEvents] = useState<Event[]>(initialEvents);
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -102,8 +103,9 @@ const Event: React.FC<EventProps> = ({ selectedEventId, setTabIndex }) => {
 
     const handleList = () => {
         // navigate to the list page
-        localStorage.setItem('event', JSON.stringify(selectedEvent));
-        setTabIndex(2);
+        if (selectedEvent) {
+            navigateToListGenerator(selectedEvent.id);
+        }
     };
 
     return (
