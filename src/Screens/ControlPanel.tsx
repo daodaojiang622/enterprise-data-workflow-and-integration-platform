@@ -97,6 +97,12 @@ const ControlPanel: React.FC = () => {
         console.log('Navigating to event:', eventId);
     };
 
+    const navigateToListGenerator = (eventId: string) => {
+        setSelectedEventId(eventId); // Set the selected task ID
+        setTabIndex(2); // Navigate to the Task tab (assuming Task is at index 2)
+        console.log('Navigating to list generator for event:', eventId);
+    }
+
     return (
         <Box p={2} position="absolute" top={0} left={0} mt={2} width="100%">
 
@@ -155,13 +161,14 @@ const ControlPanel: React.FC = () => {
                         setTabIndex={(index) => {
                             setTabIndex(index)
                         }}
-                        selectedEventId={selectedEventId}/>
+                        selectedEventId={selectedEventId}
+                        navigateToListGenerator={navigateToListGenerator}/>
                 </Box>
             )}
 
             {isLoggedIn && tabIndex === 2 && (
                 <Box mt={4}>
-                    <ListGenerator />
+                    <ListGenerator selectedEventId={selectedEventId} />
                 </Box>
             )}
 
