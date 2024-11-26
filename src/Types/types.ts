@@ -8,6 +8,7 @@ export interface Event {
     region: string;
     particularTopic: string;
     hasGeneratedList: boolean;
+    listId: string;
 }
 
 export interface Task {
@@ -16,7 +17,6 @@ export interface Task {
     event: string,
     dueDate: string,
     description: string,
-    commentId: number,
     comment: string,
     approver1: string,
     approver2: string,
