@@ -43,6 +43,38 @@ class SQLiteContainer {
      */
     private initializeDatabase() {
         this.db.exec(`
+            CREATE TABLE IF NOT EXISTS lists (
+                listId TEXT PRIMARY KEY,
+                pmm TEXT,
+                smm TEXT,
+                vmm TEXT,
+                exclude TEXT,
+                deceased TEXT,
+                first_name TEXT,
+                nick_name TEXT,
+                last_name TEXT,
+                organization_name TEXT,
+                total_donations INTEGER,
+                total_pledge INTEGER,
+                largest_gift INTEGER,
+                largest_gift_appeal TEXT,
+                first_gift_date INTEGER,
+                last_gift_date INTEGER,
+                last_gift_amount INTEGER,
+                last_gift_request INTEGER,
+                last_gift_appeal TEXT,
+                address_line1 TEXT,
+                address_line2 TEXT,
+                city TEXT,
+                contact_phone_type TEXT,
+                phone_restrictions TEXT,
+                email_restrictions TEXT,
+                communication_restrictions TEXT,
+                subscription_events_in_person TEXT,
+                subscription_events_magazine TEXT,
+                communication_preference TEXT,
+                cancer_type TEXT
+            );
             CREATE TABLE IF NOT EXISTS events (
                 id TEXT PRIMARY KEY,
                 title TEXT NOT NULL,
@@ -52,8 +84,10 @@ class SQLiteContainer {
                 description TEXT,
                 region TEXT,
                 particularTopic TEXT,
-                hasGeneratedList INTEGER NOT NULL CHECK (hasGeneratedList IN (0, 1))
-        );
+                hasGeneratedList INTEGER NOT NULL CHECK (hasGeneratedList IN (0, 1)),
+                listId TEXT,
+                FOREIGN KEY (listId) REFERENCES lists(listId) ON DELETE CASCADE
+            );
             CREATE TABLE IF NOT EXISTS tasks (
                 id TEXT PRIMARY KEY,
                 taskName TEXT NOT NULL,
@@ -73,7 +107,7 @@ class SQLiteContainer {
                 FOREIGN KEY (event) REFERENCES events(id) ON DELETE CASCADE
             );
         `);
-        console.log('Events and Tasks table created or already exists.');
+        console.log('Lists, Events and Tasks table created or already exists.');
     }
 
     /**
@@ -273,15 +307,15 @@ class SQLiteContainer {
      */
     public addEvent(event: Event): [number, string] {
         const sqlQuery = `
-            INSERT INTO events (id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO events (id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList, listId)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
         try {
             const stmt = this.db.prepare(sqlQuery);
             stmt.run(
                 event.id, event.title, event.date, event.owner, 
                 event.typeOfCancer, event.description, event.region, 
-                event.particularTopic, event.hasGeneratedList
+                event.particularTopic, event.hasGeneratedList, event.listId
             );
             console.log(`Event ${event.title} added successfully.`);
             return [200, `Event ${event.title} added.`];
@@ -322,6 +356,7 @@ class SQLiteContainer {
                 region: event.region,
                 particularTopic: event.particularTopic,
                 hasGeneratedList: !!event.hasGeneratedList,
+                listId: event.listId
             };
 
             return [200, resultingEvent];
@@ -352,6 +387,7 @@ class SQLiteContainer {
                 region: event.region,
                 particularTopic: event.particularTopic,
                 hasGeneratedList: !!event.hasGeneratedList,
+                listId: event.listId
             }))];
         } catch (error) {
             console.error('Error getting all events:', (error as Error).message);
@@ -375,7 +411,8 @@ class SQLiteContainer {
                 description = COALESCE(?, description),
                 region = COALESCE(?, region),
                 particularTopic = COALESCE(?, particularTopic),
-                hasGeneratedList = COALESCE(?, hasGeneratedList)
+                hasGeneratedList = COALESCE(?, hasGeneratedList),
+                listId = COALESCE(?, listId)
             WHERE id = ?
         `;
         try {
@@ -383,7 +420,7 @@ class SQLiteContainer {
             const result = stmt.run(
                 newEvent.title, newEvent.date, newEvent.owner, newEvent.typeOfCancer, 
                 newEvent.description, newEvent.region, newEvent.particularTopic, 
-                newEvent.hasGeneratedList, eventId
+                newEvent.hasGeneratedList, newEvent.listId, eventId
             );
             if (result.changes === 0) {
                 return [404, `Event ${eventId} not found.`];
