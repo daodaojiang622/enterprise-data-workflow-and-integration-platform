@@ -1,7 +1,7 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
-import { Task, Event, Donor, List } from '../src/Types/types';
+import { Task, Event, Donor, List } from './types';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -316,23 +316,26 @@ class SQLiteContainer {
 
     /**
      * Adds a new event to the database.
-     * @param event - The event object containing event details.
+     * @param event - The event object containing event details (excluding id, hasGeneratedList, and listId).
      * @returns A tuple containing the status code and a message.
      */
-    public addEvent(event: Event): [number, string] {
+    public addEvent(event: Omit<Event, 'id' | 'hasGeneratedList' | 'listId'>): [number, string] {
         const sqlQuery = `
-            INSERT INTO events (id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList, listId)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
+        INSERT INTO events (id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList, listId)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
         try {
+            const generatedId = uuidv4();
+            const hasGeneratedList = 0;
+            const listId = null;
             const stmt = this.db.prepare(sqlQuery);
             stmt.run(
-                event.id, event.title, event.date, event.owner, 
-                event.typeOfCancer, event.description, event.region, 
-                event.particularTopic, event.hasGeneratedList, event.listId
+                generatedId, event.title, event.date, event.owner,
+                event.typeOfCancer, event.description, event.region,
+                event.particularTopic, hasGeneratedList, listId
             );
-            console.log(`Event ${event.title} added successfully.`);
-            return [200, `Event ${event.title} added.`];
+            console.log(`Event ${event.title} added successfully with ID ${generatedId}.`);
+            return [200, `Event ${event.title} added with ID ${generatedId}.`];
         } catch (error) {
             if ((error as any).code === 'SQLITE_CONSTRAINT_PRIMARYKEY') {
                 console.error('Error inserting event:', (error as Error).message);
@@ -432,8 +435,8 @@ class SQLiteContainer {
         try {
             const stmt = this.db.prepare(sqlQuery);
             const result = stmt.run(
-                newEvent.title, newEvent.date, newEvent.owner, newEvent.typeOfCancer, 
-                newEvent.description, newEvent.region, newEvent.particularTopic, 
+                newEvent.title, newEvent.date, newEvent.owner, newEvent.typeOfCancer,
+                newEvent.description, newEvent.region, newEvent.particularTopic,
                 newEvent.hasGeneratedList, newEvent.listId, eventId
             );
             if (result.changes === 0) {

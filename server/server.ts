@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import SQLiteContainer from './sqlite';
-import { Task, Event, Donor, List } from '../src/Types/types';
+import { Task, Event, Donor, List } from './types';
 
 const app = express();
 const port = 3500;
@@ -106,8 +106,9 @@ app.get('/events/:id', (req, res) => {
 
 // Create a new event
 app.post('/events', (req, res) => {
-    const { id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList, listId } = req.body;
-    const event: Event = { id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList, listId};
+    const { title, date, owner, typeOfCancer, description, region, particularTopic } = req.body;
+    const event: Omit<Event, 'id' | 'hasGeneratedList' | 'listId'> = { title, date, owner, typeOfCancer, description, region, particularTopic};
+
     const [code, message] = eventContainer.addEvent(event);
     res.status(code).send(message);
 });
@@ -116,6 +117,8 @@ app.post('/events', (req, res) => {
 app.put('/events/:id', (req, res) => {
     const { id } = req.params;
     const event: Partial<Event> = req.body;
+    delete event.hasGeneratedList;
+    delete event.listId;
     const [code, message] = eventContainer.editEvent(id, event);
     res.status(code).send(message);
 });

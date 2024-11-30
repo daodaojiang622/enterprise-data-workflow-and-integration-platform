@@ -92,8 +92,8 @@ app.get('/events/:id', (req, res) => {
 });
 // Create a new event
 app.post('/events', (req, res) => {
-    const { id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList, listId } = req.body;
-    const event = { id, title, date, owner, typeOfCancer, description, region, particularTopic, hasGeneratedList, listId };
+    const { title, date, owner, typeOfCancer, description, region, particularTopic } = req.body;
+    const event = { title, date, owner, typeOfCancer, description, region, particularTopic };
     const [code, message] = eventContainer.addEvent(event);
     res.status(code).send(message);
 });
@@ -101,6 +101,8 @@ app.post('/events', (req, res) => {
 app.put('/events/:id', (req, res) => {
     const { id } = req.params;
     const event = req.body;
+    delete event.hasGeneratedList;
+    delete event.listId;
     const [code, message] = eventContainer.editEvent(id, event);
     res.status(code).send(message);
 });
