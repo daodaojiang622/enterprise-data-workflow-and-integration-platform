@@ -26,7 +26,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
 import { boxStyle, buttonStyle, colors } from '../Utils/Style';
-import { events } from "../Data";
+
+import {useStore} from "../store.ts";
 
 
 interface DonorData {
@@ -78,69 +79,36 @@ interface ListGeneratorProps {
 
 const ListGenerator: React.FC<ListGeneratorProps> = ( {selectedEventId}) => {
     const [event, setEvent] = useState<Event | null>(null);
+    const {events} = useStore();
     const [region, setRegion] = useState<string[]>([]);
     const [cancerType, setCancerType] = useState("");
     const [amount, setAmount] = useState<number | null>(null);
     const [date, setDate] = useState<Dayjs | null>(null);
     const [donorData, setDonorData] = useState<DonorData[]>([]);
-    const [regions, setRegions] = useState<string[]>([]);
+    const [regions, setRegions] = useState<string[]>([
+        "Vancouver", "Victoria", "Surrey", "Burnaby", "Richmond", "Kelowna", "Kamloops", "Nanaimo", "Prince George",
+        "Abbotsford", "Coquitlam", "Langley", "Saanich", "Delta", "Maple Ridge", "New Westminster", "Port Coquitlam",
+        "North Vancouver", "West Vancouver", "Chilliwack", "Vernon", "Courtenay", "Penticton", "Campbell River",
+        "Fort St. John", "Cranbrook", "Terrace", "Dawson Creek", "Port Moody", "White Rock", "Quesnel", "Squamish",
+        "Salmon Arm", "Parksville", "Powell River", "Williams Lake", "Trail", "Castlegar", "Kitimat", "Revelstoke"
+    ]);
     const [filteredData, setFilteredData] = useState<DonorData[]>([]);
   
     // Fetch donor data from API and parse HTML
     useEffect(() => {
-      fetch("https://bc-cancer-faux.onrender.com/donors")
-        .then((response) => response.text())
-        .then((html) => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, "text/html");
-          const tableRows = doc.querySelectorAll("table tr");
-  
-          const data: DonorData[] = [];
-          tableRows.forEach((row, index) => {
-            if (index === 0) return; // Skip header row
-  
-            const cells = row.querySelectorAll("td");
-            if (cells.length === 0) return; // Skip empty rows
-  
-            const donor: DonorData = {
-              pmm: cells[0].textContent || "",
-              smm: cells[1].textContent || "",
-              vmm: cells[2].textContent || "",
-              exclude: cells[3].textContent === "yes" ? "yes" : "no",
-              deceased: cells[4].textContent === "yes" ? "yes" : "no",
-              first_name: cells[5].textContent || "",
-              nick_name: cells[6].textContent || "",
-              last_name: cells[7].textContent || "",
-              organization_name: cells[8].textContent || "",
-              total_donations: cells[9].textContent || "",
-              total_pledge: cells[10].textContent || "",
-              largest_gift: cells[11].textContent || "",
-              largest_gift_appeal: cells[12].textContent || "",
-              first_gift_date: cells[13].textContent || "",
-              last_gift_date: cells[14].textContent || "",
-              last_gift_amount: cells[15].textContent || "",
-              last_gift_request: cells[16].textContent || "",
-              last_gift_appeal: cells[17].textContent || "",
-              address_line1: cells[18].textContent || "",
-              address_line2: cells[19].textContent || "",
-              city: cells[20].textContent || "",
-              contact_phone_type: cells[21].textContent || "",
-              phone_restrictions: cells[22].textContent || "",
-              email_restrictions: cells[23].textContent || "",
-              communication_restrictions: cells[24].textContent || "",
-              subscription_events_in_person: cells[25].textContent === "Opt-in" ? "Opt-in" : "Opt-out",
-              subscription_events_magazine: cells[26].textContent === "Opt-in" ? "Opt-in" : "Opt-out",
-              communication_preference: cells[27].textContent || "",
-            };
-  
-            data.push(donor);
-          });
-  
-          setDonorData(data);
-  
-          // Extract unique cities
-          const uniqueCities = [...new Set(data.map((donor) => donor.city))];
-          setRegions(uniqueCities);
+      fetch("https://bc-cancer-faux.onrender.com/donors?format=json&limit=100")
+        .then((response) => response.json())
+        .then((datas) => {
+            const {headers, data} = datas;
+            const donors = [];
+            for (let item of data) {
+                let donor: any = {};
+                for (let index = 0; index < headers.length; index++) {
+                    donor[headers[index]] = item[index];
+                }
+                donors.push(donor);
+            }
+            setDonorData(donors);
         })
         .catch((error) => console.error("Error fetching donor data:", error));
     }, []);
@@ -150,6 +118,7 @@ const ListGenerator: React.FC<ListGeneratorProps> = ( {selectedEventId}) => {
         let filtered: DonorData[] = donorData.filter((donor) => {
         return (
             (region.length === 0 || region.includes(donor.city))
+            // && (cancerType === "" || donor.largest_gift_appeal === cancerType)
         //     && (date === null ||
         //     dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isSame(
         //         date,
@@ -158,9 +127,6 @@ const ListGenerator: React.FC<ListGeneratorProps> = ( {selectedEventId}) => {
         );
         });
 
-        if (amount) {
-        filtered = filtered.slice(0, amount); 
-        }
         setFilteredData(filtered);
     };
 
@@ -204,34 +170,6 @@ const ListGenerator: React.FC<ListGeneratorProps> = ( {selectedEventId}) => {
     }, [selectedEventId]);
 
 
-    // useEffect(() => {
-    //     const eventStr = localStorage.getItem('event');
-    //     if (eventStr) {
-    //         try {
-    //             const data: any = JSON.parse(eventStr);
-    //             if (data) {
-    //                setRegion(data.region);
-    //                setDate(dayjs(data.date));
-    //                setCancerType(data.typeOfCancer);
-    //                const region = data.region;
-    //                  const cancerType = data.typeOfCancer;
-    //                  const date = dayjs(data.date);
-    //                 let filtered: DonorData[] = datas.filter((donor) => {
-    //                     // filter conditions
-    //                     return (
-    //                         (data.region === "" || donor.city === region) &&
-    //                         (data.typeOfCancer === "" || donor.communication_preference === cancerType) &&
-    //                         (!data.date || dayjs(new Date(parseInt(donor.last_gift_request) * 1000)).isAfter(date, 'day'))
-    //                     );
-    //                 });
-
-    //                 setFilteredData(filtered);
-    //             }
-    //         } catch (error) {
-
-    //         }
-    //     }
-    // }, []);
 
     return (
         <Box p={2}>
@@ -252,7 +190,13 @@ const ListGenerator: React.FC<ListGeneratorProps> = ( {selectedEventId}) => {
                                 <Select
                                     multiple
                                     value={region} // This will now hold an array of selected regions
-                                    onChange={(e) => setRegion(e.target.value as string[])} // Update region state as an array
+                                    onChange={(e) => {
+                                        if (Array.isArray(e.target.value) && e.target.value.some(item => item.length === 0)) {
+                                            setRegion([]);
+                                        }else {
+                                            setRegion(e.target.value as string[])
+                                        }
+                                    }} // Update region state as an array
                                     renderValue={(selected) => selected.join(", ")} // Display selected regions as a comma-separated string
                                     label="Regions"
                                     sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
@@ -283,15 +227,18 @@ const ListGenerator: React.FC<ListGeneratorProps> = ( {selectedEventId}) => {
                                     <InputLabel sx={{backgroundColor: "white"}}> Cancer Type </InputLabel>
                                     <Select
                                         value={cancerType}
-                                        // onChange={(e) => setCancerType(e.target.value)}
+                                        onChange={(e) => setCancerType(e.target.value)}
                                         sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
                                     >
                                     <MenuItem value="">All</MenuItem>
-                                    {/* {regions.map((region) => (
-                                        <MenuItem key={region} value={region}>
-                                        {region}
-                                        </MenuItem>
-                                        ))} */}
+                                        {[
+                                            "Lung Cancer", "Breast Cancer", "Prostate Cancer", "Colorectal Cancer", "Skin Cancer",
+                                            "Pancreatic Cancer", "Ovarian Cancer", "Leukemia", "Stomach Cancer", "Brain Cancer"
+                                        ].map((cancerType) => (
+                                            <MenuItem key={cancerType} value={cancerType}>
+                                                {cancerType}
+                                            </MenuItem>
+                                        ))}
                                     </Select>
                                 </FormControl>
                                 <Box display="flex" alignItems="center" mt={2}>

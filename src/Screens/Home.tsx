@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Box, Typography, Paper, Button, Grid2, Checkbox } from '@mui/material';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import { events, tasks } from '../Data';
+import {  tasks } from '../Data';
+import {useStore} from "../store.ts";
 
 export interface HomeProps {
     navigateToLogin: () => void;
@@ -11,6 +12,11 @@ export interface HomeProps {
 
 
 const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask, navigateToEvent }) => {
+    const { events, reloadEvents, createEvent, updateEvent, deleteEvent } = useStore();
+
+    useEffect(() => {
+        reloadEvents();
+    }, []);
 
     // Filter tasks to exclude those with due dates in the past
     const filteredTasks = tasks.filter(task => {
@@ -62,7 +68,10 @@ const Home: React.FC<HomeProps> = ({ navigateToLogin, navigateToTask, navigateTo
                             <Button
                                 variant="contained"
                                 disableRipple
-                                onClick={() => navigateToEvent(event.id)}
+                                onClick={() => {
+                                    localStorage.setItem('eventId', event.id);
+                                    navigateToEvent(event.id)
+                                }}
                                 sx={{
                                     backgroundColor: '#36a0c8',
                                     ':hover': {

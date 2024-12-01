@@ -7,7 +7,7 @@
     "skipLibCheck": true,        // Skip library checks to avoid type issues
     "outDir": "./dist",          // Output directory for compiled JS files
     "rootDir": ".",              // Source directory for TypeScript files
-    "strict": true,               // Enable strict type checking (optional)
+    "strict": false,               // Enable strict type checking (optional)
     "jsx": "react"
   },
   "include": ["*.ts", "*.tsx"],  // Include all .ts files in the 'server' folder
