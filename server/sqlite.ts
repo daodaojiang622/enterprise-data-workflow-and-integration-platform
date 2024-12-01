@@ -4,7 +4,7 @@ import fs from 'fs';
 import { Task, Event, Donor, List } from './types';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
-
+import axios from 'axios';
 
 /**
  * Class representing a SQLite container for managing tasks and comments.
@@ -437,7 +437,7 @@ class SQLiteContainer {
             const result = stmt.run(
                 newEvent.title, newEvent.date, newEvent.owner, newEvent.typeOfCancer,
                 newEvent.description, newEvent.region, newEvent.particularTopic,
-                newEvent.hasGeneratedList, newEvent.listId, eventId
+                newEvent.hasGeneratedList ? 1 : 0, newEvent.listId, eventId
             );
             if (result.changes === 0) {
                 return [404, `Event ${eventId} not found.`];
@@ -689,6 +689,16 @@ class SQLiteContainer {
             }))];
         } catch (error) {
             console.error('Error getting all lists:', (error as Error).message);
+            return [500, `An error occurred: ${(error as Error).message}`];
+        }
+    }
+
+    public generateList(eventId: string): [number, string] {
+        try {
+            this.editEvent(eventId, { hasGeneratedList: true });
+            return [200, `List generated for event ${eventId}.`];
+        } catch (error) {
+            console.error('Error generating list:', (error as Error).message);
             return [500, `An error occurred: ${(error as Error).message}`];
         }
     }

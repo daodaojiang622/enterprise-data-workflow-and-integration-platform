@@ -401,7 +401,7 @@ class SQLiteContainer {
         `;
         try {
             const stmt = this.db.prepare(sqlQuery);
-            const result = stmt.run(newEvent.title, newEvent.date, newEvent.owner, newEvent.typeOfCancer, newEvent.description, newEvent.region, newEvent.particularTopic, newEvent.hasGeneratedList, newEvent.listId, eventId);
+            const result = stmt.run(newEvent.title, newEvent.date, newEvent.owner, newEvent.typeOfCancer, newEvent.description, newEvent.region, newEvent.particularTopic, newEvent.hasGeneratedList ? 1 : 0, newEvent.listId, eventId);
             if (result.changes === 0) {
                 return [404, `Event ${eventId} not found.`];
             }
@@ -634,6 +634,16 @@ class SQLiteContainer {
         }
         catch (error) {
             console.error('Error getting all lists:', error.message);
+            return [500, `An error occurred: ${error.message}`];
+        }
+    }
+    generateList(eventId) {
+        try {
+            this.editEvent(eventId, { hasGeneratedList: true });
+            return [200, `List generated for event ${eventId}.`];
+        }
+        catch (error) {
+            console.error('Error generating list:', error.message);
             return [500, `An error occurred: ${error.message}`];
         }
     }

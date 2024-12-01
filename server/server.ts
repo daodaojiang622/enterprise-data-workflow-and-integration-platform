@@ -130,6 +130,12 @@ app.delete('/events/:id', (req, res) => {
     res.status(code).send(message);
 });
 
+app.post(`/lists/generate/:eventId`, (req, res) => {
+    const { eventId } = req.params;
+    const [code, message] = eventContainer.generateList(eventId);
+    res.status(code).send(message);
+});
+
 // Create a new list of donors
 app.post('/lists', (req, res) => {
     const donorData = req.body.donorData;
@@ -143,6 +149,7 @@ app.post('/lists', (req, res) => {
         message: "List added successfully"
     });
 });
+
 
 // Get all lists
 app.get('/lists', (req, res) => {

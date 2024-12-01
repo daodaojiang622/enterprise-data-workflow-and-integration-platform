@@ -78,6 +78,7 @@ const ControlPanel: React.FC = () => {
      */
     const handleTabChange = (_event: React.ChangeEvent<{}>, newValue: number) => {
         localStorage.removeItem('event');
+        localStorage.removeItem('eventId');
         setTabIndex(newValue);
     };
 
