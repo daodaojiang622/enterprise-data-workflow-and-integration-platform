@@ -241,28 +241,28 @@ const ListGenerator: React.FC<ListGeneratorProps> = ( {selectedEventId}) => {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                <Box display="flex" alignItems="center" mt={2}>
-                                    <TextField
-                                        label="#Guests"
-                                        type="number"
-                                        value={amount || ""}
-                                        onChange={(e) => setAmount(parseInt(e.target.value))}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <>
-                                                    <IconButton size="small">
-                                                        <ArrowDropUp />
-                                                    </IconButton>
-                                                    <IconButton size="small">
-                                                        <ArrowDropDown />
-                                                    </IconButton>
-                                                </>
-                                            ),
-                                        }}
-                                        fullWidth
-                                        sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}
-                                    />
-                                </Box>
+                                {/*<Box display="flex" alignItems="center" mt={2}>*/}
+                                {/*    <TextField*/}
+                                {/*        label="#Guests"*/}
+                                {/*        type="number"*/}
+                                {/*        value={amount || ""}*/}
+                                {/*        onChange={(e) => setAmount(parseInt(e.target.value))}*/}
+                                {/*        InputProps={{*/}
+                                {/*            endAdornment: (*/}
+                                {/*                <>*/}
+                                {/*                    <IconButton size="small">*/}
+                                {/*                        <ArrowDropUp />*/}
+                                {/*                    </IconButton>*/}
+                                {/*                    <IconButton size="small">*/}
+                                {/*                        <ArrowDropDown />*/}
+                                {/*                    </IconButton>*/}
+                                {/*                </>*/}
+                                {/*            ),*/}
+                                {/*        }}*/}
+                                {/*        fullWidth*/}
+                                {/*        sx={{maxWidth: "200px", minWidth: "200px", overflow: "auto"}}*/}
+                                {/*    />*/}
+                                {/*</Box>*/}
                                 </Paper>
                                 <Button
                                     variant="contained"

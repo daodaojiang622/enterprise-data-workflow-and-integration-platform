@@ -17,6 +17,10 @@ import { useStore, IEvent } from '../store';
 import { colors } from '../Utils/Style';
 import ListDetailsField from "../Components/ListDetailsField";
 import {httpRequest} from "../http.ts";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, {Dayjs} from "dayjs";
+import {DatePicker} from "@mui/x-date-pickers";
 
 
 const Event: React.FC = ({navigateToListGenerator}) => {
@@ -107,7 +111,9 @@ const Event: React.FC = ({navigateToListGenerator}) => {
     }, [selectedEvent]);
 
     return (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Box width={'70vw'} margin={'auto'}>
+
             <Grid container spacing={2}>
                 {/* Left Panel: Events List */}
                 <Grid item xs={2}>
@@ -167,12 +173,21 @@ const Event: React.FC = ({navigateToListGenerator}) => {
                                     fullWidth
                                     margin="normal"
                                 />
-                                <TextField
+                                <DatePicker
                                     label="Date: DD/MM/YYYY *"
                                     name="date"
-                                    value={editableEvent?.date || ''}
-                                    onChange={handleInputChange}
-                                    fullWidth
+                                    value={editableEvent?.date ? dayjs(editableEvent.date) : null}
+                                    onChange={(e: any) => {
+                                        setEditableEvent(prev => {
+                                            return {
+                                                ...prev,
+                                                date: e.format('YYYY-MM-DD')
+                                            }
+                                        })
+                                    } }
+                                    sx={{
+                                        width: '100%'
+                                    }}
                                     margin="normal"
                                 />
                                 <TextField
@@ -287,6 +302,7 @@ const Event: React.FC = ({navigateToListGenerator}) => {
                 </Grid>
             </Grid>
         </Box>
+        </LocalizationProvider>
     );
 };
 
